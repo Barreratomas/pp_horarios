@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Carrera;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,9 +20,8 @@ class ComisionFactory extends Factory
         return [
             'anio' => $this->faker->numberBetween(1, 3),
             'division' => $this->faker->numberBetween(1, 3),
-            'carrera' => $this->faker->randomElement(['DS', 'ITI', 'AF']),
-            'fecha_creacion' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'fecha_modificacion' => $this->faker->dateTimeBetween('-1 year', 'now')
+            'id_carrera' => Carrera::inRandomOrder()->first()->id_carrera,
+            'capacidad' => $this->faker->numberBetween(20, 50),
         ];
     }
 }

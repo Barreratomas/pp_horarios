@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comisiones', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id_comision');
             $table->integer('anio');
             $table->integer('division');
-            $table->enum('carrera', ['DS', 'ITI', 'AF']);
-            $table->dateTime('fecha_creacion');
-            $table->dateTime('fecha_modificacion');
+            $table->integer('id_carrera');
+            $table->foreign('id_carrera')->references('id_carrera')->on('carreras');
+            $table->integer('capacidad');
+            $table->timestamps();
+
         });
     }
 

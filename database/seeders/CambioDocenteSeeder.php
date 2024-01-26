@@ -2,18 +2,18 @@
 
 namespace Database\Seeders;
 
-use App\Models\Comision;
+use App\Models\CambioDocente;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ComisionSeeder extends Seeder
+class CambioDocenteSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    
     public function run(): void
     {
-        Comision::factory()->count(10)->create();
+        CambioDocente::factory()->count(10)->create();
+
     }
 }

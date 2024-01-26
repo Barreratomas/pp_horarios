@@ -2,18 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Comision;
+use App\Models\Carrera;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ComisionSeeder extends Seeder
+class CarreraSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    
     public function run(): void
     {
-        Comision::factory()->count(10)->create();
+        Carrera::factory()->count(10)->create();
     }
 }

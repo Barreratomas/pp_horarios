@@ -2,11 +2,15 @@
 
 namespace Database\Factories;
 
+use App\Models\Aula;
+use App\Models\Comision;
+use App\Models\Disponibilidad;
+use App\Models\DocenteMateria;
+use App\Models\Horario;
+use DateInterval;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Horario>
- */
+
 class HorarioFactory extends Factory
 {
     /**
@@ -16,12 +20,27 @@ class HorarioFactory extends Factory
      */
     public function definition(): array
     {
+        $disponibilidad = Disponibilidad::inRandomOrder()->first();
+
+        if ($disponibilidad === null) {
+            // Si no hay disponibilidades, puedes manejar esto de acuerdo a tus necesidades.
+            return [];
+        }
+        
+
+       
+        
+          
+       
         return [
-            'inicio' => $this->faker->dateTimeBetween('19:20:00', '21:20:00')->format('H:i'),
-            'fin' => $this->faker->dateTimeBetween('21:30:00', '23:30:00')->format('H:i'),
             'dia' => $this->faker->randomElement(["lunes", "martes", "miercoles", "jueves", "viernes"]),
-            'fecha_creacion' => $this->faker->dateTime(),
-            'fecha_modificacion' => $this->faker->dateTime(),
+            'hora_inicio' => $disponibilidad->hora_inicio,
+            'hora_fin' => $disponibilidad->hora_fin,
+            'v/p' => $this->faker->randomElement(['V', 'P']),
+            'id_dm' => DocenteMateria::inRandomOrder()->first()->id_dm,
+            'id_aula' => Aula::inRandomOrder()->first()->id_aula,
+            'id_comision' => Comision::inRandomOrder()->first()->id_comision,
         ];
     }
 }
+

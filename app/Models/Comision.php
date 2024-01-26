@@ -4,50 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-/**
- * @OA\Schema(
- *     schema="Comision",
- *     title="Comision",
- *     description="Esquema del objeto Comision",
- *     @OA\Property(
- *          property="anio",
- *          type="integer",
- *          description="Año de la comision"
- *     ),
- *     @OA\Property(
- *          property="division",
- *          type="string",
- *          description="Division de la comision"
- *     ),
- *     @OA\Property(
- *          property="carrera",
- *          type="string",
- *          description="Carrera de la comision"
- *     ),
- *     @OA\Property(
- *          property="fecha_creacion",
- *          type="datetime",
- *          description="Fecha de creacion de la comision"
- *     ),
- *     @OA\Property(
- *          property="fecha_modificacion",
- *          type="datetime",
- *          description="Fecha de modificacion de la comision"
- *     )
- * )
- */
 class Comision extends Model
 {
     use HasFactory;
 
-    protected $table = 'comisiones';
+    protected $guarded=[];
+    protected $table = 'comisiones'; 
 
-    const CREATED_AT = 'fecha_creacion';
-    const UPDATED_AT = 'fecha_modificacion';
+// una comisión pertenece a una carrera
+//  tiene muchos horarios asociados y tiene varios usuarios 
 
-    public $timestamps = true;
+    public function carrera():BelongsTo{
+        return $this->belongsTo(Carrera::class, 'id_carrera', 'id_carrera');
+    }
 
-    protected $fillable = ['anio', 'division', 'carrera', 'fecha_creacion', 'fecha_modificacion'];
+    public function horario():HasMany{
+        return $this->hasMany(Horario::class,'id_comision','id_comision');
+
+    }
+
+
+    public function usuarios():HasMany
+    {
+        return $this->hasMany(Usuario::class, 'id_comision', 'id_comision');
+    }
 
 }

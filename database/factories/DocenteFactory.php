@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Comision;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Usuario>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Docente>
  */
-class UsuarioFactory extends Factory
+class DocenteFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,9 +20,7 @@ class UsuarioFactory extends Factory
             'dni' => $this->faker->unique()->randomNumber(8),
             'nombre' => $this->faker->firstName,
             'apellido' => $this->faker->lastName,
-            'tipo' => $this->faker->randomElement(['alumno', 'docente', 'admin', 'visitante']),
             'email' => $this->faker->unique()->safeEmail,
-            'id_comision' => Comision::inRandomOrder()->first()->id_comision,
         ];
     }
 }

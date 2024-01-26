@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HorarioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,3 +59,7 @@ Route::post('/api/materias/guardar', 'App\Http\Controllers\MateriaController@sto
 Route::put('/api/materias/actualizar/{id}', 'App\Http\Controllers\MateriaController@update');
 Route::delete('/api/materias/eliminar/{id}', 'App\Http\Controllers\MateriaController@destroy');
 
+
+
+// web
+Route::get('/',[HorarioController::class,'indexController'])->name('indexController');

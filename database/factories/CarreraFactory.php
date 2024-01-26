@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Aula>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Carrera>
  */
-class AulaFactory extends Factory
+class CarreraFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,11 +17,7 @@ class AulaFactory extends Factory
     public function definition(): array
     {
         return [
-            
             'nombre' => $this->faker->word,
-        'capacidad' => $this->faker->numberBetween(10, 100),
-        'tipo_aula' =>  $this->faker->randomElement(['laboratorio', 'normal','zoom'])
-           
         ];
     }
 }
