@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comision;
 use App\Models\Horario;
 use Illuminate\Http\Request;
 use App\Services\HorarioService;
@@ -181,8 +182,25 @@ class HorarioController extends Controller
     // }
 
     public function indexController():View{
-        $horarios=Horario::all();
-        return view('horario',compact('horarios'));
+        $horarios = Horario::all();
+        $comisiones = Comision::all(); // Ajusta el modelo y la relación según tu estructura
+    
+        return view('horario', compact('horarios', 'comisiones'));
+    }
+
+    public function mostrarHorarios(Request $request)
+    {
+        $comisionId = $request->input('comision');
+        $comision = Comision::find($comisionId);
+    
+        if (!$comision) {
+            // Manejar la situación si la comisión no se encuentra
+            return redirect()->route('indexController')->with('error', 'Comisión no encontrada');
+        }
+    
+        $horarios = Horario::where('id_comision', $comisionId)->get();
+    
+        return view('horario', compact('horarios', 'comision'));
     }
 
 }

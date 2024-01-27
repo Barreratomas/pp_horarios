@@ -8,6 +8,8 @@
 </head>
 <body>
     @include('layouts.parcials.menu')
+
+    @yield('barraHorario')
     @yield('content')
 
 </body>
