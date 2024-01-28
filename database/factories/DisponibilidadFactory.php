@@ -30,17 +30,13 @@ class DisponibilidadFactory extends Factory
           ];
           
 
-        // Seleccionar un intervalo aleatorio
-        $indiceInicio = rand(0, count($horasPermitidas) - 1);
-        $indiceFin = rand(0, count($horasPermitidas) - 1);
+          $indices = array_rand($horasPermitidas, 2);
 
-        while ($indiceInicio >= $indiceFin) {
-            $indiceFin = rand(0, count($horasPermitidas) - 1);
-          }
+          $indiceInicio = $indices[0];
+          $indiceFin = $indices[1];
           
           $horaInicio = $horasPermitidas[$indiceInicio];
           $horaFin = $horasPermitidas[$indiceFin];
-
         return [
             'id_dm' => DocenteMateria::inRandomOrder()->first()->id_dm,
             'dia' => $this->faker->randomElement(['lunes', 'martes', 'miercoles', 'jueves', 'viernes']),

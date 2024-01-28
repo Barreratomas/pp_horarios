@@ -12,11 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comisiones', function (Blueprint $table) {
-            $table->increments('id_comision');
+            $table->id('id_comision');
             $table->integer('anio');
             $table->integer('division');
-            $table->integer('id_carrera');
-            $table->foreign('id_carrera')->references('id_carrera')->on('carreras');
+            $table->unsignedBigInteger('id_carrera'); // Usar unsignedBigInteger para claves foráneas
+            $table->foreign('id_carrera', 'fk_comisiones_carrera')->references('id_carrera')->on('carreras');
             $table->integer('capacidad');
             $table->timestamps();
 

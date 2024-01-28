@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('horarios', function (Blueprint $table) {
-            $table->increments('id_horario');
+            $table->id('id_horario');
             $table->enum('dia',['lunes','martes','miercoles','jueves','viernes']);
             $table->time('hora_inicio');
             $table->time('hora_fin');
-            $table->boolean('v/p');
-            $table->integer('id_dm');
-            $table->integer('id_aula');
-            $table->integer('id_comision');
+            $table->string('v/p');
+            $table->unsignedBigInteger('id_dm');
+            $table->unsignedBigInteger('id_aula');
+            $table->unsignedBigInteger('id_comision');
             $table->foreign('id_dm')->references('id_dm')->on('docentes_materias');
             $table->foreign('id_aula')->references('id_aula')->on('aulas');
             $table->foreign('id_comision')->references('id_comision')->on('comisiones');

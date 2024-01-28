@@ -23,7 +23,7 @@ class HorarioFactory extends Factory
         $disponibilidad = Disponibilidad::inRandomOrder()->first();
 
         if ($disponibilidad === null) {
-            // Si no hay disponibilidades, puedes manejar esto de acuerdo a tus necesidades.
+            // Si no hay disponibilidades,mamnejar excepcion
             return [];
         }
         

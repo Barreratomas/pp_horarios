@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('usuarios', function (Blueprint $table) {
-            $table->integer("dni")->primary();
+            $table->unsignedBigInteger("dni")->primary();
             $table->string('nombre');
             $table->string('apellido');
             $table->enum('tipo', ['alumno', 'docente', 'admin', 'visitante']);
             $table->string('email');
-            $table->integer('id_comision');
+            $table->unsignedBigInteger('id_comision');
             $table->foreign('id_comision')->references('id_comision')->on('comisiones');
             $table->timestamps();
         });
