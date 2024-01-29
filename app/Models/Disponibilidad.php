@@ -11,7 +11,9 @@ class Disponibilidad extends Model
     use HasFactory;
     protected $guarded=[];
     protected $table = 'disponibilidades';
-    
+    protected $primaryKey = 'id_disponibilidad';
+
+
     
 //  Una disponibilidad pertenece a un docente.
     public function docenteMateria():BelongsTo{

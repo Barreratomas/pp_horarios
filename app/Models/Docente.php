@@ -12,6 +12,8 @@ class Docente extends Model
     use HasFactory;
     protected $guarded=[];
     protected $table = 'docentes'; 
+    protected $primaryKey = 'dni';
+
     
     // Un docente puede tener muchos cambios (anterior y nuevo)
     // dar muchas materias y tener varias disponibilidades asociadas

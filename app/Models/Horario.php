@@ -12,6 +12,7 @@ class Horario extends Model
 
     protected $guarded=[];
     protected $table = 'horarios';
+    protected $primaryKey = 'id_horario';
 
     //  Un horario pertenece a una comisión, a un docente y a un aula
     public function docenteMateria():BelongsTo{

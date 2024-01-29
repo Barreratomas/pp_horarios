@@ -12,6 +12,7 @@ class Carrera extends Model
 
     protected $guarded=[];
     protected $table = 'carreras'; 
+    protected $primaryKey = 'id_carrera';
 
 // Una carrera puede tener muchas comisiones asociadas
     public function comision():HasMany{

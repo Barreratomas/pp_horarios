@@ -13,6 +13,7 @@ class Usuario extends Model
 
     protected $guarded=[];
     protected $table = 'usuarios'; 
+    protected $primaryKey = 'dni';
 
 
 

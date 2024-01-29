@@ -17,12 +17,15 @@ class DocenteMateriaFactory extends Factory
      * @return array<string, mixed>
      */
    public function definition(): array
-{
-    $materia = Materia::inRandomOrder()->first();
+   {
+    // Ajusta estos valores según tus necesidades
+    $dniDocente = Docente::inRandomOrder()->first()->dni;
+    $idMateria = Materia::inRandomOrder()->first()->id_materia;
 
     return [
-        'dni_docente' => Docente::inRandomOrder()->first()->dni,
-        'id_materia' => $materia->id_materia
+        'dni_docente' => $dniDocente,
+        'id_materia' => $idMateria,
+        // Resto de las columnas
     ];
 }
 

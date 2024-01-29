@@ -12,6 +12,8 @@ class CambioDocente extends Model
     use HasFactory;
     protected $guarded=[];
     protected $table = 'cambios_docentes'; 
+    protected $primaryKey = 'id_cambio';
+
 
 
     // Un cambio de docente pertenece a un docente anterior y a un docente nuevo

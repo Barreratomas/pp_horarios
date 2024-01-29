@@ -13,6 +13,8 @@ class Aula extends Model
 
     protected $guarded=[];
     protected $table = 'aulas';
+    protected $primaryKey = 'id_aula';
+
 
     // Un aula puede tener muchos horarios 
     public function horario():HasMany{

@@ -12,7 +12,8 @@ class Materia extends Model
     use HasFactory;
     protected $guarded=[];
     protected $table = 'materias'; 
-    
+    protected $primaryKey = 'id_materia';
+
 
     //  Una materia puede ser enseñada por muchos docentes
     public function DocenteMateria():HasMany{

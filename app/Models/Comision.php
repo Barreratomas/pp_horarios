@@ -13,7 +13,9 @@ class Comision extends Model
     use HasFactory;
 
     protected $guarded=[];
-    protected $table = 'comisiones'; 
+    protected $table = 'comisiones';
+    protected $primaryKey = 'id_comision';
+ 
 
 // una comisión pertenece a una carrera
 //  tiene muchos horarios asociados y tiene varios usuarios 

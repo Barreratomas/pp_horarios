@@ -10,11 +10,11 @@ use App\Services\UsuarioService;
 class UsuarioController extends Controller
 {
 
-    protected $usuarioService;
+    // protected $usuarioService;
 
-    public function __construct(UsuarioService $usuarioService){
-        $this->usuarioService = $usuarioService;
-    }
+    // public function __construct(UsuarioService $usuarioService){
+    //     $this->usuarioService = $usuarioService;
+    // }
 
     /**
      * @OA\Get(
@@ -37,9 +37,9 @@ class UsuarioController extends Controller
      *      )
      * )
      */
-    public function index(){
-        return $this->usuarioService->obtenerTodosUsuarios();
-    }
+    // public function index(){
+    //     return $this->usuarioService->obtenerTodosUsuarios();
+    // }
 
 
 
@@ -75,9 +75,9 @@ class UsuarioController extends Controller
      *     )
      * )
      */
-    public function show($dni){
-        return $this->usuarioService->obtenerUsuarioPorDni($dni);
-    }
+    // public function show($dni){
+    //     return $this->usuarioService->obtenerUsuarioPorDni($dni);
+    // }
 
     /**
      * @OA\Post(
@@ -100,9 +100,9 @@ class UsuarioController extends Controller
      *     )
      * )
      */
-    public function store(Request $request){
-        return $this->usuarioService->guardarUsuario($request);
-    }
+    // public function store(Request $request){
+    //     return $this->usuarioService->guardarUsuario($request);
+    // }
 
     /**
      * @OA\Put(
@@ -139,9 +139,9 @@ class UsuarioController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, $dni){
-        return $this->usuarioService->actualizarUsuario($request, $dni);
-    }
+    // public function update(Request $request, $dni){
+    //     return $this->usuarioService->actualizarUsuario($request, $dni);
+    // }
 
     /**
      * @OA\Put(
@@ -206,9 +206,9 @@ class UsuarioController extends Controller
      *     )
      * )
      */
-    public function updateDatos(Request $request, $dni){
-        return $this->usuarioService->actualizarUsuario($request, $dni, true);
-    }
+    // public function updateDatos(Request $request, $dni){
+    //     return $this->usuarioService->actualizarUsuario($request, $dni, true);
+    // }
 
     /**
      * @OA\Put(
@@ -252,9 +252,9 @@ class UsuarioController extends Controller
      *     )
      * )
      */
-    public function updatePassword(Request $request, $dni){
-        return $this->usuarioService->actualizarContrasenia($request, $dni);
-    }
+    // public function updatePassword(Request $request, $dni){
+    //     return $this->usuarioService->actualizarContrasenia($request, $dni);
+    // }
 
     /**
      * @OA\Delete(
@@ -287,9 +287,9 @@ class UsuarioController extends Controller
      *     )
      * )
      */
-    public function destroy($dni)
-    {
-        return $this->usuarioService->eliminarUsuarioPorDni($dni);
-    }
+    // public function destroy($dni)
+    // {
+    //     return $this->usuarioService->eliminarUsuarioPorDni($dni);
+    // }
 
 }

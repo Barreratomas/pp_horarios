@@ -182,25 +182,40 @@ class HorarioController extends Controller
     // }
 
     public function indexController():View{
-        $horarios = Horario::all();
-        $comisiones = Comision::all(); // Ajusta el modelo y la relación según tu estructura
-    
+        $horarios = Horario::paginate(10);
+        $comisiones = Comision::paginate(10);
+
         return view('horario', compact('horarios', 'comisiones'));
     }
 
     public function mostrarHorarios(Request $request)
-    {
-        $comisionId = $request->input('comision');
-        $comision = Comision::find($comisionId);
-    
-        if (!$comision) {
-            // Manejar la situación si la comisión no se encuentra
-            return redirect()->route('indexController')->with('error', 'Comisión no encontrada');
-        }
-    
+{   
+    $comisionId = $request->input('comision');
+
+    // Verificar si el ID existe en la base de datos
+    $comisionEncontrada = Comision::find($comisionId);
+
+    if ($comisionEncontrada) {
+        // Obtener todos los horarios que tengan el mismo ID de comisión
         $horarios = Horario::where('id_comision', $comisionId)->get();
-    
-        return view('horario', compact('horarios', 'comision'));
+
+        // Almacenar el ID de la comisión en la sesión
+        session(['comision_encontrada' => $comisionId]);
+
+        // Obtener todas las comisiones
+        $comisiones = Comision::all();
+
+        // Retornar la vista con la comisión y los horarios
+        return view('horario', compact('comisionEncontrada', 'horarios', 'comisiones'));
+    } else {
+        // Si no se encuentra devuelve un error
+        return redirect()->route('indexController')->with('error', 'Comisión no encontrada');
     }
+}
+
+    
+
+
+    
 
 }

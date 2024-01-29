@@ -13,6 +13,8 @@ class DocenteMateria extends Model
     use HasFactory;
     protected $guarded=[];
     protected $table = 'docentes_materias'; 
+    protected $primaryKey = 'id_dm';
+
 
     // Un docente puede dar muchas materias, y cada relación 
 
