@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HorarioRequest;
 use App\Models\Comision;
 use App\Models\Horario;
 use Illuminate\Http\Request;
 use App\Services\HorarioService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Session;
 
 class HorarioController extends Controller
 {
@@ -181,23 +183,28 @@ class HorarioController extends Controller
     //     return $this->horarioService->eliminarHorarioPorId($id);
     // }
 
-    public function indexController():View{
-        $horarios = Horario::paginate(10);
+    public function mostrarFormulario(): View
+    {
+        Session::forget('comision_encontrada');
         $comisiones = Comision::paginate(10);
 
-        return view('horario', compact('horarios', 'comisiones'));
+        return view('horario', compact('comisiones'));
     }
 
-    public function mostrarHorarios(Request $request)
-{   
-    $comisionId = $request->input('comision');
+    public function mostrarHorarios(HorarioRequest $request): View
+    {
+        
 
-    // Verificar si el ID existe en la base de datos
-    $comisionEncontrada = Comision::find($comisionId);
+        $comisionId = $request->input('comision');
 
-    if ($comisionEncontrada) {
+        // Eliminar los horarios existentes de la sesión
+        session()->forget('horarios');
+
         // Obtener todos los horarios que tengan el mismo ID de comisión
         $horarios = Horario::where('id_comision', $comisionId)->get();
+
+        // Almacenar los nuevos horarios en la sesión
+        session(['horarios' => $horarios]);
 
         // Almacenar el ID de la comisión en la sesión
         session(['comision_encontrada' => $comisionId]);
@@ -206,12 +213,8 @@ class HorarioController extends Controller
         $comisiones = Comision::all();
 
         // Retornar la vista con la comisión y los horarios
-        return view('horario', compact('comisionEncontrada', 'horarios', 'comisiones'));
-    } else {
-        // Si no se encuentra devuelve un error
-        return redirect()->route('indexController')->with('error', 'Comisión no encontrada');
+        return view('horario', compact('horarios', 'comisiones'));
     }
-}
 
     
 

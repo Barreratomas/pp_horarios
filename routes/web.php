@@ -62,7 +62,7 @@ Route::delete('/api/materias/eliminar/{id}', 'App\Http\Controllers\MateriaContro
 
 
 // web
-Route::get('/',[HorarioController::class,'indexController'])->name('indexController');
+Route::get('/',[HorarioController::class,'mostrarFormulario'])->name('mostrarFormulario');
 Route::post('/', [HorarioController::class,'mostrarHorarios'])->name('mostrarHorarios');
 
 

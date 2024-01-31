@@ -21,11 +21,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($horarios as $horario)
+                {{-- verifico existen horarios --}}
+                @foreach (session('horarios') ?? [] as $horario)
                     <tr>
-                        <td>{{ $horario->dia }}</td>
-                        <td>{{ $horario->hora_inicio }}</td>
-                        <td>{{ $horario->hora_fin }}</td>
+                        {{-- si no existen los registros muestro na --}}
+                        <td>{{ $horario->dia ? $horario->dia : 'N/A' }}</td>
+        	            <td>{{ $horario->hora_inicio ? $horario->hora_inicio : 'N/A' }}</td>
+                        <td>{{ $horario->hora_fin ? $horario->hora_fin : 'N/A' }}</td>
                         <td>{{ $horario->aula ? $horario->aula->nombre : 'N/A' }}</td>
                         <td>{{ $horario->docenteMateria ? $horario->docenteMateria->materia->nombre : 'N/A' }}</td>
                         <td>{{ $horario->comision ? $horario->comision->anio : 'N/A' }}°{{ $horario->comision ? $horario->comision->division : 'N/A' }}</td>
