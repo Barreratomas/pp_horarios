@@ -7,9 +7,10 @@
     <title>@yield('title')</title>
 </head>
 <body>
+    <h1>titulo</h1>
     @include('layouts.parcials.menu')
-
-    @yield('barraHorario')
+    
+    
     @yield('content')
 
 </body>

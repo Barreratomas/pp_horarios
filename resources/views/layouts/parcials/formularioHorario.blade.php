@@ -1,6 +1,5 @@
-<p>Lista de comisiones</p>
 
-<form action="{{ route('mostrarHorarios') }}" method="post">
+<form action="{{ route('mostrarHorario') }}" method="post">
     @csrf
     <label for="comision">Selecciona una comisión:</label>
     <select name="comision">
@@ -10,7 +9,17 @@
     </select>
     @error('comision')
         <p style="color:red">{{$message}}</p>
-        
     @enderror
-    <button type="submit">Mostrar Comisión</button>
+
+    <label for="carrera">Selecciona una carrera:</label>
+    <select name="carrera">
+        @foreach ($carreras as $carrera)
+            <option value="{{ $carrera->id_carrera }}">{{ $carrera->nombre }}</option>
+        @endforeach
+    </select>
+    @error('carrera')
+        <p style="color:red">{{$message}}</p>
+    @enderror
+
+    <button type="submit">Mostrar Horario</button>
 </form>

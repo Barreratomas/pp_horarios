@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\HorarioRequest;
+use App\Models\Carrera;
 use App\Models\Comision;
 use App\Models\Horario;
 use Illuminate\Http\Request;
@@ -183,38 +184,33 @@ class HorarioController extends Controller
     //     return $this->horarioService->eliminarHorarioPorId($id);
     // }
 
-    public function mostrarFormulario(): View
+    public function mostrarFormularioPartial()
     {
-        Session::forget('comision_encontrada');
-        $comisiones = Comision::paginate(10);
-
-        return view('horario', compact('comisiones'));
-    }
-
-    public function mostrarHorarios(HorarioRequest $request): View
-    {
+        $comisiones = Comision::all();
+        $carreras = Carrera::all();
         
 
-        $comisionId = $request->input('comision');
-
-        // Eliminar los horarios existentes de la sesión
-        session()->forget('horarios');
-
-        // Obtener todos los horarios que tengan el mismo ID de comisión
-        $horarios = Horario::where('id_comision', $comisionId)->get();
-
-        // Almacenar los nuevos horarios en la sesión
-        session(['horarios' => $horarios]);
-
-        // Almacenar el ID de la comisión en la sesión
-        session(['comision_encontrada' => $comisionId]);
-
-        // Obtener todas las comisiones
-        $comisiones = Comision::all();
-
-        // Retornar la vista con la comisión y los horarios
-        return view('horario', compact('horarios', 'comisiones'));
+        return view('layouts.parcials.formularioHorario', compact('comisiones','carreras'))->render();
     }
+
+    public function mostrarHorario(HorarioRequest $request): View
+{        
+    $id_comision = $request->input('comision');
+    $id_carrera = $request->input('carrera');
+
+    // Obtener todos los horarios que tengan el mismo ID de comisión
+    $horarios = Horario::where('id_comision', $id_comision)->
+    whereHas('comision', function ($query) use ($id_carrera) {
+        $query->where('id_carrera', $id_carrera);
+    })->get();    
+   
+    // importo comisiones y carreras
+    $formularioHorarioPartial = $this->mostrarFormularioPartial();
+
+
+    // Retornar la vista con la comisión y los horarios
+    return view('horario', compact('horarios', 'id_comision', 'formularioHorarioPartial'));
+}
 
     
 
