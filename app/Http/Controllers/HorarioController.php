@@ -198,8 +198,10 @@ class HorarioController extends Controller
     $id_comision = $request->input('comision');
     $id_carrera = $request->input('carrera');
 
-    // Obtener todos los horarios que tengan el mismo ID de comisión
+    // Obtener los registros que cumplan con el id comision y id carrrera
+    // filtra por id comision cuando es igual a la request comision
     $horarios = Horario::where('id_comision', $id_comision)->
+    // primero se filtra por carrera (dado que la query se lee de adentro hacia afuera)
     whereHas('comision', function ($query) use ($id_carrera) {
         $query->where('id_carrera', $id_carrera);
     })->get();    
