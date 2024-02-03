@@ -6,7 +6,7 @@
 </div>
 
 <div class="collapse" id="sidebar">
-    <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar vh-100">
+    <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar vh-100 " style="width: 250px;" id="miDiv">
         <div class="position-sticky">
             <ul class="nav flex-column">
                 <li class="nav-item">

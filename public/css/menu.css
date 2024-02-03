@@ -2,9 +2,10 @@
     width: 0;
     position: fixed;
     height: 100%;
-    overflow-y: auto;
+    overflow-y: hidden;
     transition: width 0.3s;
 }
+
 
 #sidebar.show {
     width: 250px;
@@ -20,12 +21,10 @@
     color: #000;
 }
 
-.button-container {
-    margin-left: 0;
+
+.button-container.show {
+    margin-left: 250px;
 }
 
-#toggleButton.float-right {
-    margin-left: 0;
-}
 
 
