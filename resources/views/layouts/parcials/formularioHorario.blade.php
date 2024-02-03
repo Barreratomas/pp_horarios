@@ -1,4 +1,7 @@
-
+@extends('layouts.base')
+@section('title','Horario')
+    
+@section('content')
 <form action="{{ route('mostrarHorario') }}" method="post">
     @csrf
     <label for="comision">Selecciona una comisión:</label>
@@ -23,3 +26,13 @@
 
     <button type="submit">Mostrar Horario</button>
 </form>
+
+
+
+
+  
+
+    
+
+
+@endsection

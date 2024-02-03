@@ -7,8 +7,10 @@
     <title>@yield('title')</title>
 </head>
 <body>
-   
+    @if (!isset($hideMenu))
     @include('layouts.parcials.menu')
+@endif
+    
     
     
     @yield('content')

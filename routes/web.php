@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HorarioController;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +63,8 @@ Route::delete('/api/materias/eliminar/{id}', 'App\Http\Controllers\MateriaContro
 
 
 // web
+Route::get('/',[HomeController::class,'index'])->name('home');
+
 Route::get('/horarios',[HorarioController::class,'mostrarFormularioPartial'])->name('mostrarFormulario');
 
 Route::post('/horarios', [HorarioController::class,'mostrarHorario'])->name('mostrarHorario');
