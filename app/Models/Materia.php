@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Materia extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $fillable = ['nombre'];
     protected $table = 'materias'; 
     protected $primaryKey = 'id_materia';
 

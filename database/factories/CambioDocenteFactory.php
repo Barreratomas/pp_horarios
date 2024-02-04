@@ -24,7 +24,6 @@ class CambioDocenteFactory extends Factory
             
             'docente_anterior' => Docente::inRandomOrder()->first()->dni,
             'docente_nuevo' => Docente::inRandomOrder()->first()->dni,
-            'fecha_cambio' => $this->faker->dateTime(),
         ];
     }
 }

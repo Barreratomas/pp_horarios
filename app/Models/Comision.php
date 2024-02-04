@@ -12,7 +12,7 @@ class Comision extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $fillable = ['anio', 'division', 'id_carrera', 'capacidad'];
     protected $table = 'comisiones';
     protected $primaryKey = 'id_comision';
  

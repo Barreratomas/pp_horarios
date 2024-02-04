@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Disponibilidad extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $fillable = ['id_dm','dia','hora_inicio','hora_fin',];
     protected $table = 'disponibilidades';
     protected $primaryKey = 'id_disponibilidad';
 

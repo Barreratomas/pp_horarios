@@ -11,7 +11,7 @@ class Aula extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $fillable = ['nombre', 'capacidad', 'tipo_aula'];
     protected $table = 'aulas';
     protected $primaryKey = 'id_aula';
 

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('docente_nuevo');
             $table->foreign('docente_anterior')->references('dni')->on('docentes');
             $table->foreign('docente_nuevo')->references('dni')->on('docentes');
-            $table->time('fecha_cambio');
             $table->timestamps();
             
         });

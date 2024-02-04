@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Docente extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $fillable = ['nombre', 'apellido', 'email'];
     protected $table = 'docentes'; 
     protected $primaryKey = 'dni';
 

@@ -1,41 +1,31 @@
 <?php
 
+// Mapper para Usuario
 namespace App\Mappers;
 
 use App\Models\Usuario;
-use App\Data\UsuarioData;
-use http\Env\Request;
-use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 
 class UsuarioMapper
 {
     public static function toUsuario($usuarioData)
     {
         return new Usuario([
-            'dni' => $usuarioData->dni,
             'nombre' => $usuarioData->nombre,
             'apellido' => $usuarioData->apellido,
-            'email' => $usuarioData->email,
-            'contrasenia' => $usuarioData->contrasenia,
             'tipo' => $usuarioData->tipo,
-            'fecha_modificacion' => Carbon::now(),
-            'fecha_creacion' => Carbon::now()
+            'email' => $usuarioData->email,
+            'id_comision' => $usuarioData->id_comision,
         ]);
     }
 
-    public static function toUsuarioData($usuario, $pass)
+    public static function toUsuarioData($usuario)
     {
         return [
-            'dni' => $usuario->dni,
             'nombre' => $usuario->nombre,
             'apellido' => $usuario->apellido,
+            'tipo' => $usuario->tipo,
             'email' => $usuario->email,
-            'contrasenia' => $pass,
-            'tipo' => $usuario->tipo
+            'id_comision' => $usuario->id_comision,
         ];
     }
-
-
-
 }

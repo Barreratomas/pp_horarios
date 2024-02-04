@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class DocenteMateria extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+    protected $fillable = ['dni_docente','id_materia',];
     protected $table = 'docentes_materias'; 
     protected $primaryKey = 'id_dm';
 

@@ -11,7 +11,7 @@ class Usuario extends Model
 {
     use HasFactory;
 
-    protected $guarded=[];
+    protected $fillable = ['nombre','apellido','tipo','email','id_comision'];
     protected $table = 'usuarios'; 
     protected $primaryKey = 'dni';
 

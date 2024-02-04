@@ -3,25 +3,25 @@
 namespace App\Mappers;
 
 use App\Models\Aula;
-use Carbon\Carbon;
 
 class AulaMapper
 {
+    // se usa para crear el modelo
     public static function toAula($aulaData)
     {
         return new Aula([
-            'nro' => $aulaData->nro,
-            'laboratorio' => $aulaData->laboratorio,
-            'fecha_creacion' => Carbon::now(),
-            'fecha_modificacion' => Carbon::now()
+            'nombre' => $aulaData->nombre,
+            'capacidad' => $aulaData->capacidad,
+            'tipo_aula' => $aulaData->tipo_aula,
         ]);
     }
-
+    // se usa para mostrar en una vista
     public static function toAulaData($aula)
     {
         return [
-            'nro' => $aula->nro,
-            'laboratorio' =>$aula->laboratorio
+            'nombre' => $aula->nombre,
+            'capacidad' => $aula->capacidad,
+            'tipo_aula' => $aula->tipo_aula,
         ];
     }
 
