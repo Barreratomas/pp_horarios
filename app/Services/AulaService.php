@@ -10,8 +10,23 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 
 class AulaService implements AulaRepository
-{
+// catch personalizado
+// try {
+//     $aula = Aula::find($id);
+//     if (!$aula) {
+//         throw new AulaNotFoundException("No se encontró el aula con el ID: $id");
+//     }
+//     return $aula;
+// } catch (AulaNotFoundException $e) {
+//     Log::error('Error al obtener el aula: ' . $e->getMessage());
+//     return null;
+// } catch (\Exception $e) {
+//     Log::error('Error inesperado al obtener el aula: ' . $e->getMessage());
+//     return null;
+// }
 
+
+{
 private $aulaMapper;
 
     public function __construct(AulaMapper $aulaMapper)
@@ -23,35 +38,30 @@ private $aulaMapper;
     {
         try {
             $aulas = Aula::all();
-            return response()->json($aulas, 200);
+            return $aulas;
         } catch (Exception $e) {
             Log::error('Error al obtener las aulas: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al obtener las aulas'], 500);
+            return [];
         }
     }
 
-    public function obtenerTodosLaboratorios()
+    public function obtenerAulasPorTipo($tipo)
     {
         try {
-            $aulas = Aula::where('laboratorio', true)->get();
-            return response()->json($aulas, 200);
+            return Aula::where('tipo', $tipo)->get();
         } catch (Exception $e) {
-            Log::error('Error al obtener los laboratorios: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al obtener los laboratorios'], 500);
+            Log::error('Error al obtener las aulas por tipo: ' . $e->getMessage());
+            return [];
         }
     }
 
-    public function obtenerAulaPorNro($nro)
+    public function obtenerAula($id)
     {
-            $aula = Aula::find($nro);
-            if ($aula) {
-                return response()->json($aula, 200);
-            }
-            try {
-                return response()->json(['error' => 'No existe el aula'], 404);
-            } catch (Exception $e) {
-                Log::error('Error al obtener el aula: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al obtener el aula'], 500);
+        try {
+            return Aula::find($id);
+        } catch (Exception $e) {
+            Log::error('Error al obtener el aula: ' . $e->getMessage());
+            return null;
         }
     }
 
@@ -60,41 +70,52 @@ private $aulaMapper;
         try {
             $aula = $this->aulaMapper->toAula($aulaData);
             $aula->save();
-            return response()->json($aula, 201);
+            return $aula;
         } catch (Exception $e) {
             Log::error('Error al guardar el aula: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al guardar el aula'], 500);
+            return null;
         }
     }
 
-    public function actualizarAula($request, $nro)
+    public function actualizarAula($id,$nombre,$tipo_aula,$capacidad)
     {
-        $aula = Aula::find($nro);
+        $aula = Aula::find($id);
         if (!$aula) {
-            return response()->json(['error' => 'No existe el aula'], 404);
+            Log::error('No existe el aula con el número: ' . $id);
+            return false;
         }
+    
         try {
-            $aula->update($this->aulaMapper->toAulaData($request));
-            return response()->json($aula, 200);
+            // Actualizar los atributos del aula
+            $aula->nombre = $nombre;
+            $aula->tipo_aula = $tipo_aula;
+            $aula->capacidad = $capacidad;
+            $aula->save();
+    
+            return true;
         } catch (Exception $e) {
             Log::error('Error al actualizar el aula: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al actualizar el aula'], 500);
+            return false;
         }
     }
 
-    public function eliminarAulaPorNro($nro)
+
+
+    public function eliminarAula($id)
     {
         try {
-            $aula = Aula::find($nro);
+            $aula = Aula::find($id);
             if ($aula) {
                 $aula->delete();
-                return response()->json(['success' => 'Se eliminó el aula'], 200);
+                return true;
             } else {
-                return response()->json(['error' => 'No existe el aula'], 404);
+                Log::error('No existe el aula con el número: ' . $id);
+                return false;
             }
         } catch (Exception $e) {
             Log::error('Error al eliminar el aula: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al eliminar el aula'], 500);
+            return false;
         }
     }
 }
+
