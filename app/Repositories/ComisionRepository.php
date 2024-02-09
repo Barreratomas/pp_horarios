@@ -9,6 +9,6 @@ interface ComisionRepository
     public function obtenerTodasComisionesPorCarrera($carrera);
     public function obtenerComisionPorId($id);
     public function guardarComision($comisionData);
-    public function actualizarComision($request, $id);
+    public function actualizarComision($id, $anio,$division,$capacidad);
     public function eliminarComisionPorId($id);
 }

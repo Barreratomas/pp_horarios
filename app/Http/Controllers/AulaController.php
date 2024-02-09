@@ -39,17 +39,21 @@ class AulaController extends Controller
 
   
     public function guardarAula(Request $request){
-        $this->aulaService->guardarAula($request);
+        $nombre = $request->input('nombre');
+        $capacidad = $request->input('capacidad');
+        $tipo_aula = $request->input('tipo_aula');
+
+        $this->aulaService->guardarAula($nombre,$capacidad,$tipo_aula);
         return redirect()->route('##');
     }
 
 
     public function actualizarAula(Request $request){
         $id = $request->input('id');
-        $nombre = $request->input('nombre');;
+        $nombre = $request->input('nombre');
+        $capacidad = $request->input('capacidad');        
         $tipo_aula = $request->input('tipo_aula');
-        $capacidad = $request->input('capacidad');        ;
-        $this->aulaService->actualizarAula($id,$nombre,$tipo_aula,$capacidad);
+        $this->aulaService->actualizarAula($id,$nombre,$capacidad,$tipo_aula);
         return redirect()->route('##');
     }
 

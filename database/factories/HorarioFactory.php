@@ -36,7 +36,7 @@ class HorarioFactory extends Factory
             'dia' => $this->faker->randomElement(["lunes", "martes", "miercoles", "jueves", "viernes"]),
             'hora_inicio' => $disponibilidad->hora_inicio,
             'hora_fin' => $disponibilidad->hora_fin,
-            'v/p' => $this->faker->randomElement(['V', 'P']),
+            'v_p' => $this->faker->randomElement(['V', 'P']),
             'id_dm' => DocenteMateria::inRandomOrder()->first()->id_dm,
             'id_aula' => Aula::inRandomOrder()->first()->id_aula,
             'id_comision' => Comision::inRandomOrder()->first()->id_comision,

@@ -40,7 +40,6 @@ private $aulaMapper;
             $aulas = Aula::all();
             return $aulas;
         } catch (Exception $e) {
-            Log::error('Error al obtener las aulas: ' . $e->getMessage());
             return [];
         }
     }
@@ -50,18 +49,17 @@ private $aulaMapper;
         try {
             return Aula::where('tipo', $tipo)->get();
         } catch (Exception $e) {
-            Log::error('Error al obtener las aulas por tipo: ' . $e->getMessage());
             return [];
         }
     }
 
     public function obtenerAula($id)
     {
+        $aula = Aula::find($id);
         try {
-            return Aula::find($id);
+            return $aula;
         } catch (Exception $e) {
-            Log::error('Error al obtener el aula: ' . $e->getMessage());
-            return null;
+            return [];
         }
     }
 
@@ -70,32 +68,36 @@ private $aulaMapper;
         try {
             $aula = $this->aulaMapper->toAula($aulaData);
             $aula->save();
-            return $aula;
+            return ['success' => 'Aula guardada correctamente'];
         } catch (Exception $e) {
-            Log::error('Error al guardar el aula: ' . $e->getMessage());
-            return null;
+            return ['error' => 'Hubo un error al guardar el aula'];
         }
     }
 
-    public function actualizarAula($id,$nombre,$tipo_aula,$capacidad)
+    public function actualizarAula($id,$nombre=null,$capacidad=null,$tipo_aula=null,)
     {
         $aula = Aula::find($id);
         if (!$aula) {
-            Log::error('No existe el aula con el número: ' . $id);
             return false;
         }
     
         try {
             // Actualizar los atributos del aula
-            $aula->nombre = $nombre;
-            $aula->tipo_aula = $tipo_aula;
-            $aula->capacidad = $capacidad;
+            if (!is_null($nombre)) {
+                $aula->nombre = $nombre;
+            }
+            if (!is_null($capacidad)) {
+                $aula->capacidad = $capacidad;
+            }
+            if (!is_null($tipo_aula)) {
+                $aula->tipo_aula = $tipo_aula;
+            }
+            
+
             $aula->save();
-    
-            return true;
+            return ['success' => 'Aula actualizada correctamente'];
         } catch (Exception $e) {
-            Log::error('Error al actualizar el aula: ' . $e->getMessage());
-            return false;
+            return ['error' => 'Hubo un error al actualizar el aula'];
         }
     }
 
@@ -105,17 +107,13 @@ private $aulaMapper;
     {
         try {
             $aula = Aula::find($id);
-            if ($aula) {
-                $aula->delete();
-                return true;
-            } else {
-                Log::error('No existe el aula con el número: ' . $id);
-                return false;
-            }
+            
+            $aula->delete();
+            return ['success' => 'Aula eliminada correctamente'];
         } catch (Exception $e) {
-            Log::error('Error al eliminar el aula: ' . $e->getMessage());
-            return false;
+            return ['error' => 'Hubo un error al eliminar el aula'];
         }
+        
     }
 }
 

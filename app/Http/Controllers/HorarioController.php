@@ -9,7 +9,6 @@ use App\Models\Horario;
 use Illuminate\Http\Request;
 use App\Services\HorarioService;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Session;
 
 class HorarioController extends Controller
 {
@@ -19,26 +18,7 @@ class HorarioController extends Controller
         $this->horarioService = $horarioService;
     }
 
-   
-   
-
-  
-    public function store(Request $request)
-    {
-        return $this->horarioService->guardarHorario($request);
-    }
-
-
-    public function update(Request $request, $id){
-        return $this->horarioService->actualizarHorario($request, $id);
-    }
-
-    
-    public function destroy($id)
-    {
-        return $this->horarioService->eliminarHorarioPorId($id);
-    }
-
+       // mostrarFormulario
     public function mostrarFormularioPartial()
     {
         $comisiones = Comision::all();
@@ -48,8 +28,9 @@ class HorarioController extends Controller
         return view('layouts.parcials.formularioHorario', compact('comisiones','carreras'))->render();
     }
 
+    // mostrarHorario
     public function mostrarHorario(HorarioRequest $request): View
-{        
+    {        
     $id_comision = $request->input('comision');
     $id_carrera = $request->input('carrera');
 
@@ -67,7 +48,80 @@ class HorarioController extends Controller
 
     // Retornar la vista con la comisión y los horarios
     return view('horario', compact('horarios', 'id_comision', 'formularioHorarioPartial'));
-}
+    }
+
+
+    //    guardar
+    public function guardarHorario(HorarioRequest $request)
+    {   
+        $params = [
+        'dia' =>  $request->input('dia'),
+        'hora_inicio' =>  $request->input('hora_inicio'),
+        'hora_fin' =>  $request->input('hora_fin'),
+        'v_p' =>  $request->input('v_p'),
+        'id_dm' =>  $request->input('id_dm'),
+        'id_aula' =>  $request->input('id_aula'),
+        'id_comision' =>  $request->input('id_comision')
+        ];
+
+        $response=$this->horarioService->guardarHorario($params);
+        if (isset($response['success'])) {
+            // Si se guardo correctamente, redirigir con un mensaje de éxito
+            return redirect()->route('horario.index')->with('success', $response['success']);
+           
+        }else{
+    
+            // Si hubo un error al guardar, redirigir con un mensaje de error
+            return redirect()->route('horario.index')->withErrors(['error' => $response['error']]);
+        }
+    }
+
+
+    // actualizar
+    public function actualizarHorario(HorarioRequest $request)
+    {   
+        $id=$request->input('id');
+        $params = [
+            'dia' =>  $request->input('dia'),
+            'hora_incio' =>  $request->input('hora_inicio'),
+            'hora_fin' =>  $request->input('hora_fin'),
+            'v_p' =>  $request->input('v_p'),
+            'id_dm' =>  $request->input('id_dm'),
+            'id_aula' =>  $request->input('id_aula'),
+            'id_comision' =>  $request->input('id_comision')
+    ];
+        $response=$this->horarioService->actualizarHorario($id,$params);
+        if (isset($response['success'])) {
+            // Si se actualizo correctamente, redirigir con un mensaje de éxito
+            return redirect()->route('horario.index')->with('success', $response['success']);
+           
+        }else{
+    
+            // Si hubo un error al actualizar, redirigir con un mensaje de error
+            return redirect()->route('horario.index')->withErrors(['error' => $response['error']]);
+        }
+    }
+
+    // destruir
+    public function destroy(Request $request)
+    {
+        $id=$request->input('id');
+
+
+        $response=$this->horarioService->eliminarHorarioPorId($id);
+        if (isset($response['success'])) {
+            // Si se actualizo correctamente, redirigir con un mensaje de éxito
+            return redirect()->route('horario.index')->with('success', $response['success']);
+           
+        }else{
+    
+            // Si hubo un error al eliminar , redirigir con un mensaje de error
+            return redirect()->route('horario.index')->withErrors(['error' => $response['error']]);
+        }
+    }
+    
+
+ 
 
     
 

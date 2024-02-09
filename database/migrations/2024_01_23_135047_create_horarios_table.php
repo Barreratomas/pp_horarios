@@ -16,7 +16,7 @@ return new class extends Migration
             $table->enum('dia',['lunes','martes','miercoles','jueves','viernes']);
             $table->time('hora_inicio');
             $table->time('hora_fin');
-            $table->string('v/p');
+            $table->string('v_p');
             $table->unsignedBigInteger('id_dm');
             $table->unsignedBigInteger('id_aula');
             $table->unsignedBigInteger('id_comision');

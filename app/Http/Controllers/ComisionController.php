@@ -14,35 +14,90 @@ class ComisionController extends Controller
     }
 
   
-    public function index(){
-        return $this->comisionService->obtenerTodasComisiones();
+    public function mostrarComisiones(){
+         $comisiones = $this->comisionService->obtenerTodasComisiones();
+         return view('##',compact('comisiones'));
     }
 
    
-    public function verComisionesPorCarrera($carrera){
-        return $this->comisionService->obtenerTodasComisionesPorCarrera($carrera);
+    public function mostrarComisionesPorCarrera(Request $request){
+       $carrera = $request ->input('id_carrera'); 
+        $comisionesCarreras= $this->comisionService->obtenerTodasComisionesPorCarrera($carrera);
+        return view('##',compact('comisionesPorCarreras'));
     }
 
   
-    public function show($id)
+    public function mostrarComisionPorId(Request $request)
+    {   
+        $id = $request->input('id');
+        $comision = $this->comisionService->obtenerComisionPorId($id);
+        return  view('##',compact('comision'));
+    }
+
+  
+   
+    public function guardarComision(Request $request){
+        $anio = $request->input('anio');
+        $division = $request->input('division');
+        $id_carrera = $request->input('id_carrera');
+        $capacidad = $request->input('capacidad');
+        $response=$this->comisionService->guardarComision($anio,$division,$id_carrera,$capacidad);
+        
+         // Verificar si se actualizó correctamente
+         if (isset($response['success'])) {
+            // Si se actualizo correctamente, redirigir con un mensaje de éxito
+            return redirect()->route('comisiones.index')->with('success', $response['success']);
+           
+        }else{
+    
+            // Si hubo un error al actualizar la comisión, redirigir con un mensaje de error
+            return redirect()->route('comisiones.index')->withErrors(['error' => $response['error']]);
+        }
+            
+    }
+        
+    
+
+
+    public function actualizarComision(Request $request)
     {
-        return $this->comisionService->obtenerComisionPorId($id);
+        // Obtener los datos del Request
+        $id = $request->input('id');
+        $anio = $request->input('anio');
+        $division = $request->input('division');
+        $id_carrera = $request->input('id_carrera');
+        $capacidad = $request->input('capacidad');
+
+
+        // Llamar al servicio para actualizar la comisión
+        $response = $this->comisionService->actualizarComision($id, $anio,$division,$id_carrera,$capacidad);
+        
+        // Verificar si se actualizó correctamente
+        if (isset($response['success'])) {
+            // Si se actualizo correctamente, redirigir con un mensaje de éxito
+            return redirect()->route('comisiones.index')->with('success', $response['success']);
+           
+        }else{
+    
+            // Si hubo un error al actualizar la comisión, redirigir con un mensaje de error
+            return redirect()->route('comisiones.index')->withErrors(['error' => $response['error']]);
+        }
     }
 
    
-    public function store(Request $request){
-        return $this->comisionService->guardarComision($request);
-    }
-
-
-    public function update(Request $request, $id)
+    public function destroy(Request $request)
     {
-        return $this->comisionService->actualizarComision($request, $id);
-    }
-
-   
-    public function destroy($id){
-        return $this->comisionService->eliminarComisionPorId($id);
+        $id=$request->input('id');
+        $response = $this->comisionService->eliminarComisionPorId($id);
+        
+        // Verificar si se eliminó la comisión correctamente
+        if (isset($response['success'])) {
+            // Si se eliminó correctamente, redirigir  con un mensaje de éxito
+            return redirect()->route('comisiones.index')->with('success', $response['success']);
+        } else {
+            // Si hubo un error al eliminar la comisión, redirigir con un mensaje de error
+            return redirect()->route('comisiones.index')->withErrors(['error' => $response['error']]);
+        }
     }
 }
 

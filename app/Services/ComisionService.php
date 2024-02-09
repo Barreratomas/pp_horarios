@@ -20,22 +20,20 @@ class ComisionService implements ComisionRepository
     public function obtenerTodasComisiones()
     {
         try {
-            $comisiones = Comision::all();
-            return response()->json($comisiones, 200);
+            return Comision::all();
         } catch (Exception $e) {
             Log::error('Error al obtener las comisiones: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al obtener las comisiones'], 500);
+            return [];
         }
     }
 
     public function obtenerTodasComisionesPorCarrera($carrera)
     {
         try {
-            $comisiones = Comision::where('carrera', $carrera)->get();
-            return response()->json($comisiones, 200);
+            return Comision::where('carrera', $carrera)->get();
         } catch (Exception $e) {
             Log::error('Error al obtener las comisiones: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al obtener las comisiones'], 500);
+            return [];
         }
     }
 
@@ -43,13 +41,13 @@ class ComisionService implements ComisionRepository
     {
         $comision = Comision::find($id);
         if (!$comision) {
-            return response()->json(['error' => 'Comision no encontrada'], 404);
+            return ['error' => 'Comisión no encontrada'];
         }
         try {
-            return response()->json($comision, 200);
+            return $comision;
         } catch (Exception $e) {
             Log::error('Error al obtener la comision: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al obtener la comision'], 500);
+            return [];
         }
     }
 
@@ -58,42 +56,53 @@ class ComisionService implements ComisionRepository
         try {
             $comision = $this->comisionMapper->toComision($comisionData);
             $comision->save();
-            return $comision;
+            return ['success' => 'Comisión guardada correctamente'];
         } catch (Exception $e) {
             Log::error('Error al guardar la comision: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al guardar la comision'], 500);
-
+            return ['error' => 'Hubo un error al guardar la comisión'];        
         }
     }
 
-    public function actualizarComision($request, $id)
+    public function actualizarComision($id, $anio = null, $division = null,$id_carrera = null, $capacidad = null)
     {
         $comision = Comision::find($id);
         if (!$comision) {
-            return response()->json(['error' => 'Comision no encontrada'], 404);
+            return ['error' => 'Comisión no encontrada'];
         }
         try {
-            $comision->fill($request->all());
-            $comision->save();
-            return response()->json($comision, 200);
+            if (!is_null($anio)) {
+                $comision->anio = $anio;
+            }
+            if (!is_null($division)) {
+                $comision->division = $division;
+            }
+            if (!is_null($id_carrera)) {
+                $comision->id_carrera = $id_carrera;
+            }
+            if (!is_null($capacidad)) {
+                $comision->capacidad = $capacidad;
+            }
+
+                $comision->save();
+                
+                
+                return ['success' => 'Comisión actualizada correctamente'];
+            
         } catch (Exception $e) {
-            Log::error('Error al actualizar la comision: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al actualizar la comision'], 500);
+            Log::error('Error al actualizar la comisión: ' . $e->getMessage());
+            return ['error' => 'Hubo un error al actualizar la comisión'];
         }
     }
 
     public function eliminarComisionPorId($id)
     {
         $comision = Comision::find($id);
-        if (!$comision) {
-            return response()->json(['error' => 'Comision no encontrada'], 404);
-        }
         try {
             $comision->delete();
-            return response()->json(['success' => 'Comision eliminada correctamente'], 200);
+            return ['success' => 'Comisión eliminada correctamente'];
         } catch (Exception $e) {
             Log::error('Error al eliminar la comision: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al eliminar la comision'], 500);
+            return ['error' => 'Hubo un error al eliminar la comisión'];
         }
     }
 }
