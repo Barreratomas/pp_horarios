@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use App\Data\AulaData;
 use App\Repositories\AulaRepository;
 use App\Mappers\AulaMapper;
 use App\Models\Aula;
 use Exception;
-use Illuminate\Support\Facades\Log;
 
 class AulaService implements AulaRepository
 // catch personalizado
@@ -36,31 +34,22 @@ private $aulaMapper;
 
     public function obtenerTodasAulas()
     {
-        try {
-            $aulas = Aula::all();
-            return $aulas;
-        } catch (Exception $e) {
-            return [];
-        }
+        
+        $aulas = Aula::all();
+        return $aulas;
+        
     }
 
-    public function obtenerAulasPorTipo($tipo)
-    {
-        try {
-            return Aula::where('tipo', $tipo)->get();
-        } catch (Exception $e) {
-            return [];
-        }
-    }
+    
 
     public function obtenerAula($id)
     {
         $aula = Aula::find($id);
-        try {
-            return $aula;
-        } catch (Exception $e) {
+        if (is_null($aula)) {
             return [];
         }
+            return $aula;
+        
     }
 
     public function guardarAula($aulaData)
@@ -78,7 +67,7 @@ private $aulaMapper;
     {
         $aula = Aula::find($id);
         if (!$aula) {
-            return false;
+            return ['error' => 'hubo un error al buscar Aula'];
         }
     
         try {
@@ -102,12 +91,14 @@ private $aulaMapper;
     }
 
 
-
     public function eliminarAula($id)
     {
+        $aula = Aula::find($id);
+        if (!$aula) {
+            return ['error' => 'hubo un error al buscar Aula'];
+        }
+
         try {
-            $aula = Aula::find($id);
-            
             $aula->delete();
             return ['success' => 'Aula eliminada correctamente'];
         } catch (Exception $e) {

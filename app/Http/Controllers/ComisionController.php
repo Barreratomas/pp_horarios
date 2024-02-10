@@ -14,29 +14,25 @@ class ComisionController extends Controller
     }
 
   
-    public function mostrarComisiones(){
+    public function index(){
          $comisiones = $this->comisionService->obtenerTodasComisiones();
-         return view('##',compact('comisiones'));
+         return view('comision.index',compact('comisiones'));
     }
 
    
-    public function mostrarComisionesPorCarrera(Request $request){
-       $carrera = $request ->input('id_carrera'); 
-        $comisionesCarreras= $this->comisionService->obtenerTodasComisionesPorCarrera($carrera);
-        return view('##',compact('comisionesPorCarreras'));
-    }
+    
 
   
-    public function mostrarComisionPorId(Request $request)
+    public function mostrarComision(Request $request)
     {   
         $id = $request->input('id');
         $comision = $this->comisionService->obtenerComisionPorId($id);
-        return  view('##',compact('comision'));
+        return  view('comision.show',compact('comision'));
     }
 
   
    
-    public function guardarComision(Request $request){
+    public function store(Request $request){
         $anio = $request->input('anio');
         $division = $request->input('division');
         $id_carrera = $request->input('id_carrera');
@@ -46,12 +42,12 @@ class ComisionController extends Controller
          // Verificar si se actualizó correctamente
          if (isset($response['success'])) {
             // Si se actualizo correctamente, redirigir con un mensaje de éxito
-            return redirect()->route('comisiones.index')->with('success', $response['success']);
+            return redirect()->route('comision.index')->with('success', $response['success']);
            
         }else{
     
             // Si hubo un error al actualizar la comisión, redirigir con un mensaje de error
-            return redirect()->route('comisiones.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('comision.index')->withErrors(['error' => $response['error']]);
         }
             
     }
@@ -59,7 +55,7 @@ class ComisionController extends Controller
     
 
 
-    public function actualizarComision(Request $request)
+    public function actualizar(Request $request)
     {
         // Obtener los datos del Request
         $id = $request->input('id');
@@ -85,7 +81,7 @@ class ComisionController extends Controller
     }
 
    
-    public function destroy(Request $request)
+    public function eliminar(Request $request)
     {
         $id=$request->input('id');
         $response = $this->comisionService->eliminarComisionPorId($id);

@@ -4,11 +4,9 @@
 namespace App\Services;
 
 use App\Mappers\HorarioMapper;
-use App\Models\Carrera;
-use App\Models\Comision;
+
 use App\Models\Horario;
 use Exception;
-use Illuminate\Support\Facades\Log;
 
 class HorarioService
 {
@@ -36,7 +34,7 @@ class HorarioService
     {
         $horario = Horario::find($id);
         if (!$horario) {
-            return ['error' => 'Horario no encontrado'];
+            return ['error' => 'hubo un error al buscar Horario'];
         }
         try {
             foreach ($params as $key => $value) {
@@ -55,8 +53,11 @@ class HorarioService
 
     public function eliminarHorarioPorId($id)
     {
-        try {
-            $horario = Horario::findOrFail($id);
+        $horario = Horario::find($id);
+        if (!$horario) {
+            return ['error' => 'hubo un error al buscar Horario'];
+        }
+        try{
             $horario->delete();
             return ['success' => 'Horario eliminado exitosamente'];
         } catch (Exception $e) {

@@ -19,36 +19,23 @@ class ComisionService implements ComisionRepository
 
     public function obtenerTodasComisiones()
     {
-        try {
-            return Comision::all();
-        } catch (Exception $e) {
-            Log::error('Error al obtener las comisiones: ' . $e->getMessage());
-            return [];
-        }
+        $comisiones=Comision::all();
+        return $comisiones;
+        
     }
 
-    public function obtenerTodasComisionesPorCarrera($carrera)
-    {
-        try {
-            return Comision::where('carrera', $carrera)->get();
-        } catch (Exception $e) {
-            Log::error('Error al obtener las comisiones: ' . $e->getMessage());
-            return [];
-        }
-    }
+    
 
     public function obtenerComisionPorId($id)
     {
         $comision = Comision::find($id);
-        if (!$comision) {
-            return ['error' => 'Comisión no encontrada'];
-        }
-        try {
-            return $comision;
-        } catch (Exception $e) {
-            Log::error('Error al obtener la comision: ' . $e->getMessage());
+        if (is_null($comision)) {
             return [];
         }
+       
+        return $comision;
+        
+        
     }
 
     public function guardarComision($comisionData)
@@ -67,7 +54,7 @@ class ComisionService implements ComisionRepository
     {
         $comision = Comision::find($id);
         if (!$comision) {
-            return ['error' => 'Comisión no encontrada'];
+            return ['error' => 'hubo un error al buscar Comisión'];
         }
         try {
             if (!is_null($anio)) {
@@ -83,10 +70,10 @@ class ComisionService implements ComisionRepository
                 $comision->capacidad = $capacidad;
             }
 
-                $comision->save();
-                
-                
-                return ['success' => 'Comisión actualizada correctamente'];
+            $comision->save();
+            
+            
+            return ['success' => 'Comisión actualizada correctamente'];
             
         } catch (Exception $e) {
             Log::error('Error al actualizar la comisión: ' . $e->getMessage());
@@ -97,6 +84,9 @@ class ComisionService implements ComisionRepository
     public function eliminarComisionPorId($id)
     {
         $comision = Comision::find($id);
+        if (!$comision) {
+            return ['error' => 'hubo un error al buscar Comisión'];
+        }
         try {
             $comision->delete();
             return ['success' => 'Comisión eliminada correctamente'];

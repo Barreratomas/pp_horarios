@@ -52,7 +52,7 @@ class HorarioController extends Controller
 
 
     //    guardar
-    public function guardarHorario(HorarioRequest $request)
+    public function store(HorarioRequest $request)
     {   
         $params = [
         'dia' =>  $request->input('dia'),
@@ -78,7 +78,7 @@ class HorarioController extends Controller
 
 
     // actualizar
-    public function actualizarHorario(HorarioRequest $request)
+    public function actualizar(HorarioRequest $request)
     {   
         $id=$request->input('id');
         $params = [
@@ -103,7 +103,7 @@ class HorarioController extends Controller
     }
 
     // destruir
-    public function destroy(Request $request)
+    public function eliminar(HorarioRequest $request)
     {
         $id=$request->input('id');
 

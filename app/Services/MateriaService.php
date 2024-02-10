@@ -7,84 +7,57 @@ use App\Mappers\MateriaMapper;
 use App\Models\Materia;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use App\Validate\MateriaValidate;
 
 class MateriaService implements MateriaRepository
 {
     protected $materiaMapper;
-    protected $materiaValidate;
 
-    public function __construct(MateriaMapper $materiaMapper, MateriaValidate $materiaValidate)
+    public function __construct(MateriaMapper $materiaMapper)
     {
         $this->materiaMapper = $materiaMapper;
-        $this->materiaValidate = $materiaValidate;
     }
 
     public function obtenerTodasMaterias()
     {
-        try {
-            $materias = Materia::all();
-            return response()->json($materias, 200);
-        } catch (Exception $e) {
-            Log::error('Error al obtener las materias: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al obtener las materias'], 500);
-        }
+        
+        $materias = Materia::all();
+        return $materias;
+       
     }
 
     public function obtenerMateriaPorId($id)
     {
         $materia = Materia::find($id);
-        if ($materia) {
-            return response()->json($materia, 200);
+        if (is_null($materia)) {
+            return [];
         }
-        try {
-            return response()->json(['error' => 'No existe la materia'], 404);
-        } catch (Exception $e) {
-            Log::error('Error al obtener la materia: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al obtener la materia'], 500);
-        }
+        return $materia;
     }
 
-    public function obtenerMateriaPorNombre($nombre)
-    {
-        try {
-            $materia = Materia::where('nombre', $nombre)->get();
-            return response()->json($materia, 200);
-        } catch (Exception $e) {
-            Log::error('Error al obtener la materia: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al obtener la materia'], 500);
-        }
-    }
+    
 
-    public function guardarMateria($materia)
+    public function guardarMateria($materiaData)
     {
-        if($this->materiaValidate->nombreExiste($materia->nombre)){
-            return response()->json(['error' => 'Ya existe una materia con ese nombre'], 400);
-        }
         try {
-            $materia = $this->materiaMapper->toMateria($materia);
+            $materia = $this->materiaMapper->toMateria($materiaData);
             $materia->save();
-            return response()->json($materia, 201);
+            return ['success' => 'Materia guardada correctamente'];
         } catch (Exception $e) {
-            Log::error('Error al guardar el horario: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al guardar la materia'], 500);
+            return ['error' => 'Hubo un error al guardar la materia'];
         }
     }
 
-    public function actualizarMateria($request, $id)
+    public function actualizarMateria($materiaData, $id)
     {
         $materia = Materia::find($id);
         if (!$materia) {
-            return response()->json(['error' => 'No existe la materia'], 404);
-        } elseif ($this->materiaValidate->nombreExiste($request->nombre)) {
-            return response()->json(['error' => 'Ya existe una materia con ese nombre'], 400);
+            return ['error' => 'hubo un error al buscar materia'];
         }
         try {
-            $materia->update($this->materiaMapper->toMateriaData($request));
-            return response()->json($materia, 200);
+            $materia->update($this->materiaMapper->toMateriaData($materiaData));
+            return ['success' => 'Materia actualizada correctamente'];
         } catch (Exception $e) {
-            Log::error('Error al actualizar la materia: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al actualizar la materia'], 500);
+            return ['error' => 'Hubo un error al actualizar la materia'];
         }
     }
 
@@ -92,15 +65,13 @@ class MateriaService implements MateriaRepository
     {
         $materia = Materia::find($id);
         if (!$materia) {
-            return response()->json(['error' => 'No existe la materia'], 404);
+            return ['error' => 'hubo un error al buscar materia'];
         }
         try {
             $materia->delete();
-            return response()->json(['message' => 'MateriaValidate eliminada correctamente'], 200);
+            return ['success' => 'Materia eliminada correctamente'];
         } catch (Exception $e) {
-            Log::error('Error al eliminar la materia: ' . $e->getMessage());
-            return response()->json(['error' => 'Hubo un error al eliminar la materia'], 500);
+            return ['error' => 'Hubo un error al eliminar la materia'];
         }
     }
-
 }
