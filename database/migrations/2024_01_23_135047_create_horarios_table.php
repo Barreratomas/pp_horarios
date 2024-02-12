@@ -17,10 +17,10 @@ return new class extends Migration
             $table->time('hora_inicio');
             $table->time('hora_fin');
             $table->string('v_p');
-            $table->unsignedBigInteger('id_dm');
+            $table->unsignedBigInteger('id_disponibilidad');
             $table->unsignedBigInteger('id_aula');
             $table->unsignedBigInteger('id_comision');
-            $table->foreign('id_dm')->references('id_dm')->on('docentes_materias');
+            $table->foreign('id_disponibilidad')->references('id_disponibilidad')->on('disponibilidades');
             $table->foreign('id_aula')->references('id_aula')->on('aulas');
             $table->foreign('id_comision')->references('id_comision')->on('comisiones');
             $table->timestamps();

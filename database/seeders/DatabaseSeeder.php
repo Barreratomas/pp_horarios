@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             UsuarioSeeder::class,
             CambioDocenteSeeder::class,
             DocenteMateriaSeeder::class,
+            HorarioPrevioDocenteSeeder::class,
             DisponibilidadSeeder::class,
             HorarioSeeder::class
         ]);

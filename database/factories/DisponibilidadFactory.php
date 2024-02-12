@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\DocenteMateria;
+use App\Models\HorarioPrevioDocente;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,6 @@ class DisponibilidadFactory extends Factory
      */
     public function definition(): array
     {
-
         $horasPermitidas = [
             '19:20:00',
             '20:00:00',
@@ -37,12 +37,15 @@ class DisponibilidadFactory extends Factory
           
           $horaInicio = $horasPermitidas[$indiceInicio];
           $horaFin = $horasPermitidas[$indiceFin];
-        return [
+
+          $horarioPrevioDocente = HorarioPrevioDocente::inRandomOrder()->first();
+
+          return [
             'id_dm' => DocenteMateria::inRandomOrder()->first()->id_dm,
-            'dia' => $this->faker->randomElement(['lunes', 'martes', 'miercoles', 'jueves', 'viernes']),
+            'id_h_p_d' => $horarioPrevioDocente->id_h_p_d,
+            'dia' => $horarioPrevioDocente->dia,
             'hora_inicio' => $horaInicio,
             'hora_fin' => $horaFin,
-
         ];
     }
 }

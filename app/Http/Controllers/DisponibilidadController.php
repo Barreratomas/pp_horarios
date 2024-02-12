@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HorarioPrevioDocente;
 use App\Services\DisponibilidadService;
 use Illuminate\Http\Request;
 
@@ -28,15 +29,22 @@ class DisponibilidadController extends Controller
         return view('disponibilidad.show', compact('disponibilidad'));
     }
 
+   
+
     public function store(Request $request)
     {
+
+
         $params=[
             'id_dm'=>$request->input("id_dm"),
-            'dia'=>$request->input("dia"),
+            'id_h_p_d'=>$request->input("id_h_p_d"),
+            'dia'=>HorarioPrevioDocente::findOrFail($request->input("id_h_p_d"))->value('dia'),
             'hora_inicio'=>$request->input("hora_inicio"),
             'hora_fin'=>$request->input("hora_fin")
 
         ];
+        
+
 
         $response = $this->disponibilidadService->guardarDisponibilidad($params);
         if (isset($response['success'])) {
@@ -56,6 +64,7 @@ class DisponibilidadController extends Controller
 
         $params=[
             'id_dm'=>$request->input("id_dm"),
+            'id_dm'=>$request->input("id_h_p_d"),
             'dia'=>$request->input("dia"),
             'hora_inicio'=>$request->input("hora_inicio"),
             'hora_fin'=>$request->input("hora_fin")
