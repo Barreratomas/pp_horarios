@@ -43,7 +43,7 @@ class DocenteMateriaService implements DocenteMateriaRepository
         }
     }
 
-    public function actualizarDocenteMateria($id, $dni_docente,$id_materia)
+    public function actualizarDocenteMateria($id, $dni_docente,$id_materia,$modulos_semanales)
     {
         try {
             $docenteMateria = DocenteMateria::find($id);
@@ -55,6 +55,9 @@ class DocenteMateriaService implements DocenteMateriaRepository
             }
             if (!is_null($id_materia)) {
                 $docenteMateria->id_materia = $id_materia;
+            }
+            if (!is_null($modulos_semanales)) {
+                $docenteMateria->modulos_semanales = $modulos_semanales;
             }
             
             $docenteMateria->save();

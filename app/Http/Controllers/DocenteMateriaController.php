@@ -30,8 +30,9 @@ class DocenteMateriaController extends Controller
     {
         $dni_docente = $request->input('dni_docente');
         $id_materia = $request->input('id_materia');
+        $modulos_semanales = $request->input('modulos_semanales');
 
-        $response = $this->docenteMateriaService->guardarDocenteMateria($dni_docente,$id_materia);
+        $response = $this->docenteMateriaService->guardarDocenteMateria($dni_docente,$id_materia,$modulos_semanales);
         if (isset($response['success'])) {
             return redirect()->route('docenteMateria.index')->with('success', $response['success']);
         } else {
@@ -44,8 +45,9 @@ class DocenteMateriaController extends Controller
         $id = $request->input('id');
         $dni_docente = $request->input('dni_docente');
         $id_materia = $request->input('id_materia');
+        $modulos_semanales = $request->input('modulos_semanales');
 
-        $response = $this->docenteMateriaService->actualizarDocenteMateria($id, $dni_docente,$id_materia);
+        $response = $this->docenteMateriaService->actualizarDocenteMateria($id, $dni_docente,$id_materia,$modulos_semanales);
         if (isset($response['success'])) {
             return redirect()->route('docenteMateria.index')->with('success', $response['success']);
         } else {

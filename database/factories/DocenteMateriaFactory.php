@@ -25,7 +25,7 @@ class DocenteMateriaFactory extends Factory
     return [
         'dni_docente' => $dniDocente,
         'id_materia' => $idMateria,
-        // Resto de las columnas
+        'modulos_semanales'=>$this->faker->numberBetween(1, 6),
     ];
 }
 

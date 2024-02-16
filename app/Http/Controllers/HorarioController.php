@@ -59,7 +59,7 @@ class HorarioController extends Controller
         'hora_inicio' =>  $request->input('hora_inicio'),
         'hora_fin' =>  $request->input('hora_fin'),
         'v_p' =>  $request->input('v_p'),
-        'id_dm' =>  $request->input('id_dm'),
+        'id_disponibilidad' =>  $request->input('id_disponibilidad'),
         'id_aula' =>  $request->input('id_aula'),
         'id_comision' =>  $request->input('id_comision')
         ];
@@ -86,7 +86,7 @@ class HorarioController extends Controller
             'hora_incio' =>  $request->input('hora_inicio'),
             'hora_fin' =>  $request->input('hora_fin'),
             'v_p' =>  $request->input('v_p'),
-            'id_dm' =>  $request->input('id_dm'),
+            'id_disponibilidad' =>  $request->input('id_disponibilidad'),
             'id_aula' =>  $request->input('id_aula'),
             'id_comision' =>  $request->input('id_comision')
     ];

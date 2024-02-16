@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('dni_docente')->references('dni')->on('docentes');
             $table->unsignedBigInteger('id_materia');
             $table->foreign('id_materia')->references('id_materia')->on('materias');
+            $table->unsignedBigInteger('modulos_semanales');
             $table->timestamps();
         });
     }
