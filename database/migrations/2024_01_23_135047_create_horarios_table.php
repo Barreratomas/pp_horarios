@@ -14,15 +14,13 @@ return new class extends Migration
         Schema::create('horarios', function (Blueprint $table) {
             $table->id('id_horario');
             $table->enum('dia',['lunes','martes','miercoles','jueves','viernes']);
-            $table->time('hora_inicio');
-            $table->time('hora_fin');
+            $table->time('modulo_inicio');
+            $table->time('modulo_fin');
             $table->string('v_p');
             $table->unsignedBigInteger('id_disponibilidad');
-            $table->unsignedBigInteger('id_aula');
-            $table->unsignedBigInteger('id_comision');
             $table->foreign('id_disponibilidad')->references('id_disponibilidad')->on('disponibilidades');
-            $table->foreign('id_aula')->references('id_aula')->on('aulas');
-            $table->foreign('id_comision')->references('id_comision')->on('comisiones');
+            $table->string('aula');
+            $table->string('comision');
             $table->timestamps();
         });
     }

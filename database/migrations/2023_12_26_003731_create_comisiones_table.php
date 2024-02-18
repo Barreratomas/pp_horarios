@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('anio');
             $table->integer('division');
             $table->unsignedBigInteger('id_carrera'); // Usar unsignedBigInteger para claves foráneas
-            $table->foreign('id_carrera', 'fk_comisiones_carrera')->references('id_carrera')->on('carreras');
+            $table->foreign('id_carrera')->references('id_carrera')->on('carreras');
             $table->integer('capacidad');
             $table->timestamps();
 

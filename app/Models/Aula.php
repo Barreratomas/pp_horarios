@@ -17,8 +17,8 @@ class Aula extends Model
 
 
     // Un aula puede tener muchos horarios 
-    public function horario():HasMany{
-        return $this->hasMany(Horario::class,'id_aula','id_aula');
+    public function docenteMateria():HasMany{
+        return $this->hasMany(DocenteMateria::class,'id_aula','id_aula');
 
     }
 }

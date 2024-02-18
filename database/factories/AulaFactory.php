@@ -20,8 +20,8 @@ class AulaFactory extends Factory
         return [
             
             'nombre' => $this->faker->word,
-        'capacidad' => $this->faker->numberBetween(10, 100),
-        'tipo_aula' =>  $this->faker->randomElement(['laboratorio', 'normal','zoom'])
+            'capacidad' => $this->faker->numberBetween(10, 100),
+            'tipo_aula' =>  $this->faker->randomElement(['laboratorio', 'normal','zoom'])
            
         ];
     }

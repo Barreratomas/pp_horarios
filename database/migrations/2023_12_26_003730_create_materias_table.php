@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('materias', function (Blueprint $table) {
             $table->id('id_materia');
             $table->string('nombre', 255);
+            $table->unsignedBigInteger('modulos_semanales');
             $table->timestamps();
 
         });

@@ -30,8 +30,8 @@ class Docente extends Model
     }
     
     
-    public function disponibilidades():HasMany{
-        return $this->hasMany(Disponibilidad::class, 'id_dm', 'id_dm');
+    public function horarioPrevioDocente():HasMany{
+        return $this->hasMany(HorarioPrevioDocente::class, 'dni_docente', 'dni');
     }
 
 }

@@ -28,16 +28,15 @@ class HorarioFactory extends Factory
         }
         
 
-       
-       
+        
         return [
             'dia' => $disponibilidad->dia,
-            'hora_inicio' => $disponibilidad->hora_inicio,
-            'hora_fin' => $disponibilidad->hora_fin,
+            'modulo_inicio' => $disponibilidad->modulo_inicio,
+            'modulo_fin' => $disponibilidad->modulo_fin,
             'v_p' => $this->faker->randomElement(['V', 'P']),
             'id_disponibilidad' => $disponibilidad->id_disponibilidad,
-            'id_aula' => Aula::inRandomOrder()->first()->id_aula,
-            'id_comision' => Comision::inRandomOrder()->first()->id_comision,
+            'aula' => Aula::inRandomOrder()->first()->id_aula,
+            'comision' => $disponibilidad->id_comision,
         ];
     }
 }

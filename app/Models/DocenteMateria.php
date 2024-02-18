@@ -16,7 +16,6 @@ class DocenteMateria extends Model
     protected $primaryKey = 'id_dm';
 
 
-    // Un docente puede dar muchas materias, y cada relación 
 
     public function docente():BelongsTo{
         return $this->belongsTo(Docente::class,'dni_docente','dni');
@@ -24,17 +23,18 @@ class DocenteMateria extends Model
     public function materia():BelongsTo{
     return $this->belongsTo(Materia::class,'id_materia','id_materia');
     }
-// DocenteMateria puede tener varios horarios y disponibilidades asociadas.
+
+    public function aula():BelongsTo{
+        return $this->belongsTo(Aula::class,'id_aula','id_aula');
+    }
+
+// DocenteMateria puede tener varias disponibilidades asociadas.
     public function disponibilidad():HasMany{
     return $this->hasMany(disponibilidad::class,'id_dm','id_dm');
 
     }      
 
 
-    public function horario():HasMany{
-    return $this->hasMany(Horario::class,'id_dm','id_dm');
-
-    }
-
+    
 
 }

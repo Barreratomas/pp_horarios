@@ -14,17 +14,11 @@ class Horario extends Model
     protected $table = 'horarios';
     protected $primaryKey = 'id_horario';
 
-    //  Un horario pertenece a una comisión, a un docente y a un aula
-    public function docenteMateria():BelongsTo{
-        return $this->belongsTo(docenteMateria::class, 'id_dm','id_dm');
+    //  Un horario pertenece a una disponibilidad
+    public function disponibilidad():BelongsTo{
+        return $this->belongsTo(Disponibilidad::class, 'id_disponibilidad','id_disponibilidad');
     }
 
-    public function aula():BelongsTo{
-        return $this->belongsTo(Aula::class, 'id_aula', 'id_aula');
-    }
-
-    public function comision():BelongsTo{
-        return $this->belongsTo(Comision::class, 'id_comision','id_comision');
-    }
+   
 
 }

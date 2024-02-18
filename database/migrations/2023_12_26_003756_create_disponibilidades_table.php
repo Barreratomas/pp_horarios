@@ -14,12 +14,17 @@ return new class extends Migration
         Schema::create('disponibilidades', function (Blueprint $table) {
             $table->id('id_disponibilidad');
             $table->unsignedBigInteger('id_dm');
-            $table->unsignedBigInteger('id_h_p_d');
             $table->foreign('id_dm')->references('id_dm')->on('docentes_materias');
+            
+            $table->unsignedBigInteger('id_h_p_d');
             $table->foreign('id_h_p_d')->references('id_h_p_d')->on('horarios_previos_docentes');
+            
+            $table->unsignedBigInteger('id_comision');
+            $table->foreign('id_comision')->references('id_comision')->on('comisiones');
+
             $table->enum('dia',['lunes','martes','miercoles','jueves','viernes']);
-            $table->time('hora_inicio');
-            $table->time('hora_fin');
+            $table->time('modulo_inicio');
+            $table->time('modulo_fin');
             $table->timestamps();
            
 

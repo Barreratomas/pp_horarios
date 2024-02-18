@@ -18,16 +18,13 @@ class Comision extends Model
  
 
 // una comisión pertenece a una carrera
-//  tiene muchos horarios asociados y tiene varios usuarios 
+//  tiene muchos  usuarios 
 
     public function carrera():BelongsTo{
         return $this->belongsTo(Carrera::class, 'id_carrera', 'id_carrera');
     }
 
-    public function horario():HasMany{
-        return $this->hasMany(Horario::class,'id_comision','id_comision');
-
-    }
+ 
 
 
     public function usuarios():HasMany
