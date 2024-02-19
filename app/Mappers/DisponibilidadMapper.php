@@ -10,9 +10,12 @@ class DisponibilidadMapper
     {
         return new Disponibilidad([
             'id_dm' => $disponibilidadData->id_dm,
+            'id_h_p_d' => $disponibilidadData->id_h_p_d,
+            'id_aula' => $disponibilidadData->id_aula,
+            'id_comision' => $disponibilidadData->id_comision,
             'dia' => $disponibilidadData->dia,
-            'hora_inicio' => $disponibilidadData->hora_inicio,
-            'hora_fin' => $disponibilidadData->hora_fin,
+            'modulo_inicio' => $disponibilidadData->modulo_inicio,
+            'modulo_fin' => $disponibilidadData->modulo_fin,
         ]);
     }
 
@@ -20,9 +23,12 @@ class DisponibilidadMapper
     {
         return [
             'id_dm' => $disponibilidad->id_dm,
+            'id_h_p_d' => $disponibilidad->id_h_p_d,
+            'id_aula' => $disponibilidad->id_aula,
+            'id_comision' => $disponibilidad->id_comision,
             'dia' => $disponibilidad->dia,
-            'hora_inicio' => $disponibilidad->hora_inicio,
-            'hora_fin' => $disponibilidad->hora_fin,
+            'modulo_inicio' => $disponibilidad->modulo_inicio,
+            'modulo_fin' => $disponibilidad->modulo_fin,
         ];
     }
 }

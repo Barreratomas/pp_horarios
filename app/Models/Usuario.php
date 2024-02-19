@@ -22,4 +22,8 @@ class Usuario extends Model
         return $this->belongsTo(Comision::class, 'id_comision', 'id_comision');
     }
 
+    public function carrera():BelongsTo{
+        return $this->belongsTo(Comision::class, 'id_carrera', 'id_carrera');
+    }
+
 }

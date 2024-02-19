@@ -18,4 +18,7 @@ class Carrera extends Model
     public function comision():HasMany{
         return $this->hasMany(Comision::class, 'id_carrera', 'id_carrera');
     }
+    public function usuario():HasMany{
+        return $this->hasMany(usuario::class, 'id_carrera', 'id_carrera');
+    }
 }

@@ -9,12 +9,13 @@ class HorarioMapper
     {
         return new Horario([
             'dia' => $horarioData->dia,
-            'hora_inicio' => $horarioData->hora_inicio,
-            'hora_fin' => $horarioData->hora_fin,
+            'modulo_inicio' => $horarioData->modulo_inicio,
+            'modulo_fin' => $horarioData->modulo_fin,
             'v_p' => $horarioData->v_p,
-            'id_dm' => $horarioData->id_dm,
-            'id_aula' => $horarioData->id_aula,
-            'id_comision' => $horarioData->id_comision,
+            'id_disponibilidad' => $horarioData->id_disponibilidad,
+            'materia' => $horarioData->materia,
+            'aula' => $horarioData->aula,
+            'comision' => $horarioData->comision,
         ]);
     }
 
@@ -22,12 +23,13 @@ class HorarioMapper
     {
         return [
             'dia' => $horario->dia,
-            'hora_inicio' => $horario->hora_inicio,
-            'hora_fin' => $horario->hora_fin,
+            'modulo_inicio' => $horario->modulo_inicio,
+            'modulo_fin' => $horario->modulo_fin,
             'v_p' => $horario->v_p,
-            'id_dm' => $horario->id_dm,
-            'id_aula' => $horario->id_aula,
-            'id_comision' => $horario->id_comision,
+            'id_disponibilidad' => $horario->id_disponibilidad,
+            'materia' => $horario->materia,
+            'aula' => $horario->aula,
+            'comision' => $horario->comision,
         ];
     }
 }

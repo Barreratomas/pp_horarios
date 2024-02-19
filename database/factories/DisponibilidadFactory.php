@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Aula;
 use App\Models\DocenteMateria;
 use App\Models\HorarioPrevioDocente;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -42,6 +43,7 @@ class DisponibilidadFactory extends Factory
           return [
             'id_dm' => DocenteMateria::inRandomOrder()->first()->id_dm,
             'id_h_p_d' => $horarioPrevioDocente->id_h_p_d,
+            'id_aula' => Aula::inRandomOrder()->first()->id_aula,
             'dia' => $horarioPrevioDocente->dia,
             'modulo_inicio' => $moduloInicio,
             'modulo_fin' => $moduloFin,

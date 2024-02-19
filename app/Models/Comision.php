@@ -27,7 +27,7 @@ class Comision extends Model
  
 
 
-    public function usuarios():HasMany
+    public function usuario():HasMany
     {
         return $this->hasMany(Usuario::class, 'id_comision', 'id_comision');
     }

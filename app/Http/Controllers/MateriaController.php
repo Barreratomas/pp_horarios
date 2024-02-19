@@ -30,8 +30,11 @@ class MateriaController extends Controller
     
 
     public function store(Request $request)
-    {   $nombre=$request->input("nombre"); 
-        $response = $this->materiaService->guardarMateria($nombre);
+    {   
+        $nombre=$request->input('nombre');
+        $modulos_semanales=$request->input('modulos_semanales');
+
+        $response = $this->materiaService->guardarMateria($nombre,$modulos_semanales);
         if (isset($response['success'])) {
             return redirect()->route('materia.index')->with('success', $response['success']);
         } else {
@@ -39,15 +42,14 @@ class MateriaController extends Controller
         }
     }
 
-    public function actualizar($id)
+   
+    public function update(Request $request)
     {
-        $materia = $this->materiaService->obtenerMateriaPorId($id);
-        return view('materia.edit', compact('materia'));
-    }
+        $id=$request->input('id');
+        $nombre=$request->input('nombre');
+        $modulos_semanales=$request->input('modulos_semanales');
 
-    public function update(Request $request, $id)
-    {
-        $response = $this->materiaService->actualizarMateria($request->all(), $id);
+        $response = $this->materiaService->actualizarMateria($id,$nombre,$modulos_semanales);
         if (isset($response['success'])) {
             return redirect()->route('materia.index')->with('success', $response['success']);
         } else {
@@ -58,6 +60,7 @@ class MateriaController extends Controller
     public function eliminar(Request $request)
     {        
         $id=$request->input('id');
+ 
 
         $response = $this->materiaService->eliminarMateriaPorId($id);
         if (isset($response['success'])) {

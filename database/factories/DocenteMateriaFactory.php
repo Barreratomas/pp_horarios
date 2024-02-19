@@ -22,12 +22,10 @@ class DocenteMateriaFactory extends Factory
     // Ajusta estos valores según tus necesidades
     $dniDocente = Docente::inRandomOrder()->first()->dni;
     $idMateria = Materia::inRandomOrder()->first()->id_materia;
-    $idAula = Aula::inRandomOrder()->first()->id_aula;
 
     return [
         'dni_docente' => $dniDocente,
         'id_materia' => $idMateria,
-        'id_aula'=>$idAula,
     ];
 }
 

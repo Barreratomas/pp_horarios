@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Carrera;
 use App\Models\Comision;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,6 +24,7 @@ class UsuarioFactory extends Factory
             'apellido' => $this->faker->lastName,
             'tipo' => $this->faker->randomElement(['alumno', 'docente', 'admin', 'visitante']),
             'email' => $this->faker->unique()->safeEmail,
+            'id_carrera' => Carrera::inRandomOrder()->first()->id_carrera,
             'id_comision' => Comision::inRandomOrder()->first()->id_comision,
         ];
     }

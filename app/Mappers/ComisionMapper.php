@@ -22,7 +22,7 @@ public static function toComisionData($comision)
         return [
             'anio' => $comision->anio,
             'division' => $comision->division,
-            'carrera' => $comision->id_carrera,
+            'id_carrera' => $comision->id_carrera,
             'capacidad' => $comision->capacidad,
         ];
     }

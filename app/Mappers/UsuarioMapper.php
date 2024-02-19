@@ -12,8 +12,8 @@ class UsuarioMapper
         return new Usuario([
             'nombre' => $usuarioData->nombre,
             'apellido' => $usuarioData->apellido,
-            'tipo' => $usuarioData->tipo,
             'email' => $usuarioData->email,
+            'id_carrera' => $usuarioData->id_carrera,
             'id_comision' => $usuarioData->id_comision,
         ]);
     }
@@ -23,9 +23,10 @@ class UsuarioMapper
         return [
             'nombre' => $usuario->nombre,
             'apellido' => $usuario->apellido,
-            'tipo' => $usuario->tipo,
             'email' => $usuario->email,
+            'id_carrera' => $usuario->id_carrera,
             'id_comision' => $usuario->id_comision,
+
         ];
     }
 }

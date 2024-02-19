@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Disponibilidad;
 use App\Models\HorarioPrevioDocente;
+use App\Models\Materia;
 use App\Services\DisponibilidadService;
 use DateInterval;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DisponibilidadController extends Controller
 {
@@ -80,7 +82,7 @@ class DisponibilidadController extends Controller
 
     
 
-    public function modulosRepartidos($modulos_semanales,$modulo_inicio,$id_dm,$id_comision) 
+    public function modulosRepartidos($modulos_semanales,$modulo_inicio,$id_dm,$id_comision,$id_aula) 
     {
         $distribucion = [];
         $diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
@@ -92,7 +94,7 @@ class DisponibilidadController extends Controller
                 case 2:
                 case 3:
                     $modulo_fin=($modulo_inicio+$modulos_semanales)-1;
-                    $disponible = $this->verificarModulosDia($dia,$modulo_inicio,$modulo_fin,$id_dm,$id_comision);
+                    $disponible = $this->verificarModulosDia($dia,$modulo_inicio,$modulo_fin,$id_dm,$id_comision,$id_aula);
                     if ($disponible) {
                         $distribucion[] = compact('dia', 'modulo_inicio', 'modulo_fin');
                         
@@ -107,7 +109,7 @@ class DisponibilidadController extends Controller
                     $mitadModulos = ($modulos_semanales % 2 == 0) ? $modulos_semanales / 2 : ceil($modulos_semanales / 2);
                     
                     $modulo_fin = ($modulo_inicio + $mitadModulos) - 1;
-                    $disponible = $this->verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm, $id_comision);
+                    $disponible = $this->verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm, $id_comision,$id_aula);
                     if ($disponible) {
                         
                         if ($siguienteDia) {
@@ -130,14 +132,14 @@ class DisponibilidadController extends Controller
    
     
     
-    private function verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm,$id_comision) 
+    private function verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm,$id_comision,$id_aula) 
     {
         // verifica si ya existe una disponibilidad con el mismo id_dm, id_comision y dia    
         $existenciaDisponibilidad = Disponibilidad::where('id_dm', $id_dm)
         ->where('id_comision', $id_comision)
         ->where('dia', $dia)
 
-        ->where(function ($query) use ($id_dm, $modulo_inicio, $modulo_fin, $dia, $id_comision) {
+        ->where(function ($query) use ($id_dm, $modulo_inicio, $modulo_fin, $dia, $id_comision,$id_aula) {
             //verifica si ya existen modulos que se superpongan que tengan el mismo dia e id comision 
             $query->where(function ($q) use ($modulo_inicio, $modulo_fin, $dia, $id_comision) {
                 $q->where('dia', $dia)
@@ -151,6 +153,13 @@ class DisponibilidadController extends Controller
                     ->where('dia', $dia)
                     ->whereBetween('modulo_inicio', [$modulo_inicio, $modulo_fin])
                     ->orWhereBetween('modulo_fin', [$modulo_inicio, $modulo_fin]);
+
+            //verifica si ya existen aulas que se superpongan con los modulos en el mismo dia 
+            })->orWhere(function($query3) use ($id_aula,$modulo_inicio,$modulo_fin,$dia){
+                $query3->where('id_aula',$id_aula)
+                ->where('dia',$dia)
+                ->whereBetween('modulo_inicio', [$modulo_inicio, $modulo_fin])
+                ->orWhereBetween('modulo_fin', [$modulo_inicio, $modulo_fin]);
             });
         })->exists();
     
@@ -164,35 +173,87 @@ class DisponibilidadController extends Controller
     }
     
     
-    
-    
+        public function obtenerRegistrosRecientes()
+    {
+       // Obtener el registro más reciente para cada id_dm
+        $id_dm = Disponibilidad::select('id_dm')
+        ->orderBy('created_at', 'desc')
+        ->first();
+
+        // Obtener el registro más reciente para cada id_h_p_d
+        $id_h_p_d = Disponibilidad::select('id_h_p_d')
+        ->orderBy('created_at', 'desc')
+        ->first();
+
+        // Obtener el registro más reciente para cada id_aula
+        $id_aula = Disponibilidad::select('id_aula')
+        ->orderBy('created_at', 'desc')
+        ->first();
+
+        // Obtener el registro más reciente para cada id_comision
+        $id_comision = Disponibilidad::select('id_comision')
+        ->orderBy('created_at', 'desc')
+        ->first();
+
+        // Obtener el registro más reciente para cada modulos_semanales
+        $modulos_semanales = Materia::select('modulos_semanales')
+        ->orderBy('created_at', 'desc')
+        ->first();
+
+        // Devolver los resultados
+        return [
+            'registrosIdDm' => $id_dm,
+            'id_h_p_d' => $id_h_p_d,
+            'id_aula' => $id_aula,
+            'id_comision' => $id_comision,
+            'modulos_semanales'=>$modulos_semanales
+        ];
+    }
+
 
     
 
 
     public function store(Request $request)
-    { 
-        $id_h_p_d=$request->input("id_h_p_d");
-        $modulos_semanales=$request->input("modulos_semanales");
-        $id_dm=$request->input("id_dm");
-        $id_comision=$request->input("id_comision");
+    {   $manual=$request->input('manual');
+        if ($manual) {
+            $id_h_p_d=$request->input("id_h_p_d");
+            $modulos_semanales=$request->input("modulos_semanales");
+            $id_dm=$request->input("id_dm");
+            $id_comision=$request->input("id_comision");
+            $id_aula=$request->input("id_aula");
+        }else{
+
+            $registrosRecientes = $this->obtenerRegistrosRecientes();
+        
+            // Obtener los valores más recientes
+            $id_h_p_d = $registrosRecientes['id_h_p_d']->id_h_p_d;
+            $id_dm = $registrosRecientes['id_dm']->id_dm;
+            $id_comision = $registrosRecientes['id_comision']->id_comision;
+            $id_aula = $registrosRecientes['id_aula']->id_aula;
+            $modulos_semanales = $registrosRecientes['modulos_semanales']->modulos_semanales;
+
+        }
+        
         $modulo_inicio=$this->horaPrevia($id_h_p_d);
         
-        $distribucion=$this->modulosRepartidos($modulos_semanales,$modulo_inicio,$id_dm,$id_comision);
+        $distribucion=$this->modulosRepartidos($modulos_semanales,$modulo_inicio,$id_dm,$id_comision,$id_aula);
         if (!empty($distribucion)) {
             
             foreach ($distribucion as $data) {
                 $dia=$data['dia'];
                 $modulo_inicio=$data['modulo_inicio'];
                 $modulo_fin=$data['modulo_fin'];
+                $id_aula=$data['id_aula'];
 
                 $params=[
                     'id_dm'=>$id_dm,
                     'id_h_p_d'=>$request->input("id_h_p_d"),
+                    'id_aula'=>$id_aula,
                     'id_comision'=>$request->input("id_comision"),
                     'dia'=>$dia,
                     'modulo_inicio'=>$modulo_inicio,
-                    'hora_fin'=>$modulo_fin,
+                    'modulo_fin'=>$modulo_fin,
         
                 ];
                 

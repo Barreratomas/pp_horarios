@@ -56,12 +56,13 @@ class HorarioController extends Controller
     {   
         $params = [
         'dia' =>  $request->input('dia'),
-        'hora_inicio' =>  $request->input('hora_inicio'),
-        'hora_fin' =>  $request->input('hora_fin'),
+        'modulo_inicio' =>  $request->input('modulo_inicio'),
+        'modulo_fin' =>  $request->input('modulo_fin'),
         'v_p' =>  $request->input('v_p'),
         'id_disponibilidad' =>  $request->input('id_disponibilidad'),
-        'id_aula' =>  $request->input('id_aula'),
-        'id_comision' =>  $request->input('id_comision')
+        'materia' =>  $request->input('materia'),
+        'aula' =>  $request->input('aula'),
+        'comision' =>  $request->input('comision')
         ];
 
         $response=$this->horarioService->guardarHorario($params);
@@ -83,12 +84,13 @@ class HorarioController extends Controller
         $id=$request->input('id');
         $params = [
             'dia' =>  $request->input('dia'),
-            'hora_incio' =>  $request->input('hora_inicio'),
-            'hora_fin' =>  $request->input('hora_fin'),
+            'modulo_inicio' =>  $request->input('modulo_inicio'),
+            'modulo_fin' =>  $request->input('modulo_fin'),
             'v_p' =>  $request->input('v_p'),
             'id_disponibilidad' =>  $request->input('id_disponibilidad'),
-            'id_aula' =>  $request->input('id_aula'),
-            'id_comision' =>  $request->input('id_comision')
+            'materia' =>  $request->input('materia'),
+            'aula' =>  $request->input('aula'),
+            'comision' =>  $request->input('comision')
     ];
         $response=$this->horarioService->actualizarHorario($id,$params);
         if (isset($response['success'])) {

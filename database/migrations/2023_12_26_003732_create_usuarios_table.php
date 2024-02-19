@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('apellido');
             $table->enum('tipo', ['alumno', 'docente', 'admin', 'visitante']);
             $table->string('email');
+            $table->unsignedBigInteger('id_carrera');
+            $table->foreign('id_carrera')->references('id_carrera')->on('carreras');
             $table->unsignedBigInteger('id_comision');
             $table->foreign('id_comision')->references('id_comision')->on('comisiones');
             $table->timestamps();

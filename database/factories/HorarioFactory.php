@@ -35,7 +35,8 @@ class HorarioFactory extends Factory
             'modulo_fin' => $disponibilidad->modulo_fin,
             'v_p' => $this->faker->randomElement(['V', 'P']),
             'id_disponibilidad' => $disponibilidad->id_disponibilidad,
-            'aula' => Aula::inRandomOrder()->first()->id_aula,
+            'materia'=>$disponibilidad->id_dm,
+            'aula' =>$disponibilidad->id_aula ,
             'comision' => $disponibilidad->id_comision,
         ];
     }

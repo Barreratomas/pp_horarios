@@ -16,9 +16,9 @@ class Aula extends Model
     protected $primaryKey = 'id_aula';
 
 
-    // Un aula puede tener muchos horarios 
-    public function docenteMateria():HasMany{
-        return $this->hasMany(DocenteMateria::class,'id_aula','id_aula');
+     
+    public function disponibilidad():HasMany{
+        return $this->hasMany(Disponibilidad::class,'id_aula','id_aula');
 
     }
 }

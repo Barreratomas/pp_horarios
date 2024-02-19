@@ -33,9 +33,8 @@ class UsuarioController extends Controller
         $params = [
             'nombre' =>  $request->input('nombre'),
             'apellido' =>  $request->input('apellido'),
-            'tipo' =>  $request->input('tipo'),
             'email' =>  $request->input('email'),
-            'id_comision' =>  $request->input('id_comision'),
+            'id_carrera' =>  $request->input('id_carrera'),
 
         ];
 
@@ -55,8 +54,8 @@ class UsuarioController extends Controller
         $params = [
             'nombre' =>  $request->input('nombre'),
             'apellido' =>  $request->input('apellido'),
-            'tipo' =>  $request->input('tipo'),
             'email' =>  $request->input('email'),
+            'id_carrera' =>  $request->input('id_carrera'),
             'id_comision' =>  $request->input('id_comision'),
 
     ];

@@ -22,14 +22,16 @@ class Disponibilidad extends Model
         return $this->belongsTo(DocenteMateria::class,'id_dm','id_dm');
     }
 
-    //  Una disponibilidad pertenece a una comision.
-    public function hPD():BelongsTo{
+    public function hpd():BelongsTo{
         return $this->belongsTo(HorarioPrevioDocente::class,'id_h_p_d','id_h_p_d');
     }
 
-    //  Una disponibilidad pertenece a una comision.
     public function comision():BelongsTo{
         return $this->belongsTo(Comision::class,'id_comision','id_comision');
+    }
+
+    public function aula():BelongsTo{
+        return $this->belongsTo(aula::class,'id_aula','id_aula');
     }
 
      //  Una disponibilidad pertenece a una comision.

@@ -10,6 +10,7 @@ class MateriaMapper
     {
         return new Materia([
             'nombre' => $materiaData->nombre,
+            'modulos_semanales' => $materiaData->modulos_semanales,
         ]);
     }
 
@@ -17,6 +18,7 @@ class MateriaMapper
     {
         return [
             'nombre' => $materia->nombre,
+            'modulos_semanales' => $materia->modulos_semanales,
         ];
     }
 }

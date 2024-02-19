@@ -9,6 +9,7 @@ class DocenteMateriaController extends Controller
 {
     protected $docenteMateriaService;
 
+    
     public function __construct(DocenteMateriaService $docenteMateriaService)
     {
         $this->docenteMateriaService = $docenteMateriaService;
@@ -30,9 +31,8 @@ class DocenteMateriaController extends Controller
     {
         $dni_docente = $request->input('dni_docente');
         $id_materia = $request->input('id_materia');
-        $modulos_semanales = $request->input('modulos_semanales');
 
-        $response = $this->docenteMateriaService->guardarDocenteMateria($dni_docente,$id_materia,$modulos_semanales);
+        $response = $this->docenteMateriaService->guardarDocenteMateria($dni_docente,$id_materia);
         if (isset($response['success'])) {
             return redirect()->route('docenteMateria.index')->with('success', $response['success']);
         } else {
@@ -45,9 +45,8 @@ class DocenteMateriaController extends Controller
         $id = $request->input('id');
         $dni_docente = $request->input('dni_docente');
         $id_materia = $request->input('id_materia');
-        $modulos_semanales = $request->input('modulos_semanales');
 
-        $response = $this->docenteMateriaService->actualizarDocenteMateria($id, $dni_docente,$id_materia,$modulos_semanales);
+        $response = $this->docenteMateriaService->actualizarDocenteMateria($id, $dni_docente,$id_materia);
         if (isset($response['success'])) {
             return redirect()->route('docenteMateria.index')->with('success', $response['success']);
         } else {
