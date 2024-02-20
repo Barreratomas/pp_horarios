@@ -267,6 +267,10 @@ class DisponibilidadController extends Controller
              // Procesar las respuestas fuera del bucle
             foreach ($responses as $response) {
                 if (isset($response['success'])) {
+                    $id_disponibilidad = Disponibilidad::orderBy('created_at', 'desc')->first()->id_disponibilidad;
+                    call_user_func([HorarioController::class, 'store'],['id_disponibilidad' => $id_disponibilidad]);
+
+                    
                     return redirect()->route('disponibilidad.index')->with('success', $response['success']);
                 } else {
                     return redirect()->route('disponibilidad.index')->withErrors(['error' => $response['error']]);
