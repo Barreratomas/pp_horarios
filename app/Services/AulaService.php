@@ -8,29 +8,7 @@ use App\Models\Aula;
 use Exception;
 
 class AulaService implements AulaRepository
-// catch personalizado
-// try {
-//     $aula = Aula::find($id);
-//     if (!$aula) {
-//         throw new AulaNotFoundException("No se encontró el aula con el ID: $id");
-//     }
-//     return $aula;
-// } catch (AulaNotFoundException $e) {
-//     Log::error('Error al obtener el aula: ' . $e->getMessage());
-//     return null;
-// } catch (\Exception $e) {
-//     Log::error('Error inesperado al obtener el aula: ' . $e->getMessage());
-//     return null;
-// }
-
-
 {
-private $aulaMapper;
-
-    public function __construct(AulaMapper $aulaMapper)
-    {
-        $this->aulaMapper = $aulaMapper;
-    }
 
     public function obtenerTodasAulas()
     {
@@ -52,10 +30,14 @@ private $aulaMapper;
         
     }
 
-    public function guardarAula($aulaData)
+    public function guardarAula($nombre,$tipo_aula,$capacidad)
     {
         try {
-            $aula = $this->aulaMapper->toAula($aulaData);
+            $aula = new Aula();
+            $aula->nombre=$nombre;
+            $aula->tipo_aula=$tipo_aula;
+            $aula->capacidad=$capacidad;
+
             $aula->save();
             return ['success' => 'Aula guardada correctamente'];
         } catch (Exception $e) {

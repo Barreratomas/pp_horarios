@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DocenteMateria;
 use App\Services\DocenteMateriaService;
 use Illuminate\Http\Request;
 
@@ -32,12 +33,18 @@ class DocenteMateriaController extends Controller
         $dni_docente = $request->input('dni_docente');
         $id_materia = $request->input('id_materia');
 
-        $response = $this->docenteMateriaService->guardarDocenteMateria($dni_docente,$id_materia);
-        if (isset($response['success'])) {
-            return redirect()->route('docenteMateria.index')->with('success', $response['success']);
-        } else {
-            return redirect()->route('docenteMateria.index')->withErrors('error', $response['error']);
-        }
+        $docenteMateria=new DocenteMateria();
+        $docenteMateria->dni_docente=45509404;
+        $docenteMateria->id_materia=11111;
+
+        $docenteMateria->save();
+
+        // $response = $this->docenteMateriaService->guardarDocenteMateria($dni_docente,$id_materia);
+        // if (isset($response['success'])) {
+        //     return redirect()->route('docenteMateria.index')->with('success', $response['success']);
+        // } else {
+        //     return redirect()->route('docenteMateria.index')->withErrors('error', $response['error']);
+        // }
     }
 
     public function actualizar(Request $request)

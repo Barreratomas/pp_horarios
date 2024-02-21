@@ -47,9 +47,12 @@ class HorarioController extends Controller
 
 
     // Retornar la vista con la comisión y los horarios
-    return view('horario', compact('horarios', 'id_comision', 'formularioHorarioPartial'));
+    return view('horario.index', compact('horarios', 'id_comision', 'formularioHorarioPartial'));
     }
 
+    // public function crear(){
+    //     return view()
+    // }
 
     //    guardar
     public function store(HorarioRequest $request)

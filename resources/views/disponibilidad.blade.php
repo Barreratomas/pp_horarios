@@ -1,4 +1,4 @@
-@extends('layouts')
+@extends('layouts.base')
 
 
 @section('title','disponibilidad')
@@ -21,7 +21,7 @@
 {{-- Redireccionamiento a la vista de horario --}}
 @if(session('success'))
     <script>
-        window.location = "{{ route('horario.index') }}";
+        window.location = "{{ route('crearHorario') }}";
     </script>
 @endif
 @endsection

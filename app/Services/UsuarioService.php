@@ -11,12 +11,7 @@ use Illuminate\Support\Facades\Log;
 
 class UsuarioService implements UsuarioRepository
 {
-    protected $usuarioMapper;
-
-    public function __construct(UsuarioMapper $usuarioMapper)
-    {
-        $this->usuarioMapper = $usuarioMapper;
-    }
+   
 
     public function obtenerTodosUsuarios()
     {
@@ -35,12 +30,11 @@ class UsuarioService implements UsuarioRepository
         return $usuario;
     }
 
-    public function guardarUsuario($usuarioData)
+    public function guardarUsuario($params)
     {
        
         try {
-
-            $idCarrera = $usuarioData['id_carrera'];
+            $idCarrera = $params['id_carrera'];
             $comision = Comision::where('id_carrera', $idCarrera)
             ->where('capacidad', '>', 0) // Solo comisiones con capacidad disponible
             ->orderBy('capacidad', 'desc') // Ordenar por capacidad descendente para usar primero las más grandes
@@ -49,9 +43,15 @@ class UsuarioService implements UsuarioRepository
                 // Si no hay comisiones disponibles con capacidad suficiente, mandar un error
                 return ['error' => 'No fue posible encontrar una comision disponible'];
             }
-            $usuarioData['id_comision'] = $comision->id_comision;
+            // $usuarioData['id_comision'] = $comision->id_comision;
 
-            $usuario = $this->usuarioMapper->toUsuario($usuarioData);
+            $usuario = new Usuario();
+            foreach ($params as $key => $value) {
+                
+                $usuario->{$key} = $value;
+                
+            }
+            $usuario->id_comision=$comision->id_comision;
             $usuario->save();
             
             $comision->capacidad -= 1;
@@ -84,10 +84,7 @@ class UsuarioService implements UsuarioRepository
             }
             // Encuentra la vieja comisión del usuario
             $viejaComision = Comision::find($usuario->id_comision);
-            // Incrementa la capacidad de la vieja comisión en 1
-            $viejaComision->capacidad += 1;
-            $viejaComision->save();
-
+            
 
 
             // Actualiza los datos del usuario con los nuevos parametros
@@ -98,6 +95,11 @@ class UsuarioService implements UsuarioRepository
             }
             
             $usuario->save();
+
+            // Incrementa la capacidad de la vieja comisión en 1
+            $viejaComision->capacidad += 1;
+            $viejaComision->save();
+            
             $comision->capacidad -= 1;
             $comision->save();
             return ['success' => 'Usuario actualizado correctamente'];

@@ -10,12 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class MateriaService implements MateriaRepository
 {
-    protected $materiaMapper;
-
-    public function __construct(MateriaMapper $materiaMapper)
-    {
-        $this->materiaMapper = $materiaMapper;
-    }
+    
 
     public function obtenerTodasMaterias()
     {
@@ -36,10 +31,12 @@ class MateriaService implements MateriaRepository
 
     
 
-    public function guardarMateria($materiaData)
+    public function guardarMateria($nombre,$modulos_semanales)
     {
         try {
-            $materia = $this->materiaMapper->toMateria($materiaData);
+            $materia = new Materia();
+            $materia->nombre=$nombre;
+            $materia->modulos_semanales=$modulos_semanales;
             $materia->save();
             return ['success' => 'Materia guardada correctamente'];
         } catch (Exception $e) {
@@ -47,14 +44,22 @@ class MateriaService implements MateriaRepository
         }
     }
 
-    public function actualizarMateria($materiaData, $id)
+    public function actualizarMateria($id,$nombre,$modulos_semanales)
     {
         $materia = Materia::find($id);
         if (!$materia) {
-            return ['error' => 'hubo un error al buscar materia'];
+            return ['error' => 'Hubo un error al buscar materia'];
         }
         try {
-            $materia->update($this->materiaMapper->toMateriaData($materiaData));
+            if (!is_null($nombre)) {
+                $materia->nombre = $nombre;
+            }
+            if (!is_null($modulos_semanales)) {
+                $materia->modulos_semanales = $modulos_semanales;
+            }
+            
+            
+            $materia->save();
             return ['success' => 'Materia actualizada correctamente'];
         } catch (Exception $e) {
             return ['error' => 'Hubo un error al actualizar la materia'];
@@ -65,7 +70,7 @@ class MateriaService implements MateriaRepository
     {
         $materia = Materia::find($id);
         if (!$materia) {
-            return ['error' => 'hubo un error al buscar materia'];
+            return ['error' => 'Hubo un error al buscar materia'];
         }
         try {
             $materia->delete();

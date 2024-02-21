@@ -9,18 +9,13 @@ use Exception;
 
 class CambioDocenteService implements CambioDocenteRepository
 {
-    protected $cambioDocenteMapper;
-
-    public function __construct(CambioDocenteMapper $cambioDocenteMapper)
-    {
-        $this->cambioDocenteMapper = $cambioDocenteMapper;
-    }
+    
 
     public function obtenerTodosCambiosDocente()
     {
       
-            $cambiosDocente = CambioDocente::all();
-            return $cambiosDocente;
+        $cambiosDocente = CambioDocente::all();
+        return $cambiosDocente;
         
     }
 
@@ -34,10 +29,12 @@ class CambioDocenteService implements CambioDocenteRepository
     }
     
 
-    public function guardarCambioDocente($cambioDocenteData)
+    public function guardarCambioDocente($docente_anterior,$docente_nuevo)
     {
         try {
-            $cambioDocente = $this->cambioDocenteMapper->toCambioDocente($cambioDocenteData);
+            $cambioDocente = new CambioDocente();
+            $cambioDocente->docente_anterior=$docente_anterior;
+            $cambioDocente->docente_nuevo=$docente_nuevo;
             $cambioDocente->save();
             return ['succes'=>'Cambio de docente guardado correctamente'];
         } catch (Exception $e) {
@@ -46,7 +43,7 @@ class CambioDocenteService implements CambioDocenteRepository
         }
     }
 
-    public function actualizarCambioDocente($id,$docente_anterior,$docente_nuevo,$fecha_cambio)
+    public function actualizarCambioDocente($id,$docente_anterior,$docente_nuevo)
     {
         try {
             $cambioDocente = CambioDocente::find($id);
@@ -59,9 +56,7 @@ class CambioDocenteService implements CambioDocenteRepository
             if (!is_null($docente_nuevo)) {
                 $cambioDocente->docente_nuevo = $docente_nuevo;
             }
-            if (!is_null($fecha_cambio)) {
-                $cambioDocente->fecha_cambio = $fecha_cambio;
-            }
+            
             $cambioDocente->save();
             return ['succes'=>'Cambio de docente actualizado correctamente'];
         } catch (Exception $e) {

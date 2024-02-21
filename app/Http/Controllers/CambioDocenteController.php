@@ -32,9 +32,8 @@ class CambioDocenteController extends Controller
     {
         $docente_anterior=$request->input('docente_anterior');
         $docente_nuevo=$request->input('docente_nuevo');
-        $fecha_cambio=$request->input('fecha_cambio');
 
-        $response = $this->cambioDocenteService->guardarCambioDocente($docente_anterior,$docente_nuevo,$fecha_cambio);
+        $response = $this->cambioDocenteService->guardarCambioDocente($docente_anterior,$docente_nuevo,);
         if (isset($response['success'])) {
             return redirect()->route('cambioDocente.index')->with('success',  $response['success']);
         }else{
@@ -48,9 +47,8 @@ class CambioDocenteController extends Controller
         $id=$request->input('id');
         $docente_anterior=$request->input('docente_anterior');
         $docente_nuevo=$request->input('docente_nuevo');
-        $fecha_cambio=$request->input('fecha_cambio');
 
-        $response = $this->cambioDocenteService->actualizarCambioDocente($id,$docente_anterior,$docente_nuevo,$fecha_cambio);
+        $response = $this->cambioDocenteService->actualizarCambioDocente($id,$docente_anterior,$docente_nuevo);
         if (isset($response['success'])) {
             return redirect()->route('cambioDocente.index')->with('success',  $response['success']);
         }else{

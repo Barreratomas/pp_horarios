@@ -14,13 +14,7 @@ use Exception;
 
 class DisponibilidadService implements DisponibilidadRepository
 {
-    protected $disponibilidadMapper;
-
-    public function __construct(DisponibilidadMapper $disponibilidadMapper)
-    {
-        $this->disponibilidadMapper = $disponibilidadMapper;
-    }
-
+   
     public function obtenerTodasDisponibilidades()
     {
         
@@ -49,10 +43,14 @@ class DisponibilidadService implements DisponibilidadRepository
     
 
 
-    public function guardarDisponibilidad($disponibilidadData)
+    public function guardarDisponibilidad($params)
     {
         try {
-            $disponibilidad = $this->disponibilidadMapper->toDisponibilidad($disponibilidadData);
+            $disponibilidad = new Disponibilidad();
+            foreach ($params as $key => $value) {
+                $disponibilidad->{$key} = $value;
+            }
+            
             $disponibilidad->save();
             return ['success' => 'Disponibilidad guardada correctamente'];
         } catch (Exception $e) {

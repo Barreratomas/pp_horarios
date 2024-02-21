@@ -57,7 +57,6 @@ class UsuarioController extends Controller
             'email' =>  $request->input('email'),
             'id_carrera' =>  $request->input('id_carrera'),
             'id_comision' =>  $request->input('id_comision'),
-
     ];
 
         $response = $this->usuarioService->actualizarUsuario($dni,$params);

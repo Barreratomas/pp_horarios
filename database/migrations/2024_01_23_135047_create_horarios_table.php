@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('v_p');
             $table->unsignedBigInteger('id_disponibilidad');
             $table->foreign('id_disponibilidad')->references('id_disponibilidad')->on('disponibilidades');
+            $table->string('materia');
             $table->string('aula');
             $table->string('comision');
             $table->timestamps();

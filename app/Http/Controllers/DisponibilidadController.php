@@ -37,23 +37,19 @@ class DisponibilidadController extends Controller
     public function horaPrevia($id_h_p_d)
     {
         $horaPrevia=HorarioPrevioDocente::findOrFail($id_h_p_d)->value("hora");
-        $horaLimite = new DateTime('18:50:00');
+        $horaLimite = new DateTime('18:50');
 
         $horasPermitidas = [
-            '19:20:00' => '1',
-            '20:00:00' => '2',
-            '20:40:00' => '3',
-            '21:20:00' => '4',
-            '21:30:00' => '5',
-            '22:10:00' => '6',
-            '22:50:00' => '7',
+            '19:20' => '1',
+            '20:00' => '2',
+            '20:40' => '3',
+            '21:20' => '4',
+            '21:30' => '5',
+            '22:10' => '6',
+            '22:50' => '7',
         ];
         
-        // Verificar si la hora previa tiene el formato correcto (HH:MM:SS)
-        if (!preg_match('/^\d{2}:\d{2}:\d{2}$/', $horaPrevia)) {
-        // Convertir la hora previa al formato HH:MM:SS
-        $horaPrevia = DateTime::createFromFormat('H:i', $horaPrevia)->format('H:i:s');
-        }
+        
         
         if ($horaPrevia>$horaLimite) {
             $horarioSiguiente=false;
@@ -281,7 +277,9 @@ class DisponibilidadController extends Controller
     
     }
 
-    
+    public function crear(){
+        return view("disponibilidad.crearDisponibilidad");
+    }
     
     
     public function actualizar(Request $request)

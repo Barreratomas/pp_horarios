@@ -14,6 +14,10 @@ class HorarioPrevioDocenteController extends Controller
 
     }
 
+    public function crear(){
+        return view('horarioPrevioDocente.crearHorarioPrevioDocente');
+    }
+
     public function actualizar(Request $request)
     {
         $id=$request->input("id");

@@ -29,7 +29,7 @@ class HorarioPrevioDocenteFactory extends Factory
          // Devolver la definición del modelo con la hora y los minutos en formato de 24 horas
          return [
              'dni_docente' => Docente::inRandomOrder()->first()->dni,
-             'dia' => $this->faker->randomElement(["lunes", "martes", "miércoles", "jueves", "viernes"]),
+             'dia' => $this->faker->randomElement(['lunes','martes','miercoles','jueves','viernes']),
              'hora' => $horaFormateada . ':' . $minutosFormateados,
          ];
         

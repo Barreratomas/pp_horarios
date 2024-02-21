@@ -13,7 +13,10 @@
                     <a class="nav-link" href="{{route('home')}}">home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('mostrarFormulario')}}">horarios</a>
+                    <a class="nav-link" href="{{route('mostrarFormularioHorario')}}">horarios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('mostrarFormularioDocente')}}">docentes</a>
                 </li>
                 <!-- agregar mas -->
             </ul>

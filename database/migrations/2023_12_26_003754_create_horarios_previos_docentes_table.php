@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_h_p_d');
             $table->unsignedBigInteger('dni_docente'); // Ajustar el tipo de dato según la longitud del DNI
             $table->foreign('dni_docente')->references('dni')->on('docentes');
-            $table->string('dia');
+            $table->enum('dia',['lunes','martes','miercoles','jueves','viernes']);
             $table->time('hora');
             $table->timestamps();
         });

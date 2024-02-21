@@ -10,12 +10,7 @@ use Exception;
 
 class DocenteMateriaService implements DocenteMateriaRepository
 {
-    protected $docenteMateriaMapper;
-
-    public function __construct(DocenteMateriaMapper $docenteMateriaMapper)
-    {
-        $this->docenteMateriaMapper = $docenteMateriaMapper;
-    }
+    
 
     public function obtenerTodasDocentesMaterias()
     {
@@ -33,10 +28,13 @@ class DocenteMateriaService implements DocenteMateriaRepository
     }
 
     
-    public function guardarDocenteMateria($docenteMateriaData)
+    public function guardarDocenteMateria($dni_docente,$id_materia)
     {
         try {
-            $docenteMateria = $this->docenteMateriaMapper->toDocenteMateria($docenteMateriaData);
+            $docenteMateria=new DocenteMateria();
+            $docenteMateria->dni_docente=$dni_docente;
+            $docenteMateria->id_materia=$id_materia;
+
             $docenteMateria->save();
             return ['success' => 'Docente materia guardado correctamente'];
         } catch (Exception $e) {

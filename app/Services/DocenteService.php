@@ -9,12 +9,7 @@ use Exception;
 
 class DocenteService implements DocenteRepository
 {
-    protected $usuarioMapper;
-
-    public function __construct(DocenteMapper $usuarioMapper)
-    {
-        $this->usuarioMapper = $usuarioMapper;
-    }
+   
 
     public function obtenerTodosDocentes()
     {
@@ -37,10 +32,19 @@ class DocenteService implements DocenteRepository
     }
     
 
-    public function guardarDocente($docenteData)
+    public function guardarDocente($dni,$nombre,$apellido,$email)
     {
         try {
-            $docente = $this->usuarioMapper->toDocente($docenteData);
+            // $docente = $this->usuarioMapper->toDocente($docenteData);
+            $docente = new Docente();
+        
+            // Asignar los valores de los atributos
+            $docente->dni = $dni;
+            $docente->nombre = $nombre;
+            $docente->apellido = $apellido;
+            $docente->email = $email;
+
+            // Guardar el docente en la base de datos
             $docente->save();
             return ['success' => 'Docente guardado correctamente'];
         } catch (Exception $e) {

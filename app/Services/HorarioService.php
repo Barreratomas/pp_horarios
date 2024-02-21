@@ -10,20 +10,19 @@ use Exception;
 
 class HorarioService
 {
-    protected $horarioMapper;
-
-    public function __construct(HorarioMapper $horarioMapper)
-    {
-        $this->horarioMapper = $horarioMapper;
-    }
+   
 
     
 
-    public function guardarHorario($horarioData)
+    public function guardarHorario($params)
     {
         try {
-            $comision = $this->horarioMapper->toHorario($horarioData);
-            $comision->save();
+            $horario = new Horario();
+            foreach ($params as $key => $value) {
+                
+                $horario->{$key} = $value;
+            }
+            $horario->save();
             return ['success' => 'Horario guardado correctamente'];
         } catch (Exception $e) {
             return ['error' => 'Hubo un error al guardar el horario'];

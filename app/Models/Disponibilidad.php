@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Disponibilidad extends Model
 {
     use HasFactory;
-    protected $fillable = ['id_dm','dia','hora_inicio','hora_fin',];
+    protected $fillable = ['id_dm','id_h_p_d_','id_aula','id_aula','dia','modulo_inicio','modulo_fin'];
     protected $table = 'disponibilidades';
     protected $primaryKey = 'id_disponibilidad';
 

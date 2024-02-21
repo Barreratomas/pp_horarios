@@ -10,13 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class ComisionService implements ComisionRepository
 {
-    protected $comisionMapper;
-
-    public function __construct(ComisionMapper $comisionMapper)
-    {
-        $this->comisionMapper = $comisionMapper;
-    }
-
+    
     public function obtenerTodasComisiones()
     {
         $comisiones=Comision::all();
@@ -38,10 +32,13 @@ class ComisionService implements ComisionRepository
         
     }
 
-    public function guardarComision($comisionData)
+    public function guardarComision( $anio,$division,$capacidad)
     {
         try {
-            $comision = $this->comisionMapper->toComision($comisionData);
+            $comision = new Comision();
+            $comision->anio=$anio;
+            $comision->division=$division;
+            $comision->capacidad=$capacidad;
             $comision->save();
             return ['success' => 'Comisión guardada correctamente'];
         } catch (Exception $e) {

@@ -9,12 +9,7 @@ use Exception;
 
 class CarreraService implements CarreraRepository
 {
-    private $carreraMapper;
-
-    public function __construct(CarreraMapper $carreraMapper) 
-    {
-        $this->carreraMapper = $carreraMapper;
-    }
+   
 
     public function obtenerTodasCarreras()
     {
@@ -35,10 +30,11 @@ class CarreraService implements CarreraRepository
         
     }
 
-    public function guardarCarrera($carreraData)
+    public function guardarCarrera($nombre)
     {
         try {
-            $carrera = $this->carreraMapper->toCarrera($carreraData);
+            $carrera = new Carrera();
+            $carrera->nombre=$nombre;
             $carrera->save();
             return ['succes'=>'Carrera guardada correctamente'];
         } catch (Exception $e) {
