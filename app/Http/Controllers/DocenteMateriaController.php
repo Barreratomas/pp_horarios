@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DocenteMateria;
+use App\Models\Materia;
 use App\Services\DocenteMateriaService;
 use Illuminate\Http\Request;
 
@@ -27,25 +28,26 @@ class DocenteMateriaController extends Controller
         $docenteMateria=$this->docenteMateriaService->obtenerDocenteMateriaPorId($id);
         return view("docenteMateria.show", compact('docenteMateria'));
     }
+    
+    public function crear(){
+        $materias=Materia::all();
+        return view('docenteMateria.crearDocenteMateria',compact('materias'));
+    }
 
+    // HAY UN ERROR
     public function store(Request $request)
     {
         $dni_docente = $request->input('dni_docente');
         $id_materia = $request->input('id_materia');
 
-        $docenteMateria=new DocenteMateria();
-        $docenteMateria->dni_docente=45509404;
-        $docenteMateria->id_materia=11111;
-
-        $docenteMateria->save();
-
-        // $response = $this->docenteMateriaService->guardarDocenteMateria($dni_docente,$id_materia);
-        // if (isset($response['success'])) {
-        //     return redirect()->route('docenteMateria.index')->with('success', $response['success']);
-        // } else {
-        //     return redirect()->route('docenteMateria.index')->withErrors('error', $response['error']);
-        // }
+        $response = $this->docenteMateriaService->guardarDocenteMateria($dni_docente,$id_materia);
+        if (isset($response['success'])) {
+            return redirect()->route('docenteMateria.index')->with('success', $response['success']);
+        } else {
+            return redirect()->route('mostrarFormularioDocenteMateria')->withErrors('error', $response['error']);
+        }
     }
+
 
     public function actualizar(Request $request)
     {   

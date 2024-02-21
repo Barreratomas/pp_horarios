@@ -46,9 +46,9 @@ class HorarioPrevioDocenteController extends Controller
     
         $response = $this->HorarioPrevioDocenteService->guardarHorarioPrevioDocente($dni_docente,$dia,$hora);
         if (isset($response['success'])) {
-            return redirect()->route('')->with('success', ['message' => $response['success'], 'dni_docente' => $dni_docente]);
+            return redirect()->route('mostrarFormularioDocenteMateria')->with('success', ['message' => $response['success'], 'dni_docente' => $dni_docente]);
         } else {
-            return redirect()->route('mostrarFormularioHPD')->withErrors(['error' => $response['error']]);
+            return redirect()->route('storeDocenteMateria')->withErrors(['error' => $response['error'],'dni_docente' => $dni_docente]);
         }
 
     }

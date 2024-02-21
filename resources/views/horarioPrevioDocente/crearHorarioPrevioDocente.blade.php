@@ -5,7 +5,7 @@
 @section('content')
     <form action="{{ route('storeHPD') }}" method="post">
         @csrf
-        <input type="hidden" name="dni_docente" value="{{ session('success.dni') }}">
+        <input type="hidden" name="dni_docente" value="{{ session('success.dni') ?? session('error.dni_docente') }}">
 
         <label for="trabajaInstitucion">¿Trabaja en otra institución?</label><br>
         <input type="radio" name="trabajaInstitucion" value="si">
@@ -23,8 +23,20 @@
 
         <button>siguiente</button>
     </form>
-    <p>El DNI es: {{ session('success.dni') }}</p>
-
+    @if(session('success'))
+        <p>El DNI es: {{ session('success.dni') }}</p>
+    @elseif(session('error'))
+        <p>El DNI es: {{ session('error.dni_docente') }}</p>
+    @endif
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <script>
         document.querySelectorAll('input[name="trabajaInstitucion"]').forEach(function(radio) {
             radio.addEventListener('change', function() {
