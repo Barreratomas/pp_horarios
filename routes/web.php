@@ -39,8 +39,9 @@ Route::get('/crear-h-p-v',[HorarioPrevioDocenteController::class,'crear'])->name
 Route::post('/crear-h-p-v',[HorarioPrevioDocenteController::class,'store'])->name('storeHPD');
 
 
-Route::get('/index',[DocenteMateriaController::class,'index'])->name('docenteMateria.index');
-Route::post('/index/docente-docente-materia',[DocenteMateriaController::class,'store'])->name('crearDocenteMateria');
+Route::get('/docente-materia',[DocenteMateriaController::class,'index'])->name('docenteMateria.index');
+Route::get('/index/crear-docente-materia',[DocenteMateriaController::class,'crear'])->name('mostrarFormularioDocenteMateria');
+Route::post('/index/crear-docente-materia',[DocenteMateriaController::class,'store'])->name('storeDocenteMateria');
 
 
 Route::get('/disponibilidad',[DisponibilidadController::class,'crear'])->name('mostrarFormularioDisponibilidad');

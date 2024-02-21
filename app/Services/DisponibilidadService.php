@@ -34,9 +34,7 @@ class DisponibilidadService implements DisponibilidadRepository
         
     }
 
-    public function otroInstituo(){
-
-    }
+    
     
 
 

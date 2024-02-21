@@ -5,7 +5,7 @@
 @section('content')
     <form action="{{ route('storeHPD') }}" method="post">
         @csrf
-        <input type="hidden" name="dni" id="dniHiddenForm2" value="{{ session('success.dni') }}">
+        <input type="hidden" name="dni_docente" value="{{ session('success.dni') }}">
 
         <label for="trabajaInstitucion">¿Trabaja en otra institución?</label><br>
         <input type="radio" name="trabajaInstitucion" value="si">
@@ -17,9 +17,11 @@
             <label for="dia">Ingrese el día</label><br>
             <input type="text" name="dia"><br><br>
 
-            <label for="horaSalida">Ingrese la hora de salida</label><br>
-            <input type="time" name="horaSalida"><br><br>
+            <label for="hora">Ingrese la hora de salida</label><br>
+            <input type="time" name="hora"><br><br>
         </div>
+
+        <button>siguiente</button>
     </form>
     <p>El DNI es: {{ session('success.dni') }}</p>
 
