@@ -43,6 +43,8 @@ class DocenteController extends Controller
 
         $response = $this->docenteService->guardarDocente($dni,$nombre,$apellido,$email);
         if (isset($response['success'])) {
+            session(['dni' => $dni]);
+
             return redirect()->route('mostrarFormularioHPD')->with('success', ['message' => $response['success'], 'dni' => $dni]);
         } else {
             return redirect()->route('mostrarFormularioDocente')->withErrors(['error' => $response['error']]);

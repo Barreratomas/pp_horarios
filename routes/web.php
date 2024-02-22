@@ -45,5 +45,6 @@ Route::post('/index/crear-docente-materia',[DocenteMateriaController::class,'sto
 
 
 Route::get('/disponibilidad',[DisponibilidadController::class,'crear'])->name('mostrarFormularioDisponibilidad');
+Route::get('/disponibilidad',[DisponibilidadController::class,'store'])->name('storeDisponibilidad');
 
 

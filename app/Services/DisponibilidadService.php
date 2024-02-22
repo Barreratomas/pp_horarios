@@ -39,33 +39,33 @@ class DisponibilidadService implements DisponibilidadRepository
 
     public function horaPrevia($id_h_p_d)
     {
-        $horaPrevia=HorarioPrevioDocente::findOrFail($id_h_p_d)->value("hora");
+        $horaPrevia = new DateTime(HorarioPrevioDocente::findOrFail($id_h_p_d)->hora);
         $horaLimite = new DateTime('18:50');
 
         $horasPermitidas = [
-            '19:20' => '1',
-            '20:00' => '2',
-            '20:40' => '3',
-            '21:20' => '4',
-            '21:30' => '5',
-            '22:10' => '6',
-            '22:50' => '7',
+            '19:20' => 1,
+            '20:00' => 2,
+            '20:40' => 3,
+            '21:20' => 4,
+            '21:30' => 5,
+            '22:10' => 6,
+            '22:50' => 7,
         ];
         
         
         
-        if ($horaPrevia>$horaLimite) {
+        if ($horaPrevia->diff($horaLimite)->invert == 1) {
             $horarioSiguiente=false;
-            foreach ($horasPermitidas as $horaPermtida => $modulo) {
+            foreach ($horasPermitidas as $horaPermitida => $modulo) {
                 if ($horarioSiguiente) {
                     return $modulo;
                 }
 
                 // se suman 30 min (el tiempo que tiene el docente despues de salir de otro instituto)
                 $horaPrevia->add(new DateInterval('PT30M'));
-                if ($horaPrevia==$horaPermtida) {
+                if ($horaPrevia->format('H:i') == $horaPermitida) {
                     return $modulo;
-                }elseif($horaPrevia>$horaPermtida) {
+                }elseif ($horaPrevia->format('H:i') > $horaPermitida) {
                     $horarioSiguiente=true;
                 }
 
@@ -73,23 +73,25 @@ class DisponibilidadService implements DisponibilidadRepository
 
            
         }else{
-            return '1';
+            return null;
         }
         
     
     
     }
     
-    public function modulosRepartidos($modulos_semanales,$modulo_inicio,$id_dm,$id_comision,$id_aula,$diaInstituto) 
+    public function modulosRepartidos($modulos_semanales,$moduloPrevio,$id_dm,$id_comision,$id_aula,$diaInstituto) 
     {
-        $modulosPermitidas = range(1, 7);
+        $modulosPermitidos = range(1, 7);
         
         $distribucion = [];
         $diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
         $siguienteDia = false;
         foreach ($diasSemana as $dia) {
+
             if ($dia!==$diaInstituto) {
-                foreach ($modulosPermitidas as $modulo) {
+                foreach ($modulosPermitidos as $modulo) {
+                    $modulo_inicio = $modulo; 
                     switch ($modulos_semanales) {
                         case 1:
                         case 2:
@@ -121,6 +123,7 @@ class DisponibilidadService implements DisponibilidadRepository
                     }
                 }
             }else{
+                $modulo_inicio=$moduloPrevio;
                 switch ($modulos_semanales) {
                     case 1:
                     case 2:

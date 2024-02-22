@@ -5,7 +5,8 @@
 @section('content')
     <form action="{{ route('storeHPD') }}" method="post">
         @csrf
-        <input type="hidden" name="dni_docente" value="{{ session('success.dni') ?? session('error.dni_docente') }}">
+        <input type="hidden" name="dni_docente" value="{{ session('success.dni') ?? session('dni') ?? session('error.dni_docente') }}">
+
 
         <label for="trabajaInstitucion">¿Trabaja en otra institución?</label><br>
         <input type="radio" name="trabajaInstitucion" value="si">

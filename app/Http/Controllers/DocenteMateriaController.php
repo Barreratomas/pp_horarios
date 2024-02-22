@@ -42,10 +42,12 @@ class DocenteMateriaController extends Controller
 
         $response = $this->docenteMateriaService->guardarDocenteMateria($dni_docente,$id_materia);
         if (isset($response['success'])) {
-            return redirect()->route('docenteMateria.index')->with('success', $response['success']);
+            return redirect()->route('storeDisponibilidad')->with('success', ['message' => $response['success'], 'dni_docente' => $dni_docente]);
+
         } else {
-            return redirect()->route('mostrarFormularioDocenteMateria')->withErrors('error', $response['error']);
+            return redirect()->route('mostrarFormularioDocenteMateria')->withErrors(['error' => $response['error'],'dni_docente' => $dni_docente]);
         }
+     
     }
 
 

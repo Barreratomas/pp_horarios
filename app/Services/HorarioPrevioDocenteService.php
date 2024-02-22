@@ -37,10 +37,21 @@ class HorarioPrevioDocenteService implements HorarioPrevioDocenteRepository
             $horarioPrevioDocente = new HorarioPrevioDocente();
        
         
-            $horarioPrevioDocente->dni_docente = $dni_docente;
-            $horarioPrevioDocente->dia = $dia;
-            $horarioPrevioDocente->hora = $hora;    
-    
+            // Verificar si el dni_docente no es null antes de asignarlo
+            if ($dni_docente !== null) {
+                $horarioPrevioDocente->dni_docente = $dni_docente;
+            }
+
+            // Verificar si el día no es null antes de asignarlo
+            if ($dia !== null) {
+                $horarioPrevioDocente->dia = $dia;
+            }
+
+            // Verificar si la hora no es null antes de asignarlo
+            if ($hora !== null) {
+                $horarioPrevioDocente->hora = $hora;
+            }
+
             $horarioPrevioDocente->save();
             return ['success' => 'Horario Previo del Docente guardado correctamente'];
         } catch (Exception $e) {

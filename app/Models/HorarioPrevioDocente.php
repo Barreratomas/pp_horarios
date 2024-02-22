@@ -13,6 +13,7 @@ class HorarioPrevioDocente extends Model
     protected $table = 'horarios_previos_docentes'; 
 
     protected $fillable = ['dni_docente', 'dia', 'hora']; 
+    protected $primaryKey = 'id_h_p_d';
 
 
     public function disponibilidad():HasMany{
