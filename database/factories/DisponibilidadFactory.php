@@ -44,8 +44,6 @@ class DisponibilidadFactory extends Factory
           return [
             'id_dm' => DocenteMateria::inRandomOrder()->first()->id_dm,
             'id_h_p_d' => $horarioPrevioDocente->id_h_p_d,
-            'id_aula' => Aula::inRandomOrder()->first()->id_aula,
-            'id_comision'=>Comision::inRandomOrder()->first()->id_comision,
             'dia' => $horarioPrevioDocente->dia,
             'modulo_inicio' => $moduloInicio,
             'modulo_fin' => $moduloFin,

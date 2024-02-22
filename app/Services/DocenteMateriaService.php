@@ -28,12 +28,14 @@ class DocenteMateriaService implements DocenteMateriaRepository
     }
 
     
-    public function guardarDocenteMateria($dni_docente,$id_materia)
+    public function guardarDocenteMateria($dni_docente,$id_materia,$id_aula,$id_comision)
     {
         try {
             $docenteMateria=new DocenteMateria();
             $docenteMateria->dni_docente=$dni_docente;
             $docenteMateria->id_materia=$id_materia;
+            $docenteMateria->id_aula=$id_aula;
+            $docenteMateria->id_comision=$id_comision;
 
             $docenteMateria->save();
             return ['success' => 'Docente materia guardado correctamente'];
@@ -43,7 +45,7 @@ class DocenteMateriaService implements DocenteMateriaRepository
 
     }
 
-    public function actualizarDocenteMateria($id, $dni_docente,$id_materia)
+    public function actualizarDocenteMateria($id, $dni_docente,$id_materia,$id_aula,$id_comision)
     {
         try {
             $docenteMateria = DocenteMateria::find($id);
@@ -55,6 +57,12 @@ class DocenteMateriaService implements DocenteMateriaRepository
             }
             if (!is_null($id_materia)) {
                 $docenteMateria->id_materia = $id_materia;
+            }
+            if (!is_null($id_aula)) {
+                $docenteMateria->id_aula = $id_aula;
+            }
+            if (!is_null($id_comision)) {
+                $docenteMateria->id_comision = $id_comision;
             }
            
             

@@ -2,12 +2,12 @@
     <thead>
         <tr>
             <th>Día</th>
-            <th>Hora Inicio</th>
-            <th>Hora Fin</th>
+            <th>Modulo Inicio</th>
+            <th>Modulo Fin</th>
+            <th>V/P</th>
             <th>Aula</th>
             <th>Materia</th>
-            <th>Comisión</th>
-            <th>Carrera</th>
+           
         </tr>
     </thead>
     <tbody>
@@ -16,12 +16,13 @@
             <tr>
                 {{-- si no existen los registros muestro na --}}
                 <td>{{ $horario->dia ? $horario->dia : 'N/A' }}</td>
-                <td>{{ $horario->hora_inicio ? $horario->hora_inicio : 'N/A' }}</td>
-                <td>{{ $horario->hora_fin ? $horario->hora_fin : 'N/A' }}</td>
-                <td>{{ $horario->aula ? $horario->aula->nombre : 'N/A' }}</td>
-                <td>{{ $horario->docenteMateria ? $horario->docenteMateria->materia->nombre : 'N/A' }}</td>
-                <td>{{ $horario->comision ? $horario->comision->anio : 'N/A' }}°{{ $horario->comision ? $horario->comision->division : 'N/A' }}</td>
-                <td>{{ $horario->comision ? $horario->comision->carrera->nombre : 'N/A' }}</td>
+                <td>{{ $horario->modulo_inicio ? $horario->modulo_inicio : 'N/A' }}</td>
+                <td>{{ $horario->modulo_fin ? $horario->modulo_fin : 'N/A' }}</td>
+                <td>{{ $horario->v_p == 'p' ? 'Presencial' : 'Virtual' }}</td>
+                <td>{{ $horario->modulo_inicio ? $horario->aula : 'N/A' }}</td>
+                <td>{{ $horario->modulo_inicio ? $horario->materia : 'N/A' }}</td>
+                
+                
             </tr>
         @endforeach
     </tbody>

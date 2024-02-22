@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('materia');
             $table->string('aula');
             $table->string('comision');
+            $table->string('carrera');
             $table->timestamps();
         });
     }

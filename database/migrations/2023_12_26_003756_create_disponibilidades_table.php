@@ -19,11 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_h_p_d');
             $table->foreign('id_h_p_d')->references('id_h_p_d')->on('horarios_previos_docentes');
             
-            $table->unsignedBigInteger('id_aula');
-            $table->foreign('id_aula')->references('id_aula')->on('aulas');
-
-            $table->unsignedBigInteger('id_comision');
-            $table->foreign('id_comision')->references('id_comision')->on('comisiones');
+            
 
             $table->enum('dia',['lunes','martes','miercoles','jueves','viernes']);
             $table->time('modulo_inicio');

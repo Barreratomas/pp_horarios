@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aula;
+use App\Models\Comision;
 use App\Models\Disponibilidad;
 use App\Models\DocenteMateria;
 use App\Models\HorarioPrevioDocente;
@@ -38,97 +40,73 @@ class DisponibilidadController extends Controller
    
 
 
-    
-    
-    public function obtenerRegistrosRecientes()
-    {
-        $registros = [
-            'id_dm' => DocenteMateria::select('id_dm')->orderBy('created_at', 'desc')->first(),
-            'id_h_p_d' => Disponibilidad::select('id_h_p_d')->orderBy('created_at', 'desc')->first(),
-            'id_aula' => Disponibilidad::select('id_aula')->orderBy('created_at', 'desc')->first(),
-            'id_comision' => Disponibilidad::select('id_comision')->orderBy('created_at', 'desc')->first(),
-            'modulos_semanales' => DocenteMateria::select('modulos_semanales')->orderBy('created_at', 'desc')->first(),
-            
-        ];
-
-        // Devolver los resultados
-        return $registros;
-    }
-
-
-    
+   
 
 
     public function store(Request $request)
     {   
-        $request->session()->forget('dni_docente');
 
-        
 
-        $registrosRecientes = $this->obtenerRegistrosRecientes();
-    
-        // Obtener los valores más recientes
-        $id_h_p_d = $registrosRecientes['id_h_p_d']->id_h_p_d;
-        $id_dm = $registrosRecientes['id_dm']->id_dm;
-        $id_comision = $registrosRecientes['id_comision']->id_comision;
-        $id_aula = $registrosRecientes['id_aula']->id_aula;
-        $modulos_semanales = $registrosRecientes['modulos_semanales']->modulos_semanales;
-        
-        $diaInstituto = HorarioPrevioDocente::select('dia')->where('id_h_p_d', $id_h_p_d)->first()->dia;
-           
+        // Obtener los modulos_semanales directamente desde la tabla Materias usando el id_dm
+        $DocenteMateria = DocenteMateria::orderBy('created_at', 'desc')->first();
+        $id_dm=$DocenteMateria->id_dm;
+        $modulos_semanales = Materia::where('id_materia', $DocenteMateria->id_materia)->value('modulos_semanales');
 
-        
+        $id_aula = Aula::where("id_aula",$DocenteMateria->id_aula)->value('id_aula');
+        $id_comision = Comision::where("id_comision",$DocenteMateria->id_comision)->value('id_comision');
+
+            
+
+        // Obtener el id_h_p_d más reciente
+        $h_p_d = HorarioPrevioDocente::orderBy('created_at', 'desc')->first();
+        $id_h_p_d = $h_p_d->id_h_p_d;
+        $diaInstituto = $h_p_d->dia;
         
         $moduloPrevio=$this->disponibilidadService->horaPrevia($id_h_p_d);
+
+
+        
         $distribucion=$this->disponibilidadService->modulosRepartidos($modulos_semanales,$moduloPrevio,$id_dm,$id_comision,$id_aula,$diaInstituto);
-        if (!empty($distribucion)) {
+        if (empty($distribucion)) {
+            return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => 'Distribución vacía']);
+        }
             
             foreach ($distribucion as $data) {
                 $dia=$data['dia'];
                 $modulo_inicio=$data['modulo_inicio'];
                 $modulo_fin=$data['modulo_fin'];
-                $id_aula=$data['id_aula'];
 
                 $params=[
                     'id_dm'=>$id_dm,
-                    'id_h_p_d'=>$request->input("id_h_p_d"),
-                    'id_aula'=>$id_aula,
-                    'id_comision'=>$request->input("id_comision"),
+                    'id_h_p_d'=>$id_h_p_d,
                     'dia'=>$dia,
                     'modulo_inicio'=>$modulo_inicio,
                     'modulo_fin'=>$modulo_fin,
         
                 ];
-                
-        
-        
+
+                // dd($params);        
                 $response = $this->disponibilidadService->guardarDisponibilidad($params);
-                $responses[] = $response;
+                
 
                
             }
-             // Procesar las respuestas fuera del bucle
-            foreach ($responses as $response) {
-                if (isset($response['success'])) {
-                    // $id_disponibilidad = Disponibilidad::orderBy('created_at', 'desc')->first()->id_disponibilidad;
-                    // call_user_func([HorarioController::class, 'store'],['id_disponibilidad' => $id_disponibilidad]);
+            if($response && isset($response['success'])) {
+                
+                return redirect()->route('storeHorario')->with('success', $response['success']);
+            }else{
+                return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => $response['error']]);
 
-                    
-                    return redirect()->route('disponibilidad.index')->with('success', $response['success']);
-                } else {
-                    return redirect()->route('disponibilidad.index')->withErrors(['error' => $response['error']]);
-                }
             }
-            
-        }
-    
+               
     }
 
-    public function crear(){
-        return view("disponibilidad.crearDisponibilidad");
+
+    
+    public function redireccionarError(){
+        return view("disponibilidad.error");
     }
-    
-    
+
     public function actualizar(Request $request)
     {   
         $id=$request->input("id");

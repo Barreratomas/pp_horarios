@@ -22,22 +22,25 @@ class HorarioFactory extends Factory
     {
         $disponibilidad = Disponibilidad::inRandomOrder()->first();
 
-        if ($disponibilidad === null) {
-            // Si no hay disponibilidades,mamnejar excepcion
-            return [];
-        }
-        
+        $id_aula = $disponibilidad->docenteMateria->id_aula;
 
+        $id_comision = $disponibilidad->docenteMateria->id_comision;
         
+        $id_materia= $disponibilidad->docenteMateria->materia->id_materia;
+
+        $id_carrera = $disponibilidad->docenteMateria->comision->carrera->id_carrera;
+
         return [
             'dia' => $disponibilidad->dia,
             'modulo_inicio' => $disponibilidad->modulo_inicio,
             'modulo_fin' => $disponibilidad->modulo_fin,
             'v_p' => $this->faker->randomElement(['V', 'P']),
             'id_disponibilidad' => $disponibilidad->id_disponibilidad,
-            'materia'=>$disponibilidad->id_dm,
-            'aula' =>$disponibilidad->id_aula ,
-            'comision' => $disponibilidad->id_comision,
+            'materia'=>$id_materia,
+            'aula' =>$id_aula,
+            'comision' => $id_comision,
+            'carrera' => $id_carrera,
+
         ];
     }
 }

@@ -32,4 +32,10 @@ class Comision extends Model
         return $this->hasMany(Usuario::class, 'id_comision', 'id_comision');
     }
 
+    
+    public function docenteMateria():HasMany
+    {
+        return $this->hasMany(docenteMateria::class, 'id_comision', 'id_comision');
+    }
+
 }

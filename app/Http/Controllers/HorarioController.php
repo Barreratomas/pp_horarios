@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\HorarioRequest;
 use App\Models\Carrera;
 use App\Models\Comision;
+use App\Models\Disponibilidad;
 use App\Models\Horario;
 use Illuminate\Http\Request;
 use App\Services\HorarioService;
@@ -34,14 +35,13 @@ class HorarioController extends Controller
     $id_comision = $request->input('comision');
     $id_carrera = $request->input('carrera');
 
-    // Obtener los registros que cumplan con el id comision y id carrrera
-    // filtra por id comision cuando es igual a la request comision
-    $horarios = Horario::where('id_comision', $id_comision)->
-    // primero se filtra por carrera (dado que la query se lee de adentro hacia afuera)
-    whereHas('comision', function ($query) use ($id_carrera) {
-        $query->where('id_carrera', $id_carrera);
-    })->get();    
-   
+    $horarios = Horario::whereHas('disponibilidad.docenteMateria.comision', function ($query) use ($id_comision, $id_carrera) {
+        $query->where('id_comision', $id_comision)
+              ->whereHas('carrera', function ($subQuery) use ($id_carrera) {
+                  $subQuery->where('id_carrera', $id_carrera);
+              });
+    })->orderBy('created_at', 'desc')->get();
+
     // importo comisiones y carreras
     $formularioHorarioPartial = $this->mostrarFormularioPartial();
 
@@ -50,34 +50,51 @@ class HorarioController extends Controller
     return view('horario.index', compact('horarios', 'id_comision', 'formularioHorarioPartial'));
     }
 
-    // public function crear(){
-    //     return view()
-    // }
+    public function crear(){
+        return view('horario.crearHorario');
+    }
 
     //    guardar
-    public function store(HorarioRequest $request)
+    public function store(Request $request)
     {   
-        $params = [
-        'dia' =>  $request->input('dia'),
-        'modulo_inicio' =>  $request->input('modulo_inicio'),
-        'modulo_fin' =>  $request->input('modulo_fin'),
-        'v_p' =>  $request->input('v_p'),
-        'id_disponibilidad' =>  $request->input('id_disponibilidad'),
-        'materia' =>  $request->input('materia'),
-        'aula' =>  $request->input('aula'),
-        'comision' =>  $request->input('comision')
-        ];
+        $disponibilidad = Disponibilidad::orderBy('created_at', 'desc')->first();
+        $id_dm = $disponibilidad->id_dm;
 
-        $response=$this->horarioService->guardarHorario($params);
-        if (isset($response['success'])) {
-            // Si se guardo correctamente, redirigir con un mensaje de éxito
-            return redirect()->route('horario.index')->with('success', $response['success']);
-           
-        }else{
-    
-            // Si hubo un error al guardar, redirigir con un mensaje de error
-            return redirect()->route('horario.index')->withErrors(['error' => $response['error']]);
+        if (!$id_dm) {
+            return redirect()->route('home')->withErrors(['error' => 'No se encontró ningún id_dm disponible']);
+
         }
+            $penultimoRegistros = Disponibilidad::where('id_dm', $id_dm)
+                ->orderBy('id_disponibilidad', 'desc')
+                ->take(2) // Tomar los dos registros más recientes con el mismo id_dm
+                ->get();
+
+            foreach ($penultimoRegistros as $registro) {
+                $v_p = (random_int(0, 1) === 0) ? 'v' : 'p';
+
+                $params = [
+                    'dia' => $registro->dia,
+                    'modulo_inicio' => $registro->modulo_inicio,
+                    'modulo_fin' => $registro->modulo_fin,
+                    'v_p' => $v_p, // Asignar el valor aleatorio
+                    'id_disponibilidad' => $registro->id_disponibilidad,
+                    'materia' => $registro->docenteMateria->materia->id_materia,
+                    'aula' => $registro->docentemateria->id_aula,
+                    'comision' => $registro->docentemateria->id_comision,
+                ];
+                // dd($params);        
+
+                $response = $this->horarioService->guardarHorario($params);
+
+                if (isset($response['success'])) {
+                    // Si se guardó correctamente, redirigir con un mensaje de éxito
+                    return redirect()->route('mostrarFormularioHorario')->with('success', ['message' => $response['success']]);
+                } else {
+                    // Si hubo un error al guardar, redirigir con un mensaje de error
+                    return redirect()->route('home')->withErrors(['error' => $response['error']]);
+                }
+            }
+        
     }
 
 

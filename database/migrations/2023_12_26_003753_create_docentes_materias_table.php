@@ -20,6 +20,14 @@ return new class extends Migration
             $table->unsignedBigInteger('id_materia');
             $table->foreign('id_materia')->references('id_materia')->on('materias');
             
+            $table->unsignedBigInteger('id_comision');
+            $table->foreign('id_comision')->references('id_comision')->on('comisiones');
+            
+            $table->unsignedBigInteger('id_aula');
+            $table->foreign('id_aula')->references('id_aula')->on('aulas');
+            
+
+
             $table->timestamps();
         });
     }

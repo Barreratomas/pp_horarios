@@ -83,23 +83,29 @@ class DisponibilidadService implements DisponibilidadRepository
     public function modulosRepartidos($modulos_semanales,$moduloPrevio,$id_dm,$id_comision,$id_aula,$diaInstituto) 
     {
         $modulosPermitidos = range(1, 7);
-        
         $distribucion = [];
-        $diasSemana = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+        $diasSemana = ['lunes','martes','miercoles','jueves','viernes'];
         $siguienteDia = false;
         foreach ($diasSemana as $dia) {
 
             if ($dia!==$diaInstituto) {
+
                 foreach ($modulosPermitidos as $modulo) {
                     $modulo_inicio = $modulo; 
                     switch ($modulos_semanales) {
                         case 1:
                         case 2:
                         case 3:
-                            $modulo_fin = ($modulo_inicio + $modulos_semanales) - 1;
+                            $modulo_fin = ($modulo_inicio + $modulos_semanales);
                             $disponible = $this->verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm, $id_comision, $id_aula);
                             if ($disponible) {
-                                $distribucion[] = compact('dia', 'modulo_inicio', 'modulo_fin');
+                                $distribucion[] = [
+                                    'dia' => $dia,
+                                    'modulo_inicio' => $modulo_inicio,
+                                    'modulo_fin' => $modulo_fin
+                                ];                                
+                                return $distribucion;
+
                             }
                             break;
                         case 4:
@@ -109,30 +115,48 @@ class DisponibilidadService implements DisponibilidadRepository
                                 $modulos_semanales = 4;
                             }
                             $mitadModulos = ($modulos_semanales % 2 == 0) ? $modulos_semanales / 2 : ceil($modulos_semanales / 2);
-                            $modulo_fin = ($modulo_inicio + $mitadModulos) - 1;
+                            $modulo_fin = ($modulo_inicio + $mitadModulos);
                             $disponible = $this->verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm, $id_comision, $id_aula);
                             if ($disponible) {
                                 if ($siguienteDia) {
-                                    $distribucion[] = compact('dia', 'modulo_inicio', 'modulo_fin');
+                                    $distribucion[] = [
+                                        'dia' => $dia,
+                                        'modulo_inicio' => $modulo_inicio,
+                                        'modulo_fin' => $modulo_fin
+                                    ];                                    
+                                    return $distribucion;
+
                                 } else {
-                                    $distribucion[] = compact('dia', 'modulo_inicio', 'modulo_fin');
+                                    $distribucion[] = [
+                                        'dia' => $dia,
+                                        'modulo_inicio' => $modulo_inicio,
+                                        'modulo_fin' => $modulo_fin
+                                    ];                                    
                                     $siguienteDia = true;
+                                    break 2;
+
                                 }
                             }
                             break;
                     }
                 }
             }else{
+
                 $modulo_inicio=$moduloPrevio;
                 switch ($modulos_semanales) {
                     case 1:
                     case 2:
                     case 3:
-                        $modulo_fin = ($modulo_inicio+$modulos_semanales)-1;
+                        $modulo_fin = ($modulo_inicio+$modulos_semanales);
                         $disponible = $this->verificarModulosDia($dia,$modulo_inicio,$modulo_fin,$id_dm,$id_comision,$id_aula);
                         if ($disponible) {
-                            $distribucion[] = compact('dia', 'modulo_inicio', 'modulo_fin');
-                            
+                            $distribucion[] = [
+                                'dia' => $dia,
+                                'modulo_inicio' => $modulo_inicio,
+                                'modulo_fin' => $modulo_fin
+                            ];                            
+                            return $distribucion;
+
                         }
                         break;
                     case 4:
@@ -143,15 +167,26 @@ class DisponibilidadService implements DisponibilidadRepository
                         }
                         $mitadModulos = ($modulos_semanales % 2 == 0) ? $modulos_semanales / 2 : ceil($modulos_semanales / 2);
                         
-                        $modulo_fin = ($modulo_inicio + $mitadModulos) - 1;
+                        $modulo_fin = ($modulo_inicio + $mitadModulos);
                         $disponible = $this->verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm, $id_comision,$id_aula);
                         if ($disponible) {
                             
                             if ($siguienteDia) {
-                                $distribucion[] = compact('dia', 'modulo_inicio', 'modulo_fin');
+                                $distribucion[] = [
+                                    'dia' => $dia,
+                                    'modulo_inicio' => $modulo_inicio,
+                                    'modulo_fin' => $modulo_fin
+                                ];
+                                return $distribucion;
+
                             }else{
-                                $distribucion[] = compact('dia', 'modulo_inicio', 'modulo_fin');
+                                $distribucion[] = [
+                                    'dia' => $dia,
+                                    'modulo_inicio' => $modulo_inicio,
+                                    'modulo_fin' => $modulo_fin
+                                ];
                                 $siguienteDia=true;
+                                break 2;
                             }
                         }
                         break;
@@ -169,19 +204,29 @@ class DisponibilidadService implements DisponibilidadRepository
     {
         // verifica si ya existe una disponibilidad con el mismo id_dm, id_comision y dia    
         $existenciaDisponibilidad = Disponibilidad::where('id_dm', $id_dm)
-        ->where('id_comision', $id_comision)
-        ->where('dia', $dia)
+            ->where('id_comision', function ($subQuery) use ($id_dm) {
 
-        ->where(function ($query) use ($id_dm, $modulo_inicio, $modulo_fin, $dia, $id_comision,$id_aula) {
+            $subQuery->select('id_comision')
+                ->from('docentes_materias')
+                ->where('id_dm', $id_dm);
+            })
+            ->where('dia', $dia)
+            ->where(function ($query) use ($id_dm, $modulo_inicio, $modulo_fin, $dia, $id_comision,$id_aula) {
             //verifica si ya existen modulos que se superpongan que tengan el mismo dia e id comision 
             $query->where(function ($q) use ($modulo_inicio, $modulo_fin, $dia, $id_comision) {
-                $q->where('dia', $dia)
-                    ->where('id_comision', $id_comision)
+                $q->where(function ($subQuery) use ($id_comision) {
+                // busco en docentes materias
+                    $subQuery->select('id_aula')
+                        ->from('docentes_materias')
+                        ->where('id_comision', $id_comision);
+                })
+                    ->where('dia', $dia)
                     ->whereBetween('modulo_inicio', [$modulo_inicio, $modulo_fin])
                     ->orWhereBetween('modulo_fin', [$modulo_inicio, $modulo_fin]);
 
             //verifica si ya existen modulos que se superpongan que tengan el mismo dia e id dm 
             })->orWhere(function ($query2) use ($id_dm, $dia, $modulo_inicio, $modulo_fin) {
+
                 $query2->where('id_dm', $id_dm)
                     ->where('dia', $dia)
                     ->whereBetween('modulo_inicio', [$modulo_inicio, $modulo_fin])
@@ -189,7 +234,12 @@ class DisponibilidadService implements DisponibilidadRepository
 
             //verifica si ya existen aulas que se superpongan con los modulos en el mismo dia 
             })->orWhere(function($query3) use ($id_aula,$modulo_inicio,$modulo_fin,$dia){
-                $query3->where('id_aula',$id_aula)
+                // busco en docentes materias
+                $query3->where(function ($subQuery) use ($id_aula) {
+                    $subQuery->select('id_aula')
+                        ->from('docentes_materias')
+                        ->where('id_aula', $id_aula);
+                })
                 ->where('dia',$dia)
                 ->whereBetween('modulo_inicio', [$modulo_inicio, $modulo_fin])
                 ->orWhereBetween('modulo_fin', [$modulo_inicio, $modulo_fin]);
@@ -208,15 +258,16 @@ class DisponibilidadService implements DisponibilidadRepository
 
     public function guardarDisponibilidad($params)
     {
-        try {
-            $disponibilidad = new Disponibilidad();
-            foreach ($params as $key => $value) {
-                $disponibilidad->{$key} = $value;
-            }
-            
-            $disponibilidad->save();
+        
+        $disponibilidad = new Disponibilidad();
+        foreach ($params as $key => $value) {
+            $disponibilidad->{$key} = $value;
+        }
+        
+        $disponibilidad->save();
+        if ($disponibilidad->id_disponibilidad) {
             return ['success' => 'Disponibilidad guardada correctamente'];
-        } catch (Exception $e) {
+        } else {
             return ['error' => 'Hubo un error al guardar la disponibilidad'];
         }
     }
