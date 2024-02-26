@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Log;
 class ComisionService implements ComisionRepository
 {
     
+    protected $comisionMapper;
+
+    public function __construct(ComisionMapper $comisionMapper)
+    {
+        $this->comisionMapper = $comisionMapper;
+    }
+
     public function obtenerTodasComisiones()
     {
         $comisiones=Comision::all();
@@ -90,6 +97,58 @@ class ComisionService implements ComisionRepository
         } catch (Exception $e) {
             Log::error('Error al eliminar la comision: ' . $e->getMessage());
             return ['error' => 'Hubo un error al eliminar la comisión'];
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------------------
+    // Swagger
+
+    public function obtenerTodasComisionSwagger(){
+        try {
+            $comisiones = $this->obtenerTodasComisiones();
+            return response()->json($comisiones, 200);
+        } catch (Exception $e) {
+            Log::error('Error al obtener todas las comisiones: ' . $e->getMessage());
+            return response()->json(['error' => 'Hubo un error al obtener todas las comisiones'], 500);
+        }
+    }
+    public function obtenerComisionPorIdSwagger($id){
+        try {
+            $comision = $this->obtenerComisionPorId($id);
+            if (empty($comision)) {
+                return response()->json(['error' => 'No existe la comision'], 404);
+            }
+            return response()->json($comision, 200);
+        } catch (Exception $e) {
+            Log::error('Error al obtener la comision: ' . $e->getMessage());
+            return response()->json(['error' => 'Hubo un error al obtener la comision'], 500);
+        }
+    }
+    public function guardarComisionSwagger($Request){
+        try {
+            $comision = $this->guardarComision($Request->input('anio'), $Request->input('division'), $Request->input('capacidad'));
+            return response()->json($comision, 201);
+        } catch (Exception $e) {
+            Log::error('Error al guardar la comision: ' . $e->getMessage());
+            return response()->json(['error' => 'Hubo un error al guardar la comision'], 500);
+        }
+    }
+    public function actualizarComisionSwagger($Request, $id){
+        try {
+            $comision = $this->actualizarComision($id, $Request->input('anio'), $Request->input('division'), $Request->input('capacidad'));
+            return response()->json($comision, 200);
+        } catch (Exception $e) {
+            Log::error('Error al actualizar la comision: ' . $e->getMessage());
+            return response()->json(['error' => 'Hubo un error al actualizar la comision'], 500);
+        }
+    }
+    public function eliminarComisionPorIdSwagger($id){
+        try {
+            $comision = $this->eliminarComisionPorId($id);
+            return response()->json($comision, 200);
+        } catch (Exception $e) {
+            Log::error('Error al eliminar la comision: ' . $e->getMessage());
+            return response()->json(['error' => 'Hubo un error al eliminar la comision'], 500);
         }
     }
 }

@@ -144,6 +144,169 @@ class HorarioController extends Controller
     
 
  
+ //-----------------------------------------------------------------------------------------------------
+    // Swagger
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/horarios",
+     *     tags={"Horarios"},
+     *     summary="Obtener todos los horarios",
+     *     description="Retorna un array de horarios",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Operación exitosa"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron horarios"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al obtener los horarios"
+     *     )
+     * )
+     */
+    public function obtenerTodosHorariosSwagger()
+    {
+       return $this->horarioService->obtenerTodosHorariosSwagger();
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/horarios/{id}",
+     *     tags={"Horarios"},
+     *     summary="Obtener horario por id",
+     *     description="Retorna un horario",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del horario",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Operación exitosa"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontró el horario"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al obtener el horario"
+     *     )
+     * )
+     */
+    public function obtenerHorarioPorIdSwagger($id)
+    {
+        return $this->horarioService->obtenerHorarioPorIdSwagger($id);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/horarios/guardar",
+     *     tags={"Horarios"},
+     *     summary="Guardar horario",
+     *     description="Guardar un nuevo horario",
+     *     @OA\RequestBody(
+     *         description="Datos del horario",
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Horario")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Horario guardado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al guardar el horario"
+     *     )
+     * )
+     */
+    public function guardarHorariosSwagger(Request $request)
+    {
+        return $this->horarioService->guardarHorariosSwagger($request);
+    }
+
+    /**
+     * @OA\Put(
+     *     path="/api/horarios/actualizar/{id}",
+     *     tags={"Horarios"},
+     *     summary="Actualizar horario",
+     *     description="Actualizar un horario existente",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del horario",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         description="Datos del horario",
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Horario")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Horario actualizado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontró el horario"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al actualizar el horario"
+     *     )
+     * )
+     */
+    public function actualizarHorariosSwagger(Request $request, $id)
+    {
+        return $this->horarioService->actualizarHorariosSwagger($request, $id);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/horarios/eliminar/{id}",
+     *     tags={"Horarios"},
+     *     summary="Eliminar horario",
+     *     description="Eliminar un horario existente",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del horario",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Horario eliminado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontró el horario"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al eliminar el horario"
+     *     )
+     * )
+     */
+    public function eliminarHorariosSwagger($id)
+    {
+        return $this->horarioService->eliminarHorariosSwagger($id);
+    }
+
 
     
 

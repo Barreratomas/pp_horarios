@@ -68,4 +68,146 @@ class CambioDocenteController extends Controller
 
         }
     }
+    
+    //---------------------------------------------------------------------------------------------------------
+    // Swagger
+
+    /**
+     * @OA\Get(
+     *     path="/api/cambioDocente",
+     *     tags={"CambioDocente"},
+     *     summary="Obtener todos los cambios de docente",
+     *     description="Retorna un array de cambios de docente",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Operación exitosa"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron cambios de docente"
+     *     )
+     * )
+     */
+    public function obtenerTodosCambiosDocenteSwagger()
+    {
+        return $this->cambioDocenteService->obtenerTodosCambiosDocenteSwagger();
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/cambioDocente/{id}",
+     *     tags={"CambioDocente"},
+     *     summary="Obtener cambio de docente por id",
+     *     description="Retorna un cambio de docente",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Id del cambio de docente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Operación exitosa"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontró el cambio de docente"
+     *     )
+     * )
+     */
+    public function obtenerCambioDocentePorIdSwagger($id)
+    {
+        return $this->cambioDocenteService->obtenerCambioDocentePorIdSwagger($id);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/cambioDocente/guardar",
+     *     tags={"CambioDocente"},
+     *     summary="Guardar cambio de docente",
+     *     description="Guardar un cambio de docente",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(ref="#/components/schemas/CambioDocente")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Cambio de docente guardado"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al guardar el cambio de docente"
+     *     )
+     * )
+     */
+    public function guardarCambioDocenteSwagger(Request $request)
+    {
+        return $this->cambioDocenteService->guardarCambioDocenteSwagger($request);
+    }
+
+    /**
+     * @OA\Put(
+     *     path="/api/cambioDocente/actualizar/{id}",
+     *     tags={"CambioDocente"},
+     *     summary="Actualizar cambio de docente",
+     *     description="Actualizar un cambio de docente",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Id del cambio de docente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(ref="#/components/schemas/CambioDocente")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cambio de docente actualizado"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontró el cambio de docente"
+     *     )
+     * )
+     */
+    public function actualizarCambioDocenteSwagger(Request $request, $id)
+    {
+        return $this->cambioDocenteService->actualizarCambioDocenteSwagger($request, $id);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/cambioDocente/eliminar/{id}",
+     *     tags={"CambioDocente"},
+     *     summary="Eliminar cambio de docente por id",
+     *     description="Eliminar un cambio de docente",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Id del cambio de docente",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Cambio de docente eliminado"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontró el cambio de docente"
+     *     )
+     * )
+     */
+    public function eliminarCambioDocentePorIdSwagger($id)
+    {
+        return $this->cambioDocenteService->eliminarCambioDocentePorIdSwagger($id);
+    }
+
 }

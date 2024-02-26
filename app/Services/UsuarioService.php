@@ -128,4 +128,5 @@ class UsuarioService implements UsuarioRepository
             return ['error' => 'Hubo un error al eliminar el usuario'];
         }
     }
+    
 }

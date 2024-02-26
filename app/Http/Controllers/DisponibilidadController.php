@@ -139,4 +139,140 @@ class DisponibilidadController extends Controller
 
         }
     }
+
+    //-------------------------------------------------------------------------------------------------------------------------
+    // swagger
+
+    /**
+     * @OA\Get(
+     *     path="/api/disponibilidad",
+     *     tags={"Disponibilidad"},
+     *     summary="Obtener todas las disponibilidades",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Devuelve todas las disponibilidades"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontraron disponibilidades"
+     *     )
+     * )
+     */
+    public function obtenerTodasDisponibilidadesswagger()
+    {
+        return $this->disponibilidadService->obtenerTodasDisponibilidadesswagger();
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/disponibilidad/{id}",
+     *     tags={"Disponibilidad"},
+     *     summary="Obtener disponibilidad por id",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la disponibilidad",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Devuelve la disponibilidad"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No se encontró la disponibilidad"
+     *     )
+     * )
+     */
+    public function obtenerDisponibilidadPorIdswagger($id)
+    {
+        return $this->disponibilidadService->obtenerDisponibilidadPorIdswagger($id);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/disponibilidad/guardar",
+     *     tags={"Disponibilidad"},
+     *     summary="Guardar disponibilidad",
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(ref="#/components/schemas/Disponibilidad")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Disponibilidad guardada correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al guardar la disponibilidad"
+     *     )
+     * )
+     */
+    public function guardarDisponibilidadswagger(Request $request)
+    {
+        return $this->disponibilidadService->guardarDisponibilidadswagger($request);
+    }
+
+    /**
+     * @OA\Put(
+     *     path="/api/disponibilidad/actualizar/{id}",
+     *     tags={"Disponibilidad"},
+     *     summary="Actualizar disponibilidad",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la disponibilidad",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\JsonContent(ref="#/components/schemas/Disponibilidad")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Disponibilidad actualizada correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al actualizar la disponibilidad"
+     *     )
+     * )
+     */
+    public function actualizarDisponibilidadswagger(Request $request, $id)
+    {
+        return $this->disponibilidadService->actualizarDisponibilidadswagger($request, $id);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/disponibilidad/eliminar/{id}",
+     *     tags={"Disponibilidad"},
+     *     summary="Eliminar disponibilidad por id",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la disponibilidad",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Disponibilidad eliminada correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error al eliminar la disponibilidad"
+     *     )
+     * )
+     */
+    public function  eliminarDisponibilidadPorIdswagger($id)
+    {
+        return $this->disponibilidadService->eliminarDisponibilidadPorIdswagger($id);
+    }
 }

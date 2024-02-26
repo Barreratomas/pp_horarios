@@ -8,6 +8,48 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @OA\Schema(
+ *     schema="Disponibilidad",
+ *     title="Disponibilidad",
+ *     description="Esquema del objeto Disponibilidad",
+ *     @OA\Property(
+ *          property="id_disponibilidad",
+ *          type="integer",
+ *          description="Id de la disponibilidad"
+ *     ),
+ *     @OA\Property(
+ *          property="id_dm",
+ *          type="integer",
+ *          description="Id de la docente materia"
+ *     ),
+ *     @OA\Property(
+ *          property="id_h_p_d",
+ *          type="integer",
+ *          description="Id del horario previo docente"
+ *     ),
+ *     @OA\Property(
+ *          property="id_aula",
+ *          type="integer",
+ *          description="Id del aula"
+ *     ),
+ *     @OA\Property(
+ *          property="dia",
+ *          type="string",
+ *          description="Dia de la disponibilidad"
+ *     ),
+ *     @OA\Property(
+ *          property="modulo_inicio",
+ *          type="integer",
+ *          description="Modulo de inicio de la disponibilidad"
+ *     ),
+ *     @OA\Property(
+ *          property="modulo_fin",
+ *          type="integer",
+ *          description="Modulo de fin de la disponibilidad"
+ *     )
+ * )
+ */
 class Disponibilidad extends Model
 {
     use HasFactory;
@@ -16,7 +58,7 @@ class Disponibilidad extends Model
     protected $primaryKey = 'id_disponibilidad';
 
 
-    
+
 //  Una disponibilidad pertenece a un docente.
     public function docenteMateria():BelongsTo{
         return $this->belongsTo(DocenteMateria::class,'id_dm','id_dm');
@@ -26,7 +68,13 @@ class Disponibilidad extends Model
         return $this->belongsTo(HorarioPrevioDocente::class,'id_h_p_d','id_h_p_d');
     }
 
-   
+    public function comision():BelongsTo{
+        return $this->belongsTo(Comision::class,'id_comision','id_comision');
+    }
+
+    public function aula():BelongsTo{
+        return $this->belongsTo(aula::class,'id_aula','id_aula');
+    }
 
      //  Una disponibilidad pertenece a una comision.
      public function horario():HasOne{

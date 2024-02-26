@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos verticalmente */
+    background-color: black;
+}
+
+.info {
+    color: blue;
+}
+
+.novedades{
+    color: white;
+}

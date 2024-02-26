@@ -69,4 +69,167 @@ class CarreraController extends Controller
             return redirect()->route('carreras.index')->withErrors(['error' => $response['error']]);
         }
     }
+
+
+     //---------------------------------------------------------------------------------------------------------
+    // Swagger
+
+    /**
+     * @OA\Get(
+     *     path="/api/carreras",
+     *     summary="Obtener todas las carreras",
+     *     description="Devuelve todas las carreras",
+     *     operationId="getCambiosDocente",
+     *     tags={"Carrera"},
+     *     @OA\Response(
+     *     response=200,
+     *     description="Carreras",
+     *     @OA\JsonContent(
+     *     type="array",
+     *     @OA\Items(ref="#/components/schemas/Carrera")
+     *   )
+     * ),
+     *     @OA\Response(
+     *     response=500,
+     *     description="Error al obtener las carreras"
+     * )
+     * )
+     */
+    public function obtenerTodosCarreraSwagger(){
+        return $this->carreraService->obtenerTodosCarreraSwagger();
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/carreras/{id}",
+     *     summary="Obtener una carrera por id",
+     *     description="Devuelve una carrera",
+     *     operationId="getCambioDocentePorId",
+     *     tags={"Carrera"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la carrera",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Carrera",
+     *     @OA\JsonContent(ref="#/components/schemas/Carrera")
+     * ),
+     *     @OA\Response(
+     *     response=404,
+     *     description="No existe la carrera"
+     * ),
+     *     @OA\Response(
+     *     response=500,
+     *     description="Error al obtener la carrera"
+     * )
+     * )
+     */
+    public function obtenerCarreraPorIdSwagger($id){
+        return $this->carreraService->obtenerCarreraPorIdSwagger($id);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/api/carreras/guardar",
+     *     summary="Guardar una carrera",
+     *     description="Guardar una carrera",
+     *     operationId="guardarCambioDocente",
+     *     tags={"Carrera"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Carrera")
+     *     ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Carrera guardada correctamente",
+     *     @OA\JsonContent(ref="#/components/schemas/Carrera")
+     * ),
+     *     @OA\Response(
+     *     response=500,
+     *     description="Error al guardar la carrera"
+     * )
+     * )
+     */
+    public function guardarCarreraSwagger($Request){
+        return $this->carreraService->guardarCarreraSwagger($Request);
+    }
+
+    /**
+     * @OA\Put(
+     *     path="/api/carreras/actualizar/{id}",
+     *     summary="Actualizar una carrera",
+     *     description="Actualizar una carrera",
+     *     operationId="actualizarCambioDocente",
+     *     tags={"Carrera"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la carrera",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/Carrera")
+     *     ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Carrera actualizada correctamente",
+     *     @OA\JsonContent(ref="#/components/schemas/Carrera")
+     * ),
+     *     @OA\Response(
+     *     response=404,
+     *     description="No existe la carrera"
+     * ),
+     *     @OA\Response(
+     *     response=500,
+     *     description="Error al actualizar la carrera"
+     * )
+     * )
+     */
+    public function actualizarCarreraSwagger($Request, $id){
+        return $this->carreraService->actualizarCarreraSwagger($Request, $id);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/api/carreras/eliminar/{id}",
+     *     summary="Eliminar una carrera",
+     *     description="Eliminar una carrera",
+     *     operationId="eliminarCambioDocentePorId",
+     *     tags={"Carrera"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la carrera",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *     response=200,
+     *     description="Carrera eliminada correctamente"
+     * ),
+     *     @OA\Response(
+     *     response=404,
+     *     description="No existe la carrera"
+     * ),
+     *     @OA\Response(
+     *     response=500,
+     *     description="Error al eliminar la carrera"
+     * )
+     * )
+     */
+    public function eliminarCarreraPorIdSwagger($id){
+        return $this->carreraService->eliminarCarreraPorIdSwagger($id);
+    }
 }

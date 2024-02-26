@@ -13,11 +13,16 @@ use Carbon\Carbon;
 use DateInterval;
 use DateTime;
 use Exception;
-
+use Illuminate\Support\Facades\Log;
 
 class DisponibilidadService implements DisponibilidadRepository
 {
-   
+    protected $disponibilidadMapper;
+
+    public function __construct(DisponibilidadMapper $disponibilidadMapper)
+    {
+        $this->disponibilidadMapper = $disponibilidadMapper;
+    }
     public function obtenerTodasDisponibilidades()
     {
         
@@ -307,6 +312,75 @@ class DisponibilidadService implements DisponibilidadRepository
             return ['success' => 'Disponibilidad eliminada correctamente'];
         } catch (Exception $e) {
             return ['error' => 'Hubo un error al eliminar la disponibilidad'];
+        }
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+    // swagger
+
+    public function obtenerTodasDisponibilidadesswagger(){
+        try {
+            $disponibilidades = Disponibilidad::all();
+            return response()->json($disponibilidades, 200);
+        } catch (Exception $e) {
+            Log::error('Error al obtener las disponibilidades: ' . $e->getMessage());
+            return response()->json(['error' => 'Hubo un error al obtener las disponibilidades'], 500);
+        }
+    }
+    public function obtenerDisponibilidadPorIdswagger($id){
+        try {
+            $disponibilidad = Disponibilidad::find($id);
+            if ($disponibilidad) {
+                return response()->json($disponibilidad, 200);
+            }
+            return response()->json(['error' => 'No existe la disponibilidad'], 404);
+        } catch (Exception $e) {
+            Log::error('Error al obtener la disponibilidad: ' . $e->getMessage());
+            return response()->json(['error' => 'Hubo un error al obtener la disponibilidad'], 500);
+        }
+    }
+    public function guardarDisponibilidadswagger($params){
+        try {
+            $disponibilidad = new Disponibilidad();
+            foreach ($params as $key => $value) {
+                $disponibilidad->{$key} = $value;
+            }
+            $disponibilidad->save();
+            return response()->json(['success' => 'Disponibilidad guardada correctamente'], 201);
+        } catch (Exception $e) {
+            Log::error('Error al guardar la disponibilidad: ' . $e->getMessage());
+            return response()->json(['error' => 'Hubo un error al guardar la disponibilidad'], 500);
+        }
+    }
+    public function actualizarDisponibilidadswagger($params, $id){
+        try {
+            $disponibilidad = Disponibilidad::find($id);
+            if (!$disponibilidad) {
+                return response()->json(['error' => 'No existe la disponibilidad'], 404);
+            }
+            foreach ($params as $key => $value) {
+                if (!is_null($value)) {
+                    $disponibilidad->{$key} = $value;
+                }
+            }
+            $disponibilidad->save();
+            return response()->json(['success' => 'Disponibilidad actualizada correctamente'], 200);
+        } catch (Exception $e) {
+            Log::error('Error al actualizar la disponibilidad: ' . $e->getMessage());
+            return response()->json(['error' => 'Hubo un error al actualizar la disponibilidad'], 500);
+        }
+    }
+    public function  eliminarDisponibilidadPorIdswagger($id){
+        try {
+            $disponibilidad = Disponibilidad::find($id);
+            if ($disponibilidad) {
+                $disponibilidad->delete();
+                return response()->json(['success' => 'Se eliminó la disponibilidad'], 200);
+            }
+            return response()->json(['error' => 'No existe la disponibilidad'], 404);
+        } catch (Exception $e) {
+            Log::error('Error al eliminar la disponibilidad: ' . $e->getMessage());
+            return response()->json(['error' => 'Hubo un error al eliminar la disponibilidad'], 500);
         }
     }
 }

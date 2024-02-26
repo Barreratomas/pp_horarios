@@ -10,4 +10,6 @@ interface UsuarioRepository
     public function guardarUsuario($params);
     public function actualizarUsuario($dni,$params);
     public function eliminarUsuarioPorDni($dni);
+
+    
 }

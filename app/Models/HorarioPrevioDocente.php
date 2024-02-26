@@ -6,14 +6,40 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @OA\Schema(
+ *     schema="HorarioPrevioDocente",
+ *     title="HorarioPrevioDocente",
+ *     description="Esquema del objeto HorarioPrevioDocente",
+ *     @OA\Property(
+ *          property="id_h_p_d",
+ *          type="integer",
+ *          description="ID del horario previo del docente"
+ *     ),
+ *     @OA\Property(
+ *          property="dni_docente",
+ *          type="string",
+ *          description="DNI del docente"
+ *     ),
+ *     @OA\Property(
+ *          property="dia",
+ *          type="string",
+ *          description="Dia de la semana"
+ *     ),
+ *     @OA\Property(
+ *          property="hora",
+ *          type="time",
+ *          description="Hora del horario"
+ *     )
+ * )
+ */
 class HorarioPrevioDocente extends Model
 {
     use HasFactory;
 
-    protected $table = 'horarios_previos_docentes'; 
+    protected $table = 'horarios_previos_docentes';
 
-    protected $fillable = ['dni_docente', 'dia', 'hora']; 
-    protected $primaryKey = 'id_h_p_d';
+    protected $fillable = ['dni_docente', 'dia', 'hora'];
 
 
     public function disponibilidad():HasMany{
@@ -27,6 +53,6 @@ class HorarioPrevioDocente extends Model
         return $this->belongsTo(Docente::class, 'dni_docente', 'dni');
     }
 
-   
+
 
 }
