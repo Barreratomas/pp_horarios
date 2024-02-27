@@ -18,8 +18,9 @@ Route::get('/',[LoginController::class,'login'])->name('login');
 
 
 
+Route::match('post', '/home', [HomeController::class, 'postLogin'])->name('postLogin');
+Route::match('get', '/home', [HomeController::class, 'index'])->name('home');
 
-Route::post('/home',[HomeController::class,'index'])->name('home');
 
 Route::get('/docente',[DocenteController::class,'index'])->name('docentes.index');
 Route::get('/docente/crear-docente',[DocenteController::class,'crear'])->name('mostrarFormularioDocente');

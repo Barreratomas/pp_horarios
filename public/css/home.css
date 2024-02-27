@@ -1,8 +1,9 @@
 .container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra los elementos horizontalmente */
-    justify-content: center; /* Centra los elementos verticalmente */
+    align-items: center; 
+    justify-content: center;
+    /* margin-top: 20px; */
     background-color: black;
 }
 
@@ -15,6 +16,6 @@
 }
 
 .banner img, .novedades img {
-    max-width: 100%; /* Establece un ancho máximo del 100% del contenedor padre */
-    height: auto; /* Ajusta la altura automáticamente para mantener la relación de aspecto */
+    max-width: 100%; 
+    height: auto; 
 }

@@ -14,18 +14,21 @@
         <p>Bv. Oroño 690 – Rosario – Santa Fe – Argentina</p>
     </div>
     
-   
     <div class="banner">
         <img src="{{asset('images/banner-escuela.jpg')}}">
-      
-        
     </div>
-
 
     <div class="novedades">
         <h2>Novedades</h2>
         <img src="{{asset('images/novedades.jpg')}}">
+    </div>
 
+    <!-- Mostrar el tipo de usuario -->
+    <div class="user-type">
+        
+        @if(session('userType'))
+            <p style="color:red;">Tipo de usuario: {{ session('userType') }}</p>
+        @endif
     </div>
 </div>
 
