@@ -1,4 +1,8 @@
 
+.button-container{
+    display: inline-block;
+    background-color: white;
+}
 #sidebar {
     width: 0;
     position: fixed;

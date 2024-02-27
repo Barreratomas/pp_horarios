@@ -10,6 +10,11 @@
     color: blue;
 }
 
-.novedades{
+.novedades {
     color: white;
+}
+
+.banner img, .novedades img {
+    max-width: 100%; /* Establece un ancho máximo del 100% del contenedor padre */
+    height: auto; /* Ajusta la altura automáticamente para mantener la relación de aspecto */
 }

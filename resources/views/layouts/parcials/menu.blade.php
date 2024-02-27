@@ -1,6 +1,5 @@
 <link rel="stylesheet" href="{{ asset('css/menu.css') }}">
 
-<div class="menu">
     <div class="button-container">
         <button id="toggleButton" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fas fa-bars"></i> 
@@ -25,5 +24,6 @@
             </div>
         </nav>
     </div>
-</div>
+
+
 <script src="{{ asset('js/menu.js') }}"></script>

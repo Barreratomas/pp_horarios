@@ -29,30 +29,7 @@
     </div>
 </div>
 
-{{-- <main>
-    <section class="banner">
-        <img src="banner.jpg" alt="Imagen de fondo">
-        <h1>Título del banner</h1>
-        <p>Descripción del banner</p>
-    </section>
-    <section class="tarjetas">
-        <div class="tarjeta">
-            <h2>Título de la tarjeta 1</h2>
-            <p>Descripción de la tarjeta 1</p>
-        </div>
-        <div class="tarjeta">
-            <h2>Título de la tarjeta 2</h2>
-            <p>Descripción de la tarjeta 2</p>
-        </div>
-        <div class="tarjeta">
-            <h2>Título de la tarjeta 3</h2>
-            <p>Descripción de la tarjeta 3</p>
-        </div>
-    </section>
-</main>
-<footer>
-    <p>Información de contacto</p>
-</footer> --}}
+
 @endsection
 
 
