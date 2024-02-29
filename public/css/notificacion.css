@@ -1,0 +1,15 @@
+
+#messages-container {
+    width: 30%;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease; /* Añadir transición para suavizar la opacidad */
+}
+
+/* Ajustar la opacidad de los mensajes cuando se están eliminando */
+#messages-container.hide-messages {
+    opacity: 0;
+}

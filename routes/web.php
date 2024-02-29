@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AulaController;
+use App\Http\Controllers\CarreraController;
+use App\Http\Controllers\ComisionController;
 use App\Http\Controllers\DisponibilidadController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\DocenteMateriaController;
@@ -7,6 +10,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\HorarioPrevioDocenteController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MateriaController;
+use App\Models\Materia;
 use Illuminate\Support\Facades\Route;
 
 
@@ -17,21 +22,60 @@ use Illuminate\Support\Facades\Route;
 Route::get('/',[LoginController::class,'login'])->name('login');
 
 
-
+// home
 Route::match('post', '/home', [HomeController::class, 'postLogin'])->name('postLogin');
 Route::match('get', '/home', [HomeController::class, 'index'])->name('home');
 
 
-Route::get('/docente',[DocenteController::class,'index'])->name('docentes.index');
+
+// aulas
+Route::get('/aula',[AulaController::class, 'index'])->name('indexAula');
+Route::get('/aula/crear-aula',[AulaController::class, 'crear'])->name('mostrarFormularioAula');
+Route::post('/aula/crear-aula',[AulaController::class, 'guardarAula'])->name('storeAula');
+Route::get('/aula/actualizar-aula/{aula}',[AulaController::class,'formularioActualizar' ])->name('mostrarActualizarAula');
+Route::put('/aula/actualizar-aula/{aula}',[AulaController::class,'actualizarAula' ])->name('actualizarAula');
+Route::delete('/aula/eliminar-aula/{aula}',[AulaController::class,'eliminarAula' ])->name('eliminarAula');
+
+
+// carrera
+Route::get('/carrera',[CarreraController::class, 'index'])->name('indexCarrera');
+Route::get('/carrera/crear-carrera',[CarreraController::class, 'crear'])->name('mostrarFormularioCarrera');
+Route::post('/carrera/crear-carrera',[CarreraController::class, 'store'])->name('storeCarrera');
+Route::get('/carrera/actualizar-carrera/{carrera}',[CarreraController::class,'formularioActualizar' ])->name('mostrarActualizarCarrera');
+Route::put('/carrera/actualizar-carrera/{carrera}',[CarreraController::class,'actualizar' ])->name('actualizarCarrera');
+Route::delete('/carrera/eliminar-carrera/{carrera}',[CarreraController::class,'eliminar' ])->name('eliminarCarrera');
+
+// comision
+Route::get('/comision',[ComisionController::class,'index'])->name('indexComision');
+Route::get('/comision/crear-comision',[ComisionController::class,'crear'])->name('mostrarFormularioComision');
+Route::post('/comision/crear-comision',[ComisionController::class,'store'])->name('storeComision');
+Route::get('/comision/actualizar-comision/{comision}',[ComisionController::class,'formularioActualizar'])->name('mostrarActualizarComision');
+Route::put('comision/actualizar-comision/{comision}',[ComisionController::class,'actualizar'])->name('ActualizarComision');
+Route::delete('/comision/eliminar-comision/{comision}',[ComisionController::class,'eliminar'])->name('eliminarComision');
+
+//materia
+Route::get('/materia',[MateriaController::class,'index'])->name('indexMateria');
+Route::get('/materia/crear-materia',[MateriaController::class,'crear'])->name('mostrarFormularioMateria');
+Route::post('/materia/crear-materia',[MateriaController::class,'store'])->name('storeMateria');
+Route::get('/materia/actualizar-materia/{materia}',[MateriaController::class,'formularioActualizar'])->name('mostrarActualizarMateria');
+Route::put('materia/actualizar-materia/{materia}',[MateriaController::class,'actualizar'])->name('actualizarMateria');
+Route::delete('/materia/eliminar-materia/{materia}',[MateriaController::class,'eliminar'])->name('eliminarMateria');
+
+
+// docente
+Route::get('/docente',[DocenteController::class,'index'])->name('indexDocente');
 Route::get('/docente/crear-docente',[DocenteController::class,'crear'])->name('mostrarFormularioDocente');
 Route::post('/docente/crear-docente',[DocenteController::class,'store'])->name('storeDocente');
+Route::get('/docente/actualizar-docente/{docente}',[DocenteController::class,'formularioActualizar'])->name('mostrarActualizarDocente');
+Route::put('/docente/actualizar-docente/{docente}',[DocenteController::class,'actualizar'])->name('actualizarDocente');
+Route::delete('/docente/eliminar-docente/{docente}',[DocenteController::class,'eliminar'])->name('eliminarDocente');
 
-
+// horario previo docente
 Route::get('/crear-h-p-v',[HorarioPrevioDocenteController::class,'crear'])->name('mostrarFormularioHPD');
 Route::post('/crear-h-p-v',[HorarioPrevioDocenteController::class,'store'])->name('storeHPD');
 
-
-Route::get('/docente-materia',[DocenteMateriaController::class,'index'])->name('docenteMateria.index');
+// docente materia
+Route::get('/docente-materia',[DocenteMateriaController::class,'index'])->name('indexDocenteMateria');
 Route::get('/docente-materia/crear-docente-materia',[DocenteMateriaController::class,'crear'])->name('mostrarFormularioDocenteMateria');
 Route::post('/docente-materia/crear-docente-materia',[DocenteMateriaController::class,'store'])->name('storeDocenteMateria');
 

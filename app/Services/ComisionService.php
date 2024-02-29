@@ -39,12 +39,13 @@ class ComisionService implements ComisionRepository
         
     }
 
-    public function guardarComision( $anio,$division,$capacidad)
+    public function guardarComision( $anio,$division,$id_carrera,$capacidad)
     {
         try {
             $comision = new Comision();
             $comision->anio=$anio;
             $comision->division=$division;
+            $comision->id_carrera=$id_carrera;
             $comision->capacidad=$capacidad;
             $comision->save();
             return ['success' => 'Comisión guardada correctamente'];
@@ -54,9 +55,8 @@ class ComisionService implements ComisionRepository
         }
     }
 
-    public function actualizarComision($id, $anio = null, $division = null,$id_carrera = null, $capacidad = null)
+    public function actualizarComision($anio, $division,$id_carrera, $capacidad,$comision)
     {
-        $comision = Comision::find($id);
         if (!$comision) {
             return ['error' => 'hubo un error al buscar Comisión'];
         }
@@ -85,9 +85,9 @@ class ComisionService implements ComisionRepository
         }
     }
 
-    public function eliminarComisionPorId($id)
+    public function eliminarComisionPorId($comision)
     {
-        $comision = Comision::find($id);
+        
         if (!$comision) {
             return ['error' => 'hubo un error al buscar Comisión'];
         }
@@ -126,7 +126,7 @@ class ComisionService implements ComisionRepository
     }
     public function guardarComisionSwagger($Request){
         try {
-            $comision = $this->guardarComision($Request->input('anio'), $Request->input('division'), $Request->input('capacidad'));
+            $comision = $this->guardarComision($Request->input('anio'), $Request->input('division'),$Request->input('id_carrera') ,$Request->input('capacidad'));
             return response()->json($comision, 201);
         } catch (Exception $e) {
             Log::error('Error al guardar la comision: ' . $e->getMessage());
@@ -135,7 +135,7 @@ class ComisionService implements ComisionRepository
     }
     public function actualizarComisionSwagger($Request, $id){
         try {
-            $comision = $this->actualizarComision($id, $Request->input('anio'), $Request->input('division'), $Request->input('capacidad'));
+            $comision = $this->actualizarComision($id, $Request->input('anio'), $Request->input('division'),  $Request->input('id_carrera'),$Request->input('capacidad'));
             return response()->json($comision, 200);
         } catch (Exception $e) {
             Log::error('Error al actualizar la comision: ' . $e->getMessage());

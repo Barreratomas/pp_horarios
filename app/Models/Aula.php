@@ -43,8 +43,8 @@ class Aula extends Model
 
 
 
-    public function disponibilidad():HasMany{
-        return $this->hasMany(Disponibilidad::class,'id_aula','id_aula');
+    public function docenteMateria():HasMany{
+        return $this->hasMany(docenteMateria::class,'id_aula','id_aula');
 
     }
 }

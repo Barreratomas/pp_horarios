@@ -42,7 +42,6 @@ class DocenteService implements DocenteRepository
     public function guardarDocente($dni,$nombre,$apellido,$email)
     {
         try {
-            // $docente = $this->usuarioMapper->toDocente($docenteData);
             $docente = new Docente();
         
             // Asignar los valores de los atributos
@@ -59,9 +58,9 @@ class DocenteService implements DocenteRepository
         }
     }
 
-    public function actualizarDocente($dni,$nombre,$apellido,$email)
+    public function actualizarDocente($nombre,$apellido,$email, $docente)
     {
-        $docente = Docente::find($dni);
+       
         if (!$docente) {
             return ['error' => 'hubo un error al buscar Docente '];
         }
@@ -85,13 +84,22 @@ class DocenteService implements DocenteRepository
         }
     }
 
-    public function eliminarDocentePorDni($dni)
+    public function eliminarDocente($docente)
     {
-        $docente = Docente::find($dni);
         if (!$docente) {
-            return ['error' => 'hubo un error al buscar Docente'];
+            return ['error' => 'hubo un error al buscar Docente '];
         }
         try {
+            $docente->docenteMateria()->delete();
+
+            // Eliminar registros de cambioDocenteAnterior y cambioDocenteNuevo
+            $docente->cambioDocenteAnterior()->delete();
+            $docente->cambioDocenteNuevo()->delete();
+        
+            // Eliminar registros de horarioPrevioDocente
+            $docente->horarioPrevioDocente()->delete();
+        
+            // Finalmente, eliminar el docente
             $docente->delete();
             return ['success' => 'Docente eliminado correctamente'];
         } catch (Exception $e) {

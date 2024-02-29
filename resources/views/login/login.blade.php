@@ -28,8 +28,8 @@
                     <label class="form-check-label" for="estudiante">Estudiante</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="userType" id="profesor" value="profesor">
-                    <label class="form-check-label" for="profesor">Profesor</label>
+                    <input class="form-check-input" type="radio" name="userType" id="profesor" value="docente">
+                    <label class="form-check-label" for="docente">Docente</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="userType" id="bedelia" value="bedelia">

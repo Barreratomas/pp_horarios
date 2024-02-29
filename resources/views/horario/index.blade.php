@@ -8,11 +8,14 @@
 @section('content')
 
 {!! $formularioHorarioPartial !!} 
-
+<div class="container">
+    <div class="row">
 <p>id de Comisión encontrada: {{ $id_comision }}</p>
 
 @include('layouts.parcials.table')
-    
+</div>
+</div>
+
 @endsection
 
 

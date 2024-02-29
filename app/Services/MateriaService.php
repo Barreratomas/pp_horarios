@@ -50,9 +50,9 @@ class MateriaService implements MateriaRepository
         }
     }
 
-    public function actualizarMateria($id,$nombre,$modulos_semanales)
+    public function actualizarMateria($nombre,$modulos_semanales,$materia)
     {
-        $materia = Materia::find($id);
+       
         if (!$materia) {
             return ['error' => 'Hubo un error al buscar materia'];
         }
@@ -72,9 +72,9 @@ class MateriaService implements MateriaRepository
         }
     }
 
-    public function eliminarMateriaPorId($id)
+    public function eliminarMateriaPorId($materia)
     {
-        $materia = Materia::find($id);
+        
         if (!$materia) {
             return ['error' => 'Hubo un error al buscar materia'];
         }

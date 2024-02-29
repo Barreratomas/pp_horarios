@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carrera;
+use App\Models\Comision;
 use Illuminate\Http\Request;
 use App\Services\ComisionService;
 
@@ -15,8 +17,8 @@ class ComisionController extends Controller
 
   
     public function index(){
-         $comisiones = $this->comisionService->obtenerTodasComisiones();
-         return view('comision.index',compact('comisiones'));
+        $comisiones = $this->comisionService->obtenerTodasComisiones();
+        return view('comision.index',compact('comisiones'));
     }
 
    
@@ -27,10 +29,14 @@ class ComisionController extends Controller
     {   
         $id = $request->input('id');
         $comision = $this->comisionService->obtenerComisionPorId($id);
-        return  view('comision.show',compact('comision'));
+        return  view('#',compact('comision'));
     }
 
-  
+    public function crear()
+    {
+        $carreras=Carrera::all();
+        return view('comision.crearComision',compact('carreras'));
+    } 
    
     public function store(Request $request){
         $anio = $request->input('anio');
@@ -42,18 +48,20 @@ class ComisionController extends Controller
          // Verificar si se actualizó correctamente
          if (isset($response['success'])) {
             // Si se actualizo correctamente, redirigir con un mensaje de éxito
-            return redirect()->route('comision.index')->with('success', $response['success']);
+            return redirect()->route('indexComision')->with('success', $response['success']);
            
         }else{
     
             // Si hubo un error al actualizar la comisión, redirigir con un mensaje de error
-            return redirect()->route('comision.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexComision')->withErrors(['error' => $response['error']]);
         }
             
     }
         
     
-
+    public function formularioActualizar(Comision $comision){
+    return view('comision.actualizarComision',compact('comision'));
+    }
 
     public function actualizar(Request $request)
     {
@@ -71,12 +79,12 @@ class ComisionController extends Controller
         // Verificar si se actualizó correctamente
         if (isset($response['success'])) {
             // Si se actualizo correctamente, redirigir con un mensaje de éxito
-            return redirect()->route('comisiones.index')->with('success', $response['success']);
+            return redirect()->route('indexComision')->with('success', $response['success']);
            
         }else{
     
             // Si hubo un error al actualizar la comisión, redirigir con un mensaje de error
-            return redirect()->route('comisiones.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexComision')->withErrors(['error' => $response['error']]);
         }
     }
 
@@ -89,10 +97,10 @@ class ComisionController extends Controller
         // Verificar si se eliminó la comisión correctamente
         if (isset($response['success'])) {
             // Si se eliminó correctamente, redirigir  con un mensaje de éxito
-            return redirect()->route('comisiones.index')->with('success', $response['success']);
+            return redirect()->route('indexComision')->with('success', $response['success']);
         } else {
             // Si hubo un error al eliminar la comisión, redirigir con un mensaje de error
-            return redirect()->route('comisiones.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexComision')->withErrors(['error' => $response['error']]);
         }
     }
 

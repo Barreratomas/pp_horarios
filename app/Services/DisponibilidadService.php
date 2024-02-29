@@ -44,9 +44,9 @@ class DisponibilidadService implements DisponibilidadRepository
 
     public function horaPrevia($id_h_p_d)
     {
-        $horaPrevia = new DateTime(HorarioPrevioDocente::findOrFail($id_h_p_d)->hora);
+        $horaPrevia = new DateTime(HorarioPrevioDocente::find($id_h_p_d)->value('hora'));
+       
         $horaLimite = new DateTime('18:50');
-
         $horasPermitidas = [
             '19:20' => 1,
             '20:00' => 2,
@@ -65,7 +65,6 @@ class DisponibilidadService implements DisponibilidadRepository
                 if ($horarioSiguiente) {
                     return $modulo;
                 }
-
                 // se suman 30 min (el tiempo que tiene el docente despues de salir de otro instituto)
                 $horaPrevia->add(new DateInterval('PT30M'));
                 if ($horaPrevia->format('H:i') == $horaPermitida) {
@@ -73,9 +72,7 @@ class DisponibilidadService implements DisponibilidadRepository
                 }elseif ($horaPrevia->format('H:i') > $horaPermitida) {
                     $horarioSiguiente=true;
                 }
-
             }
-
            
         }else{
             return null;

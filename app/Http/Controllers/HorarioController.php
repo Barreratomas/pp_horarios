@@ -10,6 +10,7 @@ use App\Models\Horario;
 use Illuminate\Http\Request;
 use App\Services\HorarioService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Session;
 
 class HorarioController extends Controller
 {
@@ -22,6 +23,10 @@ class HorarioController extends Controller
        // mostrarFormulario
     public function mostrarFormularioPartial()
     {
+        // if (Session::get('userType') !== 'bedelia') {
+        //     // Redirigir a la página de inicio si el tipo de usuario no es "bedelia"
+        //     return redirect()->route('home');
+        // }
         $comisiones = Comision::all();
         $carreras = Carrera::all();
         

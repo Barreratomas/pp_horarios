@@ -8,8 +8,8 @@ interface DocenteRepository
     public function obtenerTodosDocentes();
     public function obtenerDocentePorDni($dni);
     public function guardarDocente($dni,$nombre,$apellido,$email);
-    public function actualizarDocente($dni,$nombre,$apellido,$email);
-    public function eliminarDocentePorDni($dni);
+    public function actualizarDocente($nombre,$apellido,$email,$docente);
+    public function eliminarDocente($docente);
 
     // Swagger
     public function obtenerDocente();

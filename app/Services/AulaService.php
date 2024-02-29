@@ -53,12 +53,12 @@ class AulaService implements AulaRepository
         }
     }
 
-    public function actualizarAula($id,$nombre=null,$capacidad=null,$tipo_aula=null,)
+    public function actualizarAula($nombre,$capacidad,$tipo_aula,$aula)
     {
-        $aula = Aula::find($id);
         if (!$aula) {
-            return ['error' => 'hubo un error al buscar Aula'];
+            return ['error' => 'hubo un error al buscar el aula '];
         }
+
     
         try {
             // Actualizar los atributos del aula
@@ -81,14 +81,16 @@ class AulaService implements AulaRepository
     }
 
 
-    public function eliminarAula($id)
+    public function eliminarAula($aula)
     {
-        $aula = Aula::find($id);
+       
         if (!$aula) {
             return ['error' => 'hubo un error al buscar Aula'];
         }
 
         try {
+
+            $aula->docenteMateria()->delete();
             $aula->delete();
             return ['success' => 'Aula eliminada correctamente'];
         } catch (Exception $e) {

@@ -8,7 +8,7 @@
 @section('content')
 
 
-<div class="container">
+<div class="container py-3">
     <div class="info">
         <h1>Terciario Urquiza</h1>
         <p>Bv. Oroño 690 – Rosario – Santa Fe – Argentina</p>
@@ -18,10 +18,14 @@
         <img src="{{asset('images/banner-escuela.jpg')}}">
     </div>
 
+    
     <div class="novedades">
         <h2>Novedades</h2>
         <img src="{{asset('images/novedades.jpg')}}">
     </div>
+   
+
+
 
     <!-- Mostrar el tipo de usuario -->
     <div class="user-type">

@@ -46,7 +46,13 @@ class DocenteMateria extends Model
     return $this->belongsTo(Materia::class,'id_materia','id_materia');
     }
 
+    public function comision():BelongsTo{
+        return $this->belongsTo(Comision::class,'id_comision','id_comision');
+    }
 
+    public function aula():BelongsTo{
+        return $this->belongsTo(Aula::class,'id_aula','id_aula');
+    }
 
 // DocenteMateria puede tener varias disponibilidades asociadas.
     public function disponibilidad():HasMany{

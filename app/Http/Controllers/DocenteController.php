@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Docente;
 use Illuminate\Http\Request;
 use App\Services\DocenteService;
 
@@ -51,29 +52,35 @@ class DocenteController extends Controller
         }
     }
 
-    public function actualizar(Request $request)
+
+public function formularioActualizar (Docente $docente)
     {
-        $dni = $request->input('dni');
+    return view('docente.actualizarDocente', compact('docente'));
+    }
+
+    public function actualizar(Request $request ,Docente $docente)
+    {
+       
         $nombre = $request->input('nombre');
         $apellido = $request->input('apellido');
         $email = $request->input('email');
 
-        $response = $this->docenteService->actualizarDocente($dni,$nombre,$apellido,$email);
+        $response = $this->docenteService->actualizarDocente($nombre,$apellido,$email, $docente);
         if (isset($response['success'])) {
-            return redirect()->route('docente.i')->with('success', $response['success']);
+            return redirect()->route('indexDocente')->with('success', $response['success']);
         } else {
-            return redirect()->route('docente.i')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexDocente')->withErrors(['error' => $response['error']]);
         }
     }
 
-    public function eliminar(Request $request)
+    public function eliminar( Docente $docente)
     {
-        $dni=$request->input('dni');
-        $response = $this->docenteService->eliminarDocentePorDni($dni);
+        
+        $response = $this->docenteService->eliminarDocente($docente);
         if (isset($response['success'])) {
-            return redirect()->route('docente.i')->with('success', $response['success']);
+            return redirect()->route('indexDocente')->with('success', $response['success']);
         } else {
-            return redirect()->route('docente.i')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexDocente')->withErrors(['error' => $response['error']]);
         }
     }
 

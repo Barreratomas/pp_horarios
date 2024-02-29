@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title','docentes')
+@section('title','materia')
 
 @section('styles')
 
@@ -9,7 +9,7 @@
 <div class="container py-3">
     <div class="row align-items-center justify-content-center">
         <div class="col-6 text-center"> 
-            <a href="{{route('mostrarFormularioDocente')}}"style="display: inline-block; margin-right: 10px;">
+            <a href="{{route('mostrarFormularioMateria')}}"style="display: inline-block; margin-right: 10px;">
                 <button type="submit" class="btn btn-primary me-2">Crear</button>
 
             </a>
@@ -20,18 +20,19 @@
 </div>
 
 <div class="container">
-    @foreach ($docentes as $docente)
+    @foreach ($materias as $materia)
     <div style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px; width:30vw;">
-        <p>Nombre: {{ $docente->nombre }} {{ $docente->apellido }}</p>
+        <p>Nombre: {{ $materia->nombre }} </p>
+        <p>Modulos semanales: {{ $materia->modulos_semanales }} </p>
         <div class="botones">
 
-            <a href="{{route('actualizarDocente', $docente->dni)}}"style="display: inline-block; margin-right: 10px;">
+            <a href="{{route('mostrarActualizarMateria', $materia->id_materia)}}"style="display: inline-block; margin-right: 10px;">
                 <button type="submit" class="btn btn-secondary m-2" 
                 >Actualizar</button>
             </a>
                 
             
-            <form action="{{route('eliminarDocente',$docente->dni)}}" method="post" style="display: inline-block;">
+            <form action="{{route('eliminarMateria',$materia->id_materia)}}" method="post" style="display: inline-block;">
                 @csrf
                 @method('delete')
                 <button type="submit" class="btn btn-danger" 

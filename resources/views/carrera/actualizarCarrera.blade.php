@@ -1,27 +1,23 @@
 @extends('layouts.base')
 
-@section('title','crear docente')
+@section('title','actualizar carrera')
 
 @section('content')
 <div class="container py-3">
     <div class="row align-items-center justify-content-center">
         <div class="col-6 text-center"> 
-            <form action="{{ route('storeDocente') }}" method="post">
+            <form action="{{ route('actualizarCarrera',$carrera->id_carrera) }}" method="post">
+                @method('put')
                 @csrf
-                <label for="dni">Ingrese el DNI</label><br>
-                <input type="number" name="dni" id="dniInput" placeholder="00000000"><br><br>
+                
 
                 <label for="nombre">Ingrese el nombre</label><br>
                 <input type="text" name="nombre"><br><br>
 
-                <label for="apellido">Ingrese el apellido</label><br> <!-- Corregido el texto del label -->
-                <input type="text" name="apellido"><br><br>
-
-                <label for="email">Ingrese el email</label><br>
-                <input type="email" name="email"><br><br>
+                
 
                 
-                <button type="submit" class="btn btn-primary me-2">Siguiente</button> <!-- Agregada clase me-2 para espacio entre botones -->
+                <button type="submit" class="btn btn-primary me-2">Actualizar</button> <!-- Agregada clase me-2 para espacio entre botones -->
             </form>
 
             

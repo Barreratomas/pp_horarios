@@ -42,38 +42,38 @@ class CarreraService implements CarreraRepository
             $carrera = new Carrera();
             $carrera->nombre=$nombre;
             $carrera->save();
-            return ['succes'=>'Carrera guardada correctamente'];
+            return ['success'=>'Carrera guardada correctamente'];
         } catch (Exception $e) {
+            
             return ['error'=>'Hubo un error al guardar la carrera'];
         }
     }
 
-    public function actualizarCarrera($id,$nombre)
+    public function actualizarCarrera($nombre,$carrera)
     {
-        try {
-            $carrera = Carrera::find($id);
-            if (!$carrera) {
-                return ['error'=>'hubo un error al buscar carrera'];
-            }
+        if (!$carrera) {
+            return ['error'=>'hubo un error al buscar carrera'];
+        }
+        try {   
             
             $carrera->nombre=$nombre;
             $carrera->save();
-            return ['succes'=>'Carrera actualizada correctamente'];
+            return ['success'=>'Carrera actualizada correctamente'];
         } catch (Exception $e) {
             return ['error'=>'Hubo un error al actualizar la carrera'];
         }
     }
 
-    public function eliminarCarreraPorId($id)
+    public function eliminarCarreraPorId($carrera)
     {
-        try {
-            $carrera = Carrera::find($id);
-            if (!$carrera) {
-                return ['error'=>'hubo un error al buscar  carrera'];
+        if (!$carrera) {
+            return ['error'=>'hubo un error al buscar  carrera'];
 
-            }
+        }
+        try {
+            
             $carrera->delete();
-            return ['succes'=>'Carrera eliminada correctamente'];
+            return ['success'=>'Carrera eliminada correctamente'];
         } catch (Exception $e) {
             // Manejar el error aquí
             return ['error'=>'Hubo un error al eliminar la carrera'];

@@ -3,27 +3,35 @@
 @section('title', 'crear docente')
 
 @section('content')
-    <form action="{{ route('storeHPD') }}" method="post">
-        @csrf
-        <input type="hidden" name="dni_docente" value="{{ session('success.dni') ?? session('dni') ?? session('error.dni_docente') }}">
+<div class="container py-3">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-6 text-center"> 
+            <form action="{{ route('storeHPD') }}" method="post">
+                @csrf
+                <input type="hidden" name="dni_docente" value="{{ session('success.dni') ?? session('dni') ?? session('error.dni_docente') }}">
 
 
-        <label for="trabajaInstitucion">¿Trabaja en otra institución?</label><br>
-        <input type="radio" name="trabajaInstitucion" value="si">
-        <label for="trabaja_si">Sí</label><br>
-        <input type="radio" name="trabajaInstitucion" value="no">
-        <label for="trabaja_no">No</label><br><br>
+                <label for="trabajaInstitucion">¿Trabaja en otra institución?</label><br>
+                <input type="radio" name="trabajaInstitucion" value="si">
+                <label for="trabaja_si">Sí</label><br>
+                <input type="radio" name="trabajaInstitucion" value="no">
+                <label for="trabaja_no">No</label><br><br>
 
-        <div id="mostrarCampos" style="display: none;">
-            <label for="dia">Ingrese el día</label><br>
-            <input type="text" name="dia"><br><br>
+                <div id="mostrarCampos" style="display: none;">
+                    <label for="dia">Ingrese el día</label><br>
+                    <input type="text" name="dia"><br><br>
 
-            <label for="hora">Ingrese la hora de salida</label><br>
-            <input type="time" name="hora"><br><br>
+                    <label for="hora">Ingrese la hora de salida</label><br>
+                    <input type="time" name="hora"><br><br>
+                </div>
+
+                <button type="submit" class="btn btn-primary me-2">Siguiente</button> 
+            </form>
+            
         </div>
+    </div>
+</div>
 
-        <button>siguiente</button>
-    </form>
     @if(session('success'))
         <p>El DNI es: {{ session('success.dni') }}</p>
     @elseif(session('error'))

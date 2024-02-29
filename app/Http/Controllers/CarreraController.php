@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Carrera;
 use App\Services\CarreraService;
 
 
@@ -19,7 +20,7 @@ class CarreraController extends Controller
     public function index()
     {
         $carreras = $this->carreraService->obtenerTodasCarreras();
-        return view('carreras.index', compact('carreras'));
+        return view('carrera.index', compact('carreras'));
     }
 
     public function mostrarCarrera(Request $request)
@@ -27,9 +28,13 @@ class CarreraController extends Controller
         $id = $request->input('id');
         $carrera = $this->carreraService->obtenerCarreraPorId($id);
         
-        return view('carreras.show', compact('carrera'));
+        return view('#', compact('carrera'));
     }
 
+    public function crear()
+    {
+        return view('carrera.crearCarrera');
+    }
 
     public function store(Request $request)
     {
@@ -38,35 +43,36 @@ class CarreraController extends Controller
 
         $response = $this->carreraService->guardarCarrera($nombre);
         if (isset($response['success'])) {
-            return redirect()->route('carreras.index')->with('success', $response['success']);
+            return redirect()->route('indexCarrera')->with('success', $response['success']);
         } else {
-            return redirect()->route('carreras.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexCarrera')->withErrors(['error' => $response['error']]);
         }
     }
 
-    public function actualizar(Request $request)
+    public function formularioActualizar( Carrera $carrera){
+        return view('carrera.actualizarCarrera', compact('carrera'));
+    }
+    public function actualizar(Request $request,Carrera $carrera)
     {
-        $id = $request->input('id');
         $nombre = $request->input('nombre');
 
 
-        $response = $this->carreraService->actualizarCarrera($id, $nombre);
+        $response = $this->carreraService->actualizarCarrera($nombre,$carrera);
         if (isset($response['success'])) {
-            return redirect()->route('carreras.index')->with('success', $response['success']);
+            return redirect()->route('indexCarrera')->with('success', $response['success']);
         } else {
-            return redirect()->route('carreras.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexCarrera')->withErrors(['error' => $response['error']]);
         }
     }
 
-    public function eliminar(Request $request)
+    public function eliminar(Carrera $carrera)
     {
-        $id = $request->input('id');
 
-        $response = $this->carreraService->eliminarCarreraPorId($id);
+        $response = $this->carreraService->eliminarCarreraPorId($carrera);
         if (isset($response['success'])) {
-            return redirect()->route('carreras.index')->with('success', $response['success']);
+            return redirect()->route('indexCarrera')->with('success', $response['success']);
         } else {
-            return redirect()->route('carreras.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexCarrera')->withErrors(['error' => $response['error']]);
         }
     }
 

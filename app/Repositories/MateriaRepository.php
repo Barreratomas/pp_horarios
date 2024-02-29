@@ -7,8 +7,8 @@ interface MateriaRepository
     public function obtenerTodasMaterias();
     public function obtenerMateriaPorId($id);
     public function guardarMateria($nombre,$modulos_semanales);
-    public function actualizarMateria($id,$nombre,$modulos_semanales);
-    public function eliminarMateriaPorId($id);
+    public function actualizarMateria($nombre,$modulos_semanales,$materia);
+    public function eliminarMateriaPorId($materia);
 
 
      //-----------------------------------------------------------------------------

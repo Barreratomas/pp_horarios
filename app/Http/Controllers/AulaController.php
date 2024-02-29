@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aula;
 use App\Services\AulaService;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,12 @@ class AulaController extends Controller
         return view('aula.show', compact('aula'));
     }
 
+    
 
+
+    public function crear(){
+        return view('aula.crearAula');
+    }
   
     public function guardarAula(Request $request){
         $nombre = $request->input('nombre');
@@ -37,33 +43,36 @@ class AulaController extends Controller
 
         $response=$this->aulaService->guardarAula($nombre,$capacidad,$tipo_aula);
         if (isset($response['success'])) {
-            return redirect()->route('aula.index')->with('success', $response['success']);
+            return redirect()->route('indexAula')->with('success', $response['success']);
         } else {
-            return redirect()->route('aula.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexAula')->withErrors(['error' => $response['error']]);
         };
     }
 
 
-    public function actualizarAula(Request $request){
-        $id = $request->input('id');
+    public function formularioActualizar(Aula $aula){
+        return view('aula.actualizarAula', compact('aula'));
+    }
+
+    public function actualizarAula(Request $request, Aula $aula){
+        
         $nombre = $request->input('nombre');
         $capacidad = $request->input('capacidad');        
         $tipo_aula = $request->input('tipo_aula');
-        $response=$this->aulaService->actualizarAula($id,$nombre,$capacidad,$tipo_aula);
+        $response=$this->aulaService->actualizarAula($nombre,$capacidad,$tipo_aula,$aula);
         if (isset($response['success'])) {
-            return redirect()->route('aula.index')->with('success', $response['success']);
+            return redirect()->route('indexAula')->with('success', $response['success']);
         } else {
-            return redirect()->route('aula.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexAula')->withErrors(['error' => $response['error']]);
         };    }
 
 
-    public function eliminarAula(Request $request){
-        $id = $request->input('id');
-        $response=$this->aulaService->eliminarAula($id);
+    public function eliminarAula(Aula $aula){
+        $response=$this->aulaService->eliminarAula($aula);
         if (isset($response['success'])) {
-            return redirect()->route('aula.index')->with('success', $response['success']);
+            return redirect()->route('indexAula')->with('success', $response['success']);
         } else {
-            return redirect()->route('aula.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexAula')->withErrors(['error' => $response['error']]);
         };
     }
 //-------------------------------------------------------------------------------------------------------------

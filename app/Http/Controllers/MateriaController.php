@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Materia;
 use Illuminate\Http\Request;
 use App\Services\MateriaService;
 
@@ -22,11 +23,13 @@ class MateriaController extends Controller
     public function mostrarMateria(Request $request)
     {   $id=$request->input("id"); 
         $materia = $this->materiaService->obtenerMateriaPorId($id);
-        return view('materia.show', compact('materia'));
+        return view('#', compact('materia'));
     }
 
     
-
+    public function crear(){
+        return view('materia.crearMateria');
+    }
     
 
     public function store(Request $request)
@@ -36,37 +39,40 @@ class MateriaController extends Controller
 
         $response = $this->materiaService->guardarMateria($nombre,$modulos_semanales);
         if (isset($response['success'])) {
-            return redirect()->route('materia.index')->with('success', $response['success']);
+            return redirect()->route('indexMateria')->with('success', $response['success']);
         } else {
-            return redirect()->route('materia.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexMateria')->withErrors(['error' => $response['error']]);
         }
     }
 
-   
-    public function update(Request $request)
+    public function formularioActualizar(Materia $materia)
     {
-        $id=$request->input('id');
+        return view('materia.actualizarMateria',compact('materia'));
+    }
+   
+    public function actualizar(Request $request, Materia $materia)
+    {
         $nombre=$request->input('nombre');
         $modulos_semanales=$request->input('modulos_semanales');
 
-        $response = $this->materiaService->actualizarMateria($id,$nombre,$modulos_semanales);
+        $response = $this->materiaService->actualizarMateria($nombre,$modulos_semanales,$materia);
         if (isset($response['success'])) {
-            return redirect()->route('materia.index')->with('success', $response['success']);
+            return redirect()->route('indexMateria')->with('success', $response['success']);
         } else {
-            return redirect()->route('materia.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexMateria')->withErrors(['error' => $response['error']]);
         }
     }
 
-    public function eliminar(Request $request)
+    public function eliminar(Materia $materia)
     {        
-        $id=$request->input('id');
+        
  
 
-        $response = $this->materiaService->eliminarMateriaPorId($id);
+        $response = $this->materiaService->eliminarMateriaPorId($materia);
         if (isset($response['success'])) {
-            return redirect()->route('materia.index')->with('success', $response['success']);
+            return redirect()->route('indexMateria')->with('success', $response['success']);
         } else {
-            return redirect()->route('materia.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexMateria')->withErrors(['error' => $response['error']]);
         }
     }
     
