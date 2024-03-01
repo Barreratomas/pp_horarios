@@ -23,15 +23,17 @@ class HorarioService
 
     public function guardarHorario($params)
     {
-        try {
-            $horario = new Horario();
-            foreach ($params as $key => $value) {
-                
-                $horario->{$key} = $value;
-            }
-            $horario->save();
+        $horario = new Horario();
+        foreach ($params as $key => $value) {
+            
+            $horario->{$key} = $value;
+        }
+    
+        $horario->save();
+
+        if ($horario->id_horario) {
             return ['success' => 'Horario guardado correctamente'];
-        } catch (Exception $e) {
+        } else {
             return ['error' => 'Hubo un error al guardar el horario'];
         }
     }

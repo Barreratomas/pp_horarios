@@ -58,12 +58,11 @@ class DisponibilidadController extends Controller
             
 
         // Obtener el id_h_p_d más reciente
-        $h_p_d = HorarioPrevioDocente::orderBy('created_at', 'desc')->first();
+        $h_p_d = HorarioPrevioDocente::orderBy('id_h_p_d', 'desc')->first();
         $id_h_p_d = $h_p_d->id_h_p_d;
         $diaInstituto = $h_p_d->dia;
         
         $moduloPrevio=$this->disponibilidadService->horaPrevia($id_h_p_d);
-
 
         
         $distribucion=$this->disponibilidadService->modulosRepartidos($modulos_semanales,$moduloPrevio,$id_dm,$id_comision,$id_aula,$diaInstituto);

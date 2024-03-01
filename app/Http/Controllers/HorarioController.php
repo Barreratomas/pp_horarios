@@ -6,6 +6,7 @@ use App\Http\Requests\HorarioRequest;
 use App\Models\Carrera;
 use App\Models\Comision;
 use App\Models\Disponibilidad;
+use App\Models\DocenteMateria;
 use App\Models\Horario;
 use Illuminate\Http\Request;
 use App\Services\HorarioService;
@@ -62,43 +63,54 @@ class HorarioController extends Controller
     //    guardar
     public function store(Request $request)
     {   
-        $disponibilidad = Disponibilidad::orderBy('created_at', 'desc')->first();
-        $id_dm = $disponibilidad->id_dm;
+        
 
-        if (!$id_dm) {
-            return redirect()->route('home')->withErrors(['error' => 'No se encontró ningún id_dm disponible']);
+        // Obtener el último registro de disponibilidad
+        $ultimoRegistro = Disponibilidad::orderBy('id_disponibilidad', 'desc')->first();
 
+        $registros[]=$ultimoRegistro;
+
+        // // Buscar el penúltimo registro de disponibilidad con el mismo id_comision
+        $penultimoRegistro = Disponibilidad::orderBy('id_disponibilidad', 'desc')
+        ->skip(1) // Saltar el último registro y obtener el siguiente
+        ->take(1) // Tomar solo un registro
+        ->first(); // Obtener el primer registro de la consulta
+
+        
+        if ($penultimoRegistro !== null && $penultimoRegistro->docenteMateria !== null && $ultimoRegistro->docenteMateria->id_comision == $penultimoRegistro->docenteMateria->id_comision) {
+            $registros[] = $penultimoRegistro;
         }
-            $penultimoRegistros = Disponibilidad::where('id_dm', $id_dm)
-                ->orderBy('id_disponibilidad', 'desc')
-                ->take(2) // Tomar los dos registros más recientes con el mismo id_dm
-                ->get();
+        
+       
+        
 
-            foreach ($penultimoRegistros as $registro) {
-                $v_p = (random_int(0, 1) === 0) ? 'v' : 'p';
+        foreach ($registros as $registro) {
+            $v_p = (random_int(0, 1) == 0) ? 'v' : 'p';
 
-                $params = [
-                    'dia' => $registro->dia,
-                    'modulo_inicio' => $registro->modulo_inicio,
-                    'modulo_fin' => $registro->modulo_fin,
-                    'v_p' => $v_p, // Asignar el valor aleatorio
-                    'id_disponibilidad' => $registro->id_disponibilidad,
-                    'materia' => $registro->docenteMateria->materia->id_materia,
-                    'aula' => $registro->docentemateria->id_aula,
-                    'comision' => $registro->docentemateria->id_comision,
-                ];
-                // dd($params);        
+            $params = [
+                'dia' => $registro->dia,
+                'modulo_inicio' => $registro->modulo_inicio,
+                'modulo_fin' => $registro->modulo_fin,
+                'v_p' => $v_p, // Asignar el valor aleatorio
+                'id_disponibilidad' => $registro->id_disponibilidad,
+                'materia' => $registro->docenteMateria->materia->id_materia,
+                'aula' => $registro->docenteMateria->id_aula,
+                'comision' => $registro->docenteMateria->id_comision,
+                'carrera'=>$registro->docenteMateria->comision->id_carrera
+            ];
+            // dd($params);        
 
-                $response = $this->horarioService->guardarHorario($params);
+            $response = $this->horarioService->guardarHorario($params);
 
-                if (isset($response['success'])) {
-                    // Si se guardó correctamente, redirigir con un mensaje de éxito
-                    return redirect()->route('mostrarFormularioHorario')->with('success', ['message' => $response['success']]);
-                } else {
-                    // Si hubo un error al guardar, redirigir con un mensaje de error
-                    return redirect()->route('home')->withErrors(['error' => $response['error']]);
-                }
-            }
+            
+        }
+        if ($response && isset($response['success'])) {
+            // Si se guardó correctamente, redirigir con un mensaje de éxito
+            return redirect()->route('mostrarFormularioHorario')->with('success', ['message' => $response['success']]);
+        } else {
+            // Si hubo un error al guardar, redirigir con un mensaje de error
+            return redirect()->route('home')->withErrors(['error' => $response['error']]);
+        }
         
     }
 

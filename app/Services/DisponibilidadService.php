@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use DateInterval;
 use DateTime;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class DisponibilidadService implements DisponibilidadRepository
@@ -45,9 +46,24 @@ class DisponibilidadService implements DisponibilidadRepository
 
     public function horaPrevia($id_h_p_d)
     {
-        $horaPrevia = new DateTime(HorarioPrevioDocente::find($id_h_p_d)->value('hora'));
+        
+        $modelo=HorarioPrevioDocente::find($id_h_p_d);
+        $horaPrevia=$modelo->hora;
+        
+
+    
+
+
+        
        
+
+
+        
+
         $horaLimite = new DateTime('18:50');
+        $horaLimite = $horaLimite->format('H:i');
+        
+
         $horasPermitidas = [
             '19:20' => 1,
             '20:00' => 2,
@@ -60,21 +76,36 @@ class DisponibilidadService implements DisponibilidadRepository
         
         
         
-        if ($horaPrevia->diff($horaLimite)->invert == 1) {
+        if ($horaPrevia> $horaLimite) {
             $horarioSiguiente=false;
+            // se suman 30 min (el tiempo que tiene el docente despues de salir de otro instituto)
+            $hora_datetime = DateTime::createFromFormat('H:i', $horaPrevia);
+
+            // Sumar 30 minutos
+            $hora_datetime->modify('+30 minutes');
+
+            $horaPrevia = $hora_datetime->format('H:i');
             foreach ($horasPermitidas as $horaPermitida => $modulo) {
+                
                 if ($horarioSiguiente) {
+                    $modulo--;
+
                     return $modulo;
                 }
-                // se suman 30 min (el tiempo que tiene el docente despues de salir de otro instituto)
-                $horaPrevia->add(new DateInterval('PT30M'));
-                if ($horaPrevia->format('H:i') == $horaPermitida) {
+
+               
+                 
+                if ($horaPrevia == $horaPermitida) {
+
+
                     return $modulo;
-                }elseif ($horaPrevia->format('H:i') > $horaPermitida) {
+                }elseif ($horaPrevia < $horaPermitida) {
                     $horarioSiguiente=true;
                 }
+               
+
             }
-           
+            dd($horaPrevia);
         }else{
             return null;
         }
@@ -85,6 +116,7 @@ class DisponibilidadService implements DisponibilidadRepository
     
     public function modulosRepartidos($modulos_semanales,$moduloPrevio,$id_dm,$id_comision,$id_aula,$diaInstituto) 
     {
+        
         $modulosPermitidos = range(1, 7);
         $distribucion = [];
         $diasSemana = ['lunes','martes','miercoles','jueves','viernes'];
@@ -95,11 +127,14 @@ class DisponibilidadService implements DisponibilidadRepository
 
                 foreach ($modulosPermitidos as $modulo) {
                     $modulo_inicio = $modulo; 
+                    if ($modulo_inicio >= 7) {
+                        continue; // Saltar este módulo y pasar al siguiente
+                    }
                     switch ($modulos_semanales) {
                         case 1:
                         case 2:
                         case 3:
-                            $modulo_fin = ($modulo_inicio + $modulos_semanales);
+                            $modulo_fin = min($modulo_inicio + $modulos_semanales, 7);
                             $disponible = $this->verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm, $id_comision, $id_aula);
                             if ($disponible) {
                                 $distribucion[] = [
@@ -117,8 +152,8 @@ class DisponibilidadService implements DisponibilidadRepository
                             if ($siguienteDia && $modulos_semanales == 5) {
                                 $modulos_semanales = 4;
                             }
-                            $mitadModulos = ($modulos_semanales % 2 == 0) ? $modulos_semanales / 2 : ceil($modulos_semanales / 2);
-                            $modulo_fin = ($modulo_inicio + $mitadModulos);
+                            $mitadModulos = ($modulos_semanales % 2 == 0) ? $modulos_semanales / 2 : intval(ceil($modulos_semanales / 2));
+                            $modulo_fin = min($modulo_inicio + $mitadModulos,7);
                             $disponible = $this->verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm, $id_comision, $id_aula);
                             if ($disponible) {
                                 if ($siguienteDia) {
@@ -146,11 +181,12 @@ class DisponibilidadService implements DisponibilidadRepository
             }else{
 
                 $modulo_inicio=$moduloPrevio;
+                
                 switch ($modulos_semanales) {
                     case 1:
                     case 2:
                     case 3:
-                        $modulo_fin = ($modulo_inicio+$modulos_semanales);
+                        $modulo_fin = min($modulo_inicio + $modulos_semanales, 7);
                         $disponible = $this->verificarModulosDia($dia,$modulo_inicio,$modulo_fin,$id_dm,$id_comision,$id_aula);
                         if ($disponible) {
                             $distribucion[] = [
@@ -168,9 +204,10 @@ class DisponibilidadService implements DisponibilidadRepository
                         if ($siguienteDia && $modulos_semanales==5) {
                             $modulos_semanales=4;
                         }
-                        $mitadModulos = ($modulos_semanales % 2 == 0) ? $modulos_semanales / 2 : ceil($modulos_semanales / 2);
+                        $mitadModulos = ($modulos_semanales % 2 == 0) ? $modulos_semanales / 2 : intval(ceil($modulos_semanales / 2));
                         
-                        $modulo_fin = ($modulo_inicio + $mitadModulos);
+                        $modulo_fin = min($modulo_inicio + $mitadModulos,7);
+
                         $disponible = $this->verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm, $id_comision,$id_aula);
                         if ($disponible) {
                             
@@ -189,7 +226,7 @@ class DisponibilidadService implements DisponibilidadRepository
                                     'modulo_fin' => $modulo_fin
                                 ];
                                 $siguienteDia=true;
-                                break 2;
+                                break;
                             }
                         }
                         break;
@@ -198,9 +235,8 @@ class DisponibilidadService implements DisponibilidadRepository
             
         }
             
-         
         
-        return $distribucion;
+        return $distribucion=null;;
     }
 
     private function verificarModulosDia($dia, $modulo_inicio, $modulo_fin, $id_dm,$id_comision,$id_aula) 
@@ -219,7 +255,7 @@ class DisponibilidadService implements DisponibilidadRepository
         // verifico si se superponen los horarios
         ->where(function ($query) use ($modulo_inicio, $modulo_fin) {
             $query->whereBetween('disponibilidades.modulo_inicio', [$modulo_inicio, $modulo_fin])
-                ->orWhereBetween('disponibilidades.modulo_fin', [$modulo_inicio, $modulo_fin]);
+          ->orWhereBetween(DB::raw('disponibilidades.modulo_fin -1'), [$modulo_inicio, $modulo_fin]);
         })
         // verificar si ya existe aula con horarios superpuestos el mismo dia
         ->orWhereExists(function ($query) use ($id_aula, $modulo_inicio, $modulo_fin, $dia) {
@@ -230,7 +266,7 @@ class DisponibilidadService implements DisponibilidadRepository
                 ->where('d2.dia', $dia) // Condición para verificar el mismo día
                 ->where(function ($query) use ($modulo_inicio, $modulo_fin) {
                     $query->whereBetween('d2.modulo_inicio', [$modulo_inicio, $modulo_fin])
-                        ->orWhereBetween('d2.modulo_fin', [$modulo_inicio, $modulo_fin]);
+                    ->orWhereBetween(DB::raw('d2.modulo_fin - 1'), [$modulo_inicio, $modulo_fin]);
                 });
         })
             // Verificar si el docente ya tiene disponibilidad en el mismo día y horarios superpuestos
@@ -242,7 +278,7 @@ class DisponibilidadService implements DisponibilidadRepository
                 ->where('d2.dia', $dia) // Condición para verificar el mismo día
                 ->where(function ($query) use ($modulo_inicio, $modulo_fin) {
                     $query->whereBetween('d2.modulo_inicio', [$modulo_inicio, $modulo_fin])
-                        ->orWhereBetween('d2.modulo_fin', [$modulo_inicio, $modulo_fin]);
+                    ->orWhereBetween(DB::raw('d2.modulo_fin - 1'), [$modulo_inicio, $modulo_fin]);
                 });
         })
         ->exists();
@@ -250,61 +286,12 @@ class DisponibilidadService implements DisponibilidadRepository
 
 
 
-        // verificar si ya existe disponibilidad con el mismo aula en horarios superpuestos
-
-
-
-        // verifica si ya existe una disponibilidad con el mismo id_dm, id_comision y dia  
-        // $existenciaDisponibilidad = Disponibilidad::where('id_dm', $id_dm)
-        //     ->where('id_comision', function ($subQuery) use ($id_dm) {
-
-        //     $subQuery->select('id_comision')
-        //         ->from('docentes_materias')
-        //         ->where('id_dm', $id_dm);
-        //     })
-        //     ->where('dia', $dia)
-        //     ->where(function ($query) use ($id_dm, $modulo_inicio, $modulo_fin, $dia, $id_comision,$id_aula) {
-        //     //verifica si ya existen modulos que se superpongan que tengan el mismo dia e id comision 
-        //     $query->where(function ($q) use ($modulo_inicio, $modulo_fin, $dia, $id_comision) {
-        //         $q->where(function ($subQuery) use ($id_comision) {
-        //         // busco en docentes materias
-        //             $subQuery->select('id_aula')
-        //                 ->from('docentes_materias')
-        //                 ->where('id_comision', $id_comision);
-        //         })
-        //             ->where('dia', $dia)
-        //             ->whereBetween('modulo_inicio', [$modulo_inicio, $modulo_fin])
-        //             ->orWhereBetween('modulo_fin', [$modulo_inicio, $modulo_fin]);
-
-        //     //verifica si ya existen modulos que se superpongan que tengan el mismo dia e id dm 
-        //     })->orWhere(function ($query2) use ($id_dm, $dia, $modulo_inicio, $modulo_fin) {
-
-        //         $query2->where('id_dm', $id_dm)
-        //             ->where('dia', $dia)
-        //             ->whereBetween('modulo_inicio', [$modulo_inicio, $modulo_fin])
-        //             ->orWhereBetween('modulo_fin', [$modulo_inicio, $modulo_fin]);
-
-        //     //verifica si ya existen aulas que se superpongan con los modulos en el mismo dia 
-        //     })->orWhere(function($query3) use ($id_aula,$modulo_inicio,$modulo_fin,$dia){
-        //         // busco en docentes materias
-        //         $query3->where(function ($subQuery) use ($id_aula) {
-        //             $subQuery->select('id_aula')
-        //                 ->from('docentes_materias')
-        //                 ->where('id_aula', $id_aula);
-        //         })
-        //         ->where('dia',$dia)
-        //         ->whereBetween('modulo_inicio', [$modulo_inicio, $modulo_fin])
-        //         ->orWhereBetween('modulo_fin', [$modulo_inicio, $modulo_fin]);
-        //     });
-        // })->exists();
     
    
-        // Si ya existe una disponibilidad para el mismo id_dm y dia, devuelve false
-        // if (!$existenciaDisponibilidad) {
-        //     return true;
-        // }
-        // // Si no existe, devuelve true
-        // return false;
+        if (!$existeSuperposicion) {
+            return true;
+        }
+        return false;
     }
 
 

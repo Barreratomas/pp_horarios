@@ -32,8 +32,7 @@ class UsuarioService implements UsuarioRepository
 
     public function guardarUsuario($params)
     {
-       
-        try {
+        if ($params['tipo' ] == 'estudiante') {
             $idCarrera = $params['id_carrera'];
             $comision = Comision::where('id_carrera', $idCarrera)
             ->where('capacidad', '>', 0) // Solo comisiones con capacidad disponible
@@ -43,7 +42,6 @@ class UsuarioService implements UsuarioRepository
                 // Si no hay comisiones disponibles con capacidad suficiente, mandar un error
                 return ['error' => 'No fue posible encontrar una comision disponible'];
             }
-            // $usuarioData['id_comision'] = $comision->id_comision;
 
             $usuario = new Usuario();
             foreach ($params as $key => $value) {
@@ -52,10 +50,26 @@ class UsuarioService implements UsuarioRepository
                 
             }
             $usuario->id_comision=$comision->id_comision;
-            $usuario->save();
-            
             $comision->capacidad -= 1;
             $comision->save();
+        }else{
+            $usuario = new Usuario();
+            foreach ($params as $key => $value) {
+                
+                $usuario->{$key} = $value;
+                
+            }
+
+        }
+        
+        try {
+           
+            
+
+           
+            $usuario->save();
+            
+            
             return ['success' => 'Usuario guardado correctamente'];
         } catch (Exception $e) {
             return ['error' => 'Hubo un error al guardar el usuario'];

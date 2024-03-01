@@ -11,6 +11,7 @@ use App\Http\Controllers\HorarioController;
 use App\Http\Controllers\HorarioPrevioDocenteController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MateriaController;
+use App\Http\Controllers\UsuarioController;
 use App\Models\Materia;
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,15 @@ Route::post('/carrera/crear-carrera',[CarreraController::class, 'store'])->name(
 Route::get('/carrera/actualizar-carrera/{carrera}',[CarreraController::class,'formularioActualizar' ])->name('mostrarActualizarCarrera');
 Route::put('/carrera/actualizar-carrera/{carrera}',[CarreraController::class,'actualizar' ])->name('actualizarCarrera');
 Route::delete('/carrera/eliminar-carrera/{carrera}',[CarreraController::class,'eliminar' ])->name('eliminarCarrera');
+
+
+// usuario
+Route::get('/usuario',[usuarioController::class, 'index'])->name('indexUsuario');
+Route::get('/usuario/crear-usuario',[usuarioController::class, 'crear'])->name('mostrarFormularioUsuario');
+Route::post('/usuario/crear-usuario',[usuarioController::class, 'store'])->name('storeUsuario');
+Route::get('/usuario/actualizar-usuario/{usuario}',[usuarioController::class,'formularioActualizar' ])->name('mostrarActualizarUsuario');
+Route::put('/usuario/actualizar-usuario/{usuario}',[usuarioController::class,'actualizar' ])->name('actualizarUsuario');
+Route::delete('/usuario/eliminar-usuario/{usuario}',[usuarioController::class,'eliminar' ])->name('eliminarUsuario');
 
 // comision
 Route::get('/comision',[ComisionController::class,'index'])->name('indexComision');
@@ -85,7 +95,7 @@ Route::get('/disponibilidad',[DisponibilidadController::class,'store'])->name('s
 Route::get('/disponibilidad/disponibilidad-index',[DisponibilidadController::class,'redireccionar'])->name('redireccionarDisponibilidad');
 Route::get('/disponibilidad/disponibilidad-index-index',[DisponibilidadController::class,'redireccionarError'])->name('redireccionarDisponibilidadError');
 
-
+// horario
 Route::get('/horario',[HorarioController::class,'mostrarFormularioPartial'])->name('mostrarFormularioHorario');
 Route::post('/horario', [HorarioController::class,'mostrarHorario'])->name('mostrarHorario');
 // Route::get('horario/crear-horario',[HorarioController::class,'crear'])->name('crearHorario');
