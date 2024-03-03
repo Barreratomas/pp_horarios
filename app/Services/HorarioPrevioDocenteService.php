@@ -33,7 +33,6 @@ class HorarioPrevioDocenteService implements HorarioPrevioDocenteRepository
     public function guardarHorarioPrevioDocente($dni_docente,$dia,$hora)
     {
         try {
-            // $docente = $this->usuarioMapper->toDocente($docenteData);
             $horarioPrevioDocente = new HorarioPrevioDocente();
        
         

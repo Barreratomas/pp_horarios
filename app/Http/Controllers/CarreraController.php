@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\carreraRequest;
 use App\Models\Carrera;
 use App\Services\CarreraService;
 
@@ -36,7 +37,7 @@ class CarreraController extends Controller
         return view('carrera.crearCarrera');
     }
 
-    public function store(Request $request)
+    public function store(carreraRequest $request)
     {
         
         $nombre = $request->input('nombre');
@@ -52,7 +53,9 @@ class CarreraController extends Controller
     public function formularioActualizar( Carrera $carrera){
         return view('carrera.actualizarCarrera', compact('carrera'));
     }
-    public function actualizar(Request $request,Carrera $carrera)
+
+
+    public function actualizar(carreraRequest $request,Carrera $carrera)
     {
         $nombre = $request->input('nombre');
 

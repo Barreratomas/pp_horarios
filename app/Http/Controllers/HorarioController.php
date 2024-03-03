@@ -11,6 +11,7 @@ use App\Models\Horario;
 use Illuminate\Http\Request;
 use App\Services\HorarioService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class HorarioController extends Controller
@@ -46,7 +47,10 @@ class HorarioController extends Controller
               ->whereHas('carrera', function ($subQuery) use ($id_carrera) {
                   $subQuery->where('id_carrera', $id_carrera);
               });
-    })->orderBy('created_at', 'desc')->get();
+    })->orderBy(DB::raw("CASE WHEN dia = 'lunes' THEN 1 WHEN dia = 'martes' THEN 2 WHEN dia = 'miércoles' THEN 3 WHEN dia = 'jueves' THEN 4 WHEN dia = 'viernes' THEN 5 ELSE 6 END"))
+    ->orderBy('modulo_inicio') // Ordenar por módulo de inicio
+    ->orderBy('created_at', 'desc')
+    ->get();
 
     // importo comisiones y carreras
     $formularioHorarioPartial = $this->mostrarFormularioPartial();
@@ -55,6 +59,9 @@ class HorarioController extends Controller
     // Retornar la vista con la comisión y los horarios
     return view('horario.index', compact('horarios', 'id_comision', 'formularioHorarioPartial'));
     }
+
+
+
 
     public function crear(){
         return view('horario.crearHorario');

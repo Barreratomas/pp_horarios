@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title','materia')
+@section('title','usuario')
 
 @section('styles')
 
@@ -23,7 +23,15 @@
     @foreach ($usuarios as $usuario)
     <div style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px; width:30vw;">
         <p>Nombre: {{ $usuario->nombre }} {{ $usuario->apellido }} </p>
-        <p>Modulos semanales: {{ $materia->modulos_semanales }} </p>
+        <p>Tipo: {{ $usuario->tipo }} </p>
+        <p>Email: {{ $usuario->email }} </p>
+        
+        @if ($usuario->id_carrera && $usuario->id_comision)
+            <p>Carrera: {{ $usuario->carrera->nombre }} </p>
+            <p>Comision: {{ $usuario->comision->anio }}°{{ $usuario->comision->division }}</p>
+
+        @endif
+
         <div class="botones">
 
             <a href="{{route('mostrarActualizarUsuario', $usuario->dni)}}"style="display: inline-block; margin-right: 10px;">

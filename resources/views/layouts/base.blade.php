@@ -18,7 +18,10 @@
 </head>
 <body>
     
+    @if (!session("userType"))
+    <script>window.location = "{{ route('logout') }}";</script>
 
+    @endif
 
 
     @if (!isset($hideMenu))

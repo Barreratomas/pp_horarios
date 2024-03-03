@@ -31,8 +31,10 @@ class UsuarioService implements UsuarioRepository
     }
 
     public function guardarUsuario($params)
-    {
-        if ($params['tipo' ] == 'estudiante') {
+    {   
+        // $hola="hola";
+        if ($params['tipo'] == 'estudiante') {
+            
             $idCarrera = $params['id_carrera'];
             $comision = Comision::where('id_carrera', $idCarrera)
             ->where('capacidad', '>', 0) // Solo comisiones con capacidad disponible
@@ -59,14 +61,14 @@ class UsuarioService implements UsuarioRepository
                 $usuario->{$key} = $value;
                 
             }
+            $usuario->id_carrera=null;
+            $usuario->id_comision=null;
 
         }
+
         
         try {
-           
-            
-
-           
+  
             $usuario->save();
             
             
@@ -76,17 +78,15 @@ class UsuarioService implements UsuarioRepository
         }
     }
 
-    public function actualizarUsuario($dni,$params )
+    public function actualizarUsuario($params, $usuario )
     {
-        $usuario = Usuario::find($dni);
         if (!$usuario) {
             return ['error' => 'hubo un error al buscar Usuario'];
-        }
+        }   
 
-
-
-        try {
-
+        if ($usuario->comision) 
+        {
+            $viejaComision = Comision::find($usuario->id_comision);
             // busca una comisión que coincida con el ID de 
             //comisión y la ID de carrera proporcionados
             $comision = Comision::where('id_comision', $params['id_comision'])
@@ -97,18 +97,9 @@ class UsuarioService implements UsuarioRepository
                 return ['error' => 'La comisión seleccionada no es válida para la carrera del usuario o no tiene capacidad disponible'];
             }
             // Encuentra la vieja comisión del usuario
-            $viejaComision = Comision::find($usuario->id_comision);
             
 
 
-            // Actualiza los datos del usuario con los nuevos parametros
-            foreach ($params as $key => $value) {
-                if (!is_null($value)) {
-                    $usuario->{$key} = $value;
-                }
-            }
-            
-            $usuario->save();
 
             // Incrementa la capacidad de la vieja comisión en 1
             $viejaComision->capacidad += 1;
@@ -116,6 +107,42 @@ class UsuarioService implements UsuarioRepository
             
             $comision->capacidad -= 1;
             $comision->save();
+
+            
+            // Actualiza los datos del usuario con los nuevos parametros
+            foreach ($params as $key => $value) {
+                if (!is_null($value)) {
+                    $usuario->{$key} = $value;
+                }
+            }
+        }else
+        {
+            // Actualiza los datos del usuario con los nuevos parametros
+            foreach ($params as $key => $value) 
+            {
+                if (!is_null($value)) {
+                    $usuario->{$key} = $value;
+                }
+            }
+            $usuario->id_carrera=null;
+            $usuario->id_comision=null;
+        }
+
+         
+
+
+
+        try {
+
+           
+            
+
+
+           
+            
+            $usuario->save();
+
+           
             return ['success' => 'Usuario actualizado correctamente'];
             
         } catch (Exception $e) {
@@ -126,17 +153,21 @@ class UsuarioService implements UsuarioRepository
 
     
 
-    public function eliminarUsuarioPorDni($dni)
+    public function eliminarUsuarioPorDni($usuario)
     {
-        $usuario = Usuario::find($dni);
         if (!$usuario) {
             return ['error' => 'hubo un error al buscar Usuario'];
         }
-        try {               
-            $comision = Comision::find($usuario->id_comision);
+        try {     
+            if ($usuario->comision) {
+                $comision = Comision::find($usuario->id_comision);           
+                $comision->capacidad += 1;
+                $comision->save();
+
+
+            }          
+            
             $usuario->delete();
-            $comision->capacidad += 1;
-            $comision->save();
             return ['success' => 'Usuario eliminado correctamente'];
         } catch (Exception $e) {
             return ['error' => 'Hubo un error al eliminar el usuario'];

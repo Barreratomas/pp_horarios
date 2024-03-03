@@ -13,7 +13,7 @@ class CambioDocenteSeeder extends Seeder
      */
     public function run(): void
     {
-        CambioDocente::factory()->count(10)->create();
+        CambioDocente::factory()->count(2)->create();
 
     }
 }

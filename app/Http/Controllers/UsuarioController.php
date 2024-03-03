@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UsuarioRequest;
 use App\Models\Carrera;
 use App\Models\Comision;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use App\Services\UsuarioService;
+use Illuminate\Support\Facades\Redis;
 
 class UsuarioController extends Controller
 {
@@ -37,8 +39,9 @@ class UsuarioController extends Controller
     }
 
     
-    public function store(Request $request)
+    public function store(UsuarioRequest $request)
     {
+        
         $params = [
             'dni' =>  $request->input('dni'),
             'nombre' =>  $request->input('nombre'),
@@ -46,10 +49,10 @@ class UsuarioController extends Controller
             'tipo' =>  $request->input('tipo'),
             'email' =>  $request->input('email'),
             'id_carrera' =>  $request->input('id_carrera'),
-            'id_comision' =>  $request->input('id_comision'),
 
 
         ];
+        
 
         $response = $this->usuarioService->guardarUsuario($params);
         if (isset($response['success'])) {
@@ -60,25 +63,28 @@ class UsuarioController extends Controller
     }
 
     public function formularioActualizar(Usuario $usuario) {
-        return view('usuario.actualizarUsuario',compact('usuario'));
+        $carreras=Carrera::all();
+        $comisiones=Comision::all();
+        return view('usuario.actualizarUsuario',compact('usuario','carreras','comisiones'));
     }
 
-    public function actualizar(Request $request)
+    public function actualizar(UsuarioRequest $request, Usuario $usuario)
     {   
-        $dni=$request->input('dni');
         $params = [
+            
             'nombre' =>  $request->input('nombre'),
             'apellido' =>  $request->input('apellido'),
+            'tipo' =>  $request->input('tipo'),
             'email' =>  $request->input('email'),
             'id_carrera' =>  $request->input('id_carrera'),
             'id_comision' =>  $request->input('id_comision'),
-    ];
+        ];
 
-        $response = $this->usuarioService->actualizarUsuario($dni,$params);
+        $response = $this->usuarioService->actualizarUsuario($params,$usuario);
         if (isset($response['success'])) {
-            return redirect()->route('usuario.index')->with('success', $response['success']);
+            return redirect()->route('indexUsuario')->with('success', $response['success']);
         } else {
-            return redirect()->route('usuario.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexUsuario')->withErrors(['error' => $response['error']]);
         }
     }
 
@@ -86,14 +92,13 @@ class UsuarioController extends Controller
 
     
 
-    public function eliminar(Request $request)
+    public function eliminar(Usuario $usuario)
     {
-        $dni=$request->input('dni');
-        $response = $this->usuarioService->eliminarUsuarioPorDni($dni);
+        $response = $this->usuarioService->eliminarUsuarioPorDni($usuario);
         if (isset($response['success'])) {
-            return redirect()->route('usuario.index')->with('success', $response['success']);
+            return redirect()->route('indexUsuario')->with('success', $response['success']);
         } else {
-            return redirect()->route('usuario.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('indexUsuario')->withErrors(['error' => $response['error']]);
         }
     }
 }

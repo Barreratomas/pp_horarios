@@ -48,7 +48,7 @@ class Usuario extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre','apellido','tipo','email','id_comision'];
+    protected $fillable = ['nombre','apellido','tipo','email','id_comision','id_carrera'];
     protected $table = 'usuarios';
     protected $primaryKey = 'dni';
 
@@ -60,7 +60,7 @@ class Usuario extends Model
     }
 
     public function carrera():BelongsTo{
-        return $this->belongsTo(Comision::class, 'id_carrera', 'id_carrera');
+        return $this->belongsTo(Carrera::class, 'id_carrera', 'id_carrera');
     }
 
 }

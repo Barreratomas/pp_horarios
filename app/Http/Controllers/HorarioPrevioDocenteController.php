@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HorarioPrevioDocenteRequest;
+use App\Models\Docente;
 use App\Models\HorarioPrevioDocente;
 use App\Services\HorarioPrevioDocenteService;
 
@@ -32,15 +34,17 @@ class HorarioPrevioDocenteController extends Controller
     }
 
 
-    public function crear(){
-        return view('horarioPrevioDocente.crearHorarioPrevioDocente');
+    public function crear(Docente $docente){
+        return view('horarioPrevioDocente.crearHorarioPrevioDocente', compact('docente'));
     }
 
    
 
-    public function store(Request $request)
-    {
-        $dni_docente=$request->input("dni_docente");
+    public function store(HorarioPrevioDocenteRequest $request, Docente $docente)
+    {   
+        $dni=$docente->dni;
+        $dni_docente=$dni;
+        
         $dia = $request->filled("dia") ? $request->input("dia") : null;
         $hora=$request->input("hora");
     
@@ -53,26 +57,27 @@ class HorarioPrevioDocenteController extends Controller
             // Obtener solo la hora formateada en "HH:MM"
             $hora = $hora->format('H:i');
         }
-        $request->session()->forget('dni');
 
-        session(['dni_docente' => $dni_docente]);
         $response = $this->HorarioPrevioDocenteService->guardarHorarioPrevioDocente($dni_docente,$dia,$hora);
         if (isset($response['success'])) {
-            return redirect()->route('mostrarFormularioDocenteMateria')->with('success', ['message' => $response['success'], 'dni_docente' => $dni_docente]);
+            return redirect()->route('mostrarFormularioDocenteMateria',['docente'=>$dni])->with('success', ['message' => $response['success']]);
         } else {
-            return redirect()->route('mostrarFormularioHPD')->withErrors(['error' => $response['error'], 'dni_docente' => $dni_docente]);
+            return redirect()->route('mostrarFormularioHPD',['docente'=>$dni])->withErrors(['error' => $response['error']]);
         }
 
     }
 
-    public function actualizar(Request $request)
+    public function formularioActualizar(HorarioPrevioDocente $h_p_d, ){
+        return view('horarioPrevioDocente.actualizarHorarioPrevioDocente',compact($h_p_d));
+    }
+
+    public function actualizar(HorarioPrevioDocenteRequest $request, HorarioPrevioDocente $h_p_d)
     {
-        $id_h_p_d=$request->input("id_h_p_d");
         $dni_docente=$request->input("dni_docente");
         $dia=$request->input("dia");
         $hora=$request->input("hora");
 
-        $response = $this->HorarioPrevioDocenteService->actualizarHorarioPrevioDocente($id_h_p_d,$dni_docente,$dia,$hora);
+        $response = $this->HorarioPrevioDocenteService->actualizarHorarioPrevioDocente($dni_docente,$dia,$hora,$h_p_d);
         
         if (isset($response['success'])) {
             return redirect()->route('horarioPrevioDocente.index')->with('success', ['message' => $response['success']]);

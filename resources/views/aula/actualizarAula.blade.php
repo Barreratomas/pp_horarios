@@ -12,13 +12,21 @@
                 @method('put')
                 <label for="nombre">Ingrese el nombre</label><br>
                 <input type="text" name="nombre"><br><br>
+                @error('nombre')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+                
+                <label for="capacidad">Ingrese la capacidad</label><br>
+                <input type="number" name="capacidad" min="0"><br><br>
+                @error('capacidad')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
 
-                <label for="email">Ingrese la capacidad</label><br>
-                <input type="number" name="capacidad"><br><br>
-
-                <label for="apellido">Ingrese el tipo de aula</label><br> <!-- Corregido el texto del label -->
+                <label for="tipo_aula">Ingrese el tipo de aula</label><br> <!-- Corregido el texto del label -->
                 <input type="text" name="tipo_aula"><br><br>
-
+                @error('tipo_aula')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
          
                 <button type="submit" class="btn btn-primary me-2">Actualizar</button> <!-- Agregada clase me-2 para espacio entre botones -->
             </form>

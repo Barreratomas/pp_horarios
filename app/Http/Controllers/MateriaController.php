@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MateriaRequest;
 use App\Models\Materia;
 use Illuminate\Http\Request;
 use App\Services\MateriaService;
@@ -32,7 +33,7 @@ class MateriaController extends Controller
     }
     
 
-    public function store(Request $request)
+    public function store(MateriaRequest $request)
     {   
         $nombre=$request->input('nombre');
         $modulos_semanales=$request->input('modulos_semanales');
@@ -50,7 +51,7 @@ class MateriaController extends Controller
         return view('materia.actualizarMateria',compact('materia'));
     }
    
-    public function actualizar(Request $request, Materia $materia)
+    public function actualizar(MateriaRequest $request, Materia $materia)
     {
         $nombre=$request->input('nombre');
         $modulos_semanales=$request->input('modulos_semanales');

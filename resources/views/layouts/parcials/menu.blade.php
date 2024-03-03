@@ -22,14 +22,36 @@
                         <a class="nav-link" href="{{route('mostrarFormularioHorario')}}">horarios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('mostrarFormularioDocente')}}">docentes</a>
+                        <a class="nav-link" href="{{route('indexAula')}}">aulas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('indexMateria')}}">materias</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('indexCarrera')}}">carreras</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('indexUsuario')}}">usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('indexComision')}}">comisiones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('indexDocente')}}">docentes</a>
+                    </li>
+                    <li class="nav-item logout">
+                        <a class="nav-link" href="{{ route('logout') }}">
+                            <button type="button" class="btn btn-danger">Logout</button>
+                        </a>
                     </li>
                     <li class="userType">
                         @if(session('userType'))
                         <p style="color:red;">Tipo de usuario: {{ session('userType') }}</p>
                         @endif
                     </li>
-                    <!-- agregar mas -->
+                    
+                    
                 </ul>
             </div>
         </nav>

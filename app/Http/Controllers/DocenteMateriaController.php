@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DocenteMateriaRequest;
 use App\Models\Aula;
 use App\Models\Comision;
+use App\Models\Docente;
 use App\Models\DocenteMateria;
 use App\Models\Materia;
 use App\Services\DocenteMateriaService;
@@ -31,19 +33,20 @@ class DocenteMateriaController extends Controller
         return view("docenteMateria.show", compact('docenteMateria'));
     }
     
-    public function crear()
+    public function crear(Docente $docente)
     {
         $materias = Materia::all();
         $aulas = Aula::all(); // Obtener todas las aulas
         $comisiones = Comision::all(); // Obtener todas las comisiones
-        return view('docenteMateria.crearDocenteMateria', compact('materias', 'aulas', 'comisiones'));
+        return view('docenteMateria.crearDocenteMateria', compact('materias', 'aulas', 'comisiones','docente'));
     }
     
 
-    // HAY UN ERROR
-    public function store(Request $request)
+    
+    public function store(DocenteMateriaRequest $request, Docente $docente)
     {
-        $dni_docente = $request->input('dni_docente');
+        $dni=$docente->dni;
+        $dni_docente = $docente->dni;
         $id_materia = $request->input('id_materia');
         $id_aula = $request->input('id_aula');
         $id_comision = $request->input('id_comision');
@@ -52,10 +55,10 @@ class DocenteMateriaController extends Controller
 
         $response = $this->docenteMateriaService->guardarDocenteMateria($dni_docente,$id_materia,$id_aula,$id_comision);
         if (isset($response['success'])) {
-            return redirect()->route('storeDisponibilidad')->with('success', ['message' => $response['success'],'dni_docente' => $dni_docente]);
+            return redirect()->route('storeDisponibilidad')->with('success', ['message' => $response['success']]);
 
         } else {
-            return redirect()->route('mostrarFormularioDocenteMateria')->withErrors(['error' => $response['error'],'dni_docente' => $dni_docente]);
+            return redirect()->route('mostrarFormularioDocenteMateria',['docente'=>$dni])->withErrors(['error' => $response['error']]);
         }
      
     }

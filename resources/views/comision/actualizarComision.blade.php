@@ -1,26 +1,42 @@
 @extends('layouts.base')
 
-@section('title','actualizar docente')
+@section('title','actualizar comision')
 
 @section('content')
 <div class="container py-3">
     <div class="row align-items-center justify-content-center">
         <div class="col-6 text-center"> 
-            <form action="{{ route('actualizarComision',$comision->id_comision) }}" method="post">
+            <form action="{{ route('ActualizarComision', $comision->id_comision) }}" method="post">
                 @method('put')
                 @csrf
                 
 
-                <label for="nombre">Ingrese el nombre</label><br>
-                <input type="text" name="nombre"><br><br>
-
-                <label for="apellido">Ingrese el apellido</label><br> <!-- Corregido el texto del label -->
-                <input type="text" name="apellido"><br><br>
-
-                <label for="email">Ingrese el email</label><br>
-                <input type="email" name="email"><br><br>
-
+                <label for="anio">Ingrese el año</label><br>
+                <input type="number" name="anio"><br><br>
+                @error('anio')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
                 
+
+                <label for="division">Ingrese la division</label><br>
+                <input type="number" name="division"><br><br>
+                @error('division')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+                
+                <label for="id_carrera">Selecciona una carrera:</label>
+                <select name="id_carrera">
+                    @foreach ($carreras as $carrera)
+                        <option value="{{ $carrera->id_carrera }}">{{ $carrera->nombre }}</option>
+                    @endforeach
+                </select><br><br>
+
+                <label for="capacidad">Ingrese la capacidad</label><br> <!-- Corregido el texto del label -->
+                <input type="number" name="capacidad"><br><br>
+                @error('capacidad')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+         
                 <button type="submit" class="btn btn-primary me-2">Actualizar</button> <!-- Agregada clase me-2 para espacio entre botones -->
             </form>
 

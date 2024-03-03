@@ -15,16 +15,17 @@ return new class extends Migration
             $table->id("id_dm");
             
             $table->unsignedBigInteger('dni_docente');
-            $table->foreign('dni_docente')->references('dni')->on('docentes');
-            
-            $table->unsignedBigInteger('id_materia');
-            $table->foreign('id_materia')->references('id_materia')->on('materias');
-            
-            $table->unsignedBigInteger('id_comision');
-            $table->foreign('id_comision')->references('id_comision')->on('comisiones');
-            
-            $table->unsignedBigInteger('id_aula');
-            $table->foreign('id_aula')->references('id_aula')->on('aulas');
+        $table->foreign('dni_docente')->references('dni')->on('docentes')->onDelete('cascade');
+        
+        $table->unsignedBigInteger('id_materia');
+        $table->foreign('id_materia')->references('id_materia')->on('materias')->onDelete('cascade');
+        
+        $table->unsignedBigInteger('id_comision');
+        $table->foreign('id_comision')->references('id_comision')->on('comisiones')->onDelete('cascade');
+        
+        $table->unsignedBigInteger('id_aula');
+        $table->foreign('id_aula')->references('id_aula')->on('aulas')->onDelete('cascade');
+
             
 
 

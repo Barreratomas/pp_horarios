@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ComisionRequest;
 use App\Models\Carrera;
 use App\Models\Comision;
 use Illuminate\Http\Request;
@@ -38,7 +39,7 @@ class ComisionController extends Controller
         return view('comision.crearComision',compact('carreras'));
     } 
    
-    public function store(Request $request){
+    public function store(ComisionRequest $request){
         $anio = $request->input('anio');
         $division = $request->input('division');
         $id_carrera = $request->input('id_carrera');
@@ -60,13 +61,13 @@ class ComisionController extends Controller
         
     
     public function formularioActualizar(Comision $comision){
-    return view('comision.actualizarComision',compact('comision'));
+        $carreras=Carrera::all();
+    return view('comision.actualizarComision',compact('comision','carreras'));
     }
 
-    public function actualizar(Request $request)
+    public function actualizar(ComisionRequest $request, Comision $comision)
     {
         // Obtener los datos del Request
-        $id = $request->input('id');
         $anio = $request->input('anio');
         $division = $request->input('division');
         $id_carrera = $request->input('id_carrera');
@@ -74,7 +75,7 @@ class ComisionController extends Controller
 
 
         // Llamar al servicio para actualizar la comisión
-        $response = $this->comisionService->actualizarComision($id, $anio,$division,$id_carrera,$capacidad);
+        $response = $this->comisionService->actualizarComision($anio,$division,$id_carrera,$capacidad,$comision);
         
         // Verificar si se actualizó correctamente
         if (isset($response['success'])) {
@@ -89,10 +90,9 @@ class ComisionController extends Controller
     }
 
    
-    public function eliminar(Request $request)
+    public function eliminar(Comision $comision)
     {
-        $id=$request->input('id');
-        $response = $this->comisionService->eliminarComisionPorId($id);
+        $response = $this->comisionService->eliminarComisionPorId($comision);
         
         // Verificar si se eliminó la comisión correctamente
         if (isset($response['success'])) {

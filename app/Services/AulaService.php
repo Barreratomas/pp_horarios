@@ -38,7 +38,7 @@ class AulaService implements AulaRepository
         
     }
 
-    public function guardarAula($nombre,$tipo_aula,$capacidad)
+    public function guardarAula($nombre,$capacidad,$tipo_aula)
     {
         try {
             $aula = new Aula();
@@ -88,16 +88,52 @@ class AulaService implements AulaRepository
             return ['error' => 'hubo un error al buscar Aula'];
         }
 
-        try {
+        
+            try{
 
-            $aula->docenteMateria()->delete();
-            $aula->delete();
-            return ['success' => 'Aula eliminada correctamente'];
-        } catch (Exception $e) {
-            return ['error' => 'Hubo un error al eliminar el aula'];
+                // if ($aula->docenteMateria) 
+                // {
+                //     $docenteMaterias=$aula->docenteMateria;
+                //     foreach ($docenteMaterias as $docenteMateria) 
+                //     {
+                //         // Acceder a la propiedad 'disponibilidad' de cada modelo de DocenteMateria
+                //         $disponibilidades=$docenteMateria->disponibilidad;
+
+                //         if ($disponibilidades->isNotEmpty()) 
+                //         {
+                //             // Iterar sobre las disponibilidades asociadas
+                //             foreach ($disponibilidades as $disponibilidad) 
+                //             {
+                //                 // Acceder a la propiedad 'horario' de cada disponibilidad
+                //                 $horario = $disponibilidad->horario;
+                //                 if ($horario) 
+                //                 {
+                //                     // Eliminar  horario asociado
+                //                     $horario->delete();
+                                    
+                //                 }
+                //                 // Eliminar la disponibilidad
+                //                 $disponibilidad->delete();
+                //             }
+                //         }
+                //         // Eliminar el DocenteMateria
+                //         $docenteMateria->delete();
+                //     }                
+                // }
+
+                $aula->delete();
+                return ['success' => 'Aula eliminada correctamente'];
+            }catch (Exception $e) {
+                return ['error' => 'Hubo un error al eliminar el aula'];
+
+            }
+      
         }
         
-    }
+    //     return ['success' => 'Aula eliminada correctamente'];
+    //     return ['error' => 'Hubo un error al eliminar el aula'];
+    // }
+    
 
     //----------------------------------------------------------------------------------------------------------
     // Swagger

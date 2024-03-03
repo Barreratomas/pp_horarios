@@ -13,8 +13,10 @@
 
                 <label for="nombre">Ingrese el nombre</label><br>
                 <input type="text" name="nombre"><br><br>
-
-                
+                @error('nombre')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+                <br>
 
                 
                 <button type="submit" class="btn btn-primary me-2">Actualizar</button> <!-- Agregada clase me-2 para espacio entre botones -->

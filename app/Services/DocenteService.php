@@ -90,6 +90,9 @@ class DocenteService implements DocenteRepository
             return ['error' => 'hubo un error al buscar Docente '];
         }
         try {
+            // if ($docente->) {
+            //     # code...
+            // }
             $docente->docenteMateria()->delete();
 
             // Eliminar registros de cambioDocenteAnterior y cambioDocenteNuevo

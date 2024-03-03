@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Aula;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AulaRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class AulaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +23,25 @@ class AulaRequest extends FormRequest
      */
     public function rules(): array
     {
+        
+        
+        $esCreacion = $this->url() == 'http://127.0.0.1:8000/aula/crear-aula';
+
+        
+
+
+        $nombreRules = $esCreacion ? ['required','string','max:255',Rule::unique('aulas')] : ['nullable','string','max:255',Rule::unique('aulas')];
+        $capacidadRules = $esCreacion ? ['required' , 'integer' ,'min:0'] :[ 'nullable ', 'integer ', 'min:0'];
+        $tipoAulaRules = $esCreacion ? ['required ',' string' ]:[ 'nullable ',' string'];
+
+
         return [
-            //
+            'nombre' => $nombreRules,
+
+            'capacidad' => $capacidadRules,
+
+            'tipo_aula' => $tipoAulaRules,
+
         ];
     }
 }

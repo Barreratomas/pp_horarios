@@ -18,7 +18,7 @@ return new class extends Migration
             $table->time('modulo_fin');
             $table->string('v_p');
             $table->unsignedBigInteger('id_disponibilidad');
-            $table->foreign('id_disponibilidad')->references('id_disponibilidad')->on('disponibilidades');
+            $table->foreign('id_disponibilidad')->references('id_disponibilidad')->on('disponibilidades')->onDelete('cascade');
             $table->string('materia');
             $table->string('aula');
             $table->string('comision');

@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id("dni");
             $table->string('nombre');
             $table->string('apellido');
-            $table->enum('tipo', ['alumno', 'docente', 'admin', 'visitante']);
+            $table->string('tipo');
             $table->string('email');
-                    $table->unsignedBigInteger('id_carrera')->nullable(); // Definir como nullable
-        $table->foreign('id_carrera')->references('id_carrera')->on('carreras');
-        $table->unsignedBigInteger('id_comision')->nullable(); // Definir como nullable
-        $table->foreign('id_comision')->references('id_comision')->on('comisiones');
+            $table->unsignedBigInteger('id_carrera')->nullable(); // Definir como nullable
+            $table->foreign('id_carrera')->references('id_carrera')->on('carreras')->onDelete('cascade');
+            $table->unsignedBigInteger('id_comision')->nullable(); // Definir como nullable
+            $table->foreign('id_comision')->references('id_comision')->on('comisiones')->onDelete('cascade');
             $table->timestamps();
         });
 

@@ -12,10 +12,17 @@
                
                 <label for="anio">Ingrese el año</label><br>
                 <input type="number" name="anio"><br><br>
+                @error('anio')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+                
 
                 <label for="division">Ingrese la division</label><br>
                 <input type="number" name="division"><br><br>
-
+                @error('division')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
+                
                 <label for="id_carrera">Selecciona una carrera:</label>
                 <select name="id_carrera">
                     @foreach ($carreras as $carrera)
@@ -25,7 +32,9 @@
 
                 <label for="capacidad">Ingrese la capacidad</label><br> <!-- Corregido el texto del label -->
                 <input type="number" name="capacidad"><br><br>
-
+                @error('capacidad')
+                <div class="text-danger">{{ $message }}</div>
+                @enderror
          
                 <button type="submit" class="btn btn-primary me-2">Crear</button> <!-- Agregada clase me-2 para espacio entre botones -->
             </form>

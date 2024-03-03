@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DocenteRequest;
 use App\Models\Docente;
 use Illuminate\Http\Request;
 use App\Services\DocenteService;
@@ -34,7 +35,7 @@ class DocenteController extends Controller
         return view('docente.crearDocente');
     }
 
-    public function store(Request $request)
+    public function store(DocenteRequest $request)
     {
         $dni = $request->input('dni');
         $nombre = $request->input('nombre');
@@ -44,9 +45,9 @@ class DocenteController extends Controller
 
         $response = $this->docenteService->guardarDocente($dni,$nombre,$apellido,$email);
         if (isset($response['success'])) {
-            session(['dni' => $dni]);
+            
 
-            return redirect()->route('mostrarFormularioHPD')->with('success', ['message' => $response['success'], 'dni' => $dni]);
+            return redirect()->route('mostrarFormularioHPD', ['docente' => $dni])->with('success', ['message' => $response['success']]);
         } else {
             return redirect()->route('mostrarFormularioDocente')->withErrors(['error' => $response['error']]);
         }
@@ -58,7 +59,7 @@ public function formularioActualizar (Docente $docente)
     return view('docente.actualizarDocente', compact('docente'));
     }
 
-    public function actualizar(Request $request ,Docente $docente)
+    public function actualizar(DocenteRequest $request ,Docente $docente)
     {
        
         $nombre = $request->input('nombre');

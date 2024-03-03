@@ -39,7 +39,11 @@
     height: 100vh;
 }
 
+.logout{
+    margin-top:250px
+}
 .userType {
-   margin-top: 450px;
+   margin-top: 10px;
+   margin-left: 15px;
     color: red;
 }

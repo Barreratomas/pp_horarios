@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     public function postLogin(Request $request){
-         // Lógica de autenticación...
 
         // Obtener el tipo de usuario del formulario
         $userType = $request->input('userType');
@@ -19,8 +18,14 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function index(Request $request){
+    public function index(){
       
        return view('home');
-   }
+    }
+    public function logout(Request $request){
+        $request->session()->forget('userType');
+
+        // Redirigir al usuario a la página de inicio o a donde desees
+        return redirect('/');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AulaRequest;
 use App\Models\Aula;
 use App\Services\AulaService;
 use Illuminate\Http\Request;
@@ -36,7 +37,8 @@ class AulaController extends Controller
         return view('aula.crearAula');
     }
   
-    public function guardarAula(Request $request){
+    public function guardarAula(AulaRequest $request){
+
         $nombre = $request->input('nombre');
         $capacidad = $request->input('capacidad');
         $tipo_aula = $request->input('tipo_aula');
@@ -54,7 +56,7 @@ class AulaController extends Controller
         return view('aula.actualizarAula', compact('aula'));
     }
 
-    public function actualizarAula(Request $request, Aula $aula){
+    public function actualizarAula(AulaRequest $request, Aula $aula){
         
         $nombre = $request->input('nombre');
         $capacidad = $request->input('capacidad');        

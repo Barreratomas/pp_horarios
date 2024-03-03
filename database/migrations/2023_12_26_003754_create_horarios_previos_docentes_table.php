@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('horarios_previos_docentes', function (Blueprint $table) {
             $table->id('id_h_p_d');
             $table->unsignedBigInteger('dni_docente'); // Ajustar el tipo de dato según la longitud del DNI
-            $table->foreign('dni_docente')->references('dni')->on('docentes');
+            $table->foreign('dni_docente')->references('dni')->on('docentes')->onDelete('cascade');
             $table->enum('dia',['lunes','martes','miercoles','jueves','viernes'])->nullable();
             $table->time('hora')->nullable();
             $table->timestamps();
