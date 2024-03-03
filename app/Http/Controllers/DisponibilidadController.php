@@ -43,12 +43,12 @@ class DisponibilidadController extends Controller
    
 
 
-    public function store(Request $request)
+    public function store()
     {   
 
 
         // Obtener los modulos_semanales directamente desde la tabla Materias usando el id_dm
-        $DocenteMateria = DocenteMateria::orderBy('created_at', 'desc')->first();
+        $DocenteMateria = DocenteMateria::orderBy('id_dm', 'desc')->first();
         $id_dm=$DocenteMateria->id_dm;
         $modulos_semanales = Materia::where('id_materia', $DocenteMateria->id_materia)->value('modulos_semanales');
 
@@ -106,6 +106,8 @@ class DisponibilidadController extends Controller
         return view("disponibilidad.error");
     }
 
+
+    
     public function actualizar(Request $request)
     {   
         $id=$request->input("id");

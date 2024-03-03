@@ -40,6 +40,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('indexDocente')}}">docentes</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('indexAsignacion')}}">asignar docentes</a>
+                    </li>
                     <li class="nav-item logout">
                         <a class="nav-link" href="{{ route('logout') }}">
                             <button type="button" class="btn btn-danger">Logout</button>

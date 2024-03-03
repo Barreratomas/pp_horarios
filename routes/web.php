@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AsignacionController;
 use App\Http\Controllers\AulaController;
 use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\ComisionController;
@@ -82,16 +83,23 @@ Route::delete('/docente/eliminar-docente/{docente}',[DocenteController::class,'e
 // horario previo docente
 Route::get('/docente/crear-h-p-d/{docente}',[HorarioPrevioDocenteController::class,'crear'])->name('mostrarFormularioHPD');
 Route::post('/docente/crear-h-p-d/{docente}',[HorarioPrevioDocenteController::class,'store'])->name('storeHPD');
-// Route::get('/docente/actualizar-h_p_d/{docente,}',[HorarioPrevioDocenteController::class,'formularioActualizar'])->name('mostrarActualizarHPD');
-// Route::put('/docente/actualizar-h_p_d/{docente,}',[HorarioPrevioDocenteController::class,'actualizar'])->name('actualizarHPD');
+Route::get('/docente/actualizar-h_p_d/{h_p_d}/{dm}',[HorarioPrevioDocenteController::class,'formularioActualizar'])->name('mostrarActualizarHPD');
+Route::put('/docente/actualizar-h_p_d/{h_p_d}/{dm}',[HorarioPrevioDocenteController::class,'actualizar'])->name('actualizarHPD');
 
 // docente materia
-Route::get('/docente-materia',[DocenteMateriaController::class,'index'])->name('indexDocenteMateria');
 Route::get('/docente-materia/crear-docente-materia/{docente}',[DocenteMateriaController::class,'crear'])->name('mostrarFormularioDocenteMateria');
 Route::post('/docente-materia/crear-docente-materia/{docente}',[DocenteMateriaController::class,'store'])->name('storeDocenteMateria');
+Route::get('/docente-materia/actualizar-docente-materia/{dm}',[DocenteMateriaController::class,'formularioActualizar'])->name('mostrarActualizarDocenteMateria');
+Route::put('/docente-materia/actualizar-docente-materia/{dm}',[DocenteMateriaController::class,'actualizar'])->name('actualizarDocenteMateria');
 
 
-// Route::get('/disponibilidad',[DisponibilidadController::class,'crear'])->name('mostrarFormularioDisponibilidad');
+
+// asignacion
+Route::get('/home/asignacion',[AsignacionController::class,'index'])->name('indexAsignacion');
+Route::delete('/home/asignacion/eliminar-asignacion/{h_p_d}/{dm}',[AsignacionController::class,'eliminar'])->name('eliminarAsignacion');
+
+
+// disponibilidads
 Route::get('/disponibilidad',[DisponibilidadController::class,'store'])->name('storeDisponibilidad');
 Route::get('/disponibilidad/disponibilidad-index',[DisponibilidadController::class,'redireccionar'])->name('redireccionarDisponibilidad');
 Route::get('/disponibilidad/disponibilidad-index-index',[DisponibilidadController::class,'redireccionarError'])->name('redireccionarDisponibilidadError');

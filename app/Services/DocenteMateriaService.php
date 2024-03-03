@@ -45,28 +45,25 @@ class DocenteMateriaService implements DocenteMateriaRepository
 
     }
 
-    public function actualizarDocenteMateria($id, $dni_docente,$id_materia,$id_aula,$id_comision)
+    public function actualizarDocenteMateria($dm,$id_materia,$id_aula,$id_comision)
     {
         try {
-            $docenteMateria = DocenteMateria::find($id);
-            if (!$docenteMateria) {
+            if (!$dm) {
                 return ['error' => 'hubo un error al buscar docente materia'];
             }
-            if (!is_null($dni_docente)) {
-                $docenteMateria->dni_docente = $dni_docente;
-            }
+          
             if (!is_null($id_materia)) {
-                $docenteMateria->id_materia = $id_materia;
+                $dm->id_materia = $id_materia;
             }
             if (!is_null($id_aula)) {
-                $docenteMateria->id_aula = $id_aula;
+                $dm->id_aula = $id_aula;
             }
             if (!is_null($id_comision)) {
-                $docenteMateria->id_comision = $id_comision;
+                $dm->id_comision = $id_comision;
             }
            
             
-            $docenteMateria->save();
+            $dm->save();
 
             return ['success' => 'Docente materia actualizado correctamente'];
         } catch (Exception $e) {

@@ -1,26 +1,37 @@
 @extends('layouts.base')
 
-@section('title','actualizar materia')
+@section('title','actualizar horario previo de docente')
 
 @section('content')
     <div class="container py-3">
         <div class="row align-items-center justify-content-center">
             <div class="col-6 text-center"> 
-                <form action="{{ route('actualizarHorarioPrevioDocente',$docente->dni) }}" method="post">
+                <form action="{{ route('actualizarHPD',['h_p_d'=>$h_p_d->id_h_p_d, 'dm'=>$dm->id_dm]) }}" method="post">
                     @method('put')
                     @csrf
                     
 
-                    <label for="nombre">Ingrese el nombre</label><br>
-                    <input type="text" name="nombre"><br><br>
-
-                    <label for="modulos_semanales">Ingrese la cantidad de modulos semanales</label><br> <!-- Corregido el texto del label -->
-                    <input type="text" name="modulos_semanales"><br><br>
-
+                    <label for="trabajaInstitucion">¿Trabaja en otra institución?</label><br>
+                    <input type="radio" name="trabajaInstitucion" value="si">
+                    <label for="trabaja_si">Sí</label><br>
+                    <input type="radio" name="trabajaInstitucion" value="no" checked>
+                    <label for="trabaja_no">No</label><br><br>
                     
+                    <div id="mostrarCampos" style="display: none;">
+                        <label for="dia">Ingrese el día</label><br>
+                        <input type="text" name="dia"><br><br>
+                        @error('dia')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                        
+                        <label for="hora">Ingrese la hora de salida</label><br>
+                        <input type="time" name="hora"><br><br>
+                        @error('hora')
+                            <div class="text-danger">{{ $message }}</div>
+                        @enderror   
+                    </div>
 
-                    
-                    <button type="submit" class="btn btn-primary me-2">Siguiente</button> <!-- Agregada clase me-2 para espacio entre botones -->
+                    <button type="submit" class="btn btn-primary me-2">Siguiente</button> 
                 </form>
 
                 
@@ -28,8 +39,8 @@
         </div>
     </div>
 
-    <div class="container" style="width: 500px;"> <!-- Cambiado a container-fluid -->
-        
+    <div class="container" style="width: 500px;">
+            
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -41,5 +52,17 @@
         @endif
         
     </div>
+    <script>
+        document.querySelectorAll('input[name="trabajaInstitucion"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                var mostrarCampos = document.getElementById('mostrarCampos');
+                if (this.value == 'si') {
+                    mostrarCampos.style.display = 'block';
+                } else {
+                    mostrarCampos.style.display = 'none';
+                }
+            });
+        });
+    </script>
 
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\HorarioPrevioDocenteRequest;
 use App\Models\Docente;
+use App\Models\DocenteMateria;
 use App\Models\HorarioPrevioDocente;
 use App\Services\HorarioPrevioDocenteService;
 
@@ -67,22 +68,21 @@ class HorarioPrevioDocenteController extends Controller
 
     }
 
-    public function formularioActualizar(HorarioPrevioDocente $h_p_d, ){
-        return view('horarioPrevioDocente.actualizarHorarioPrevioDocente',compact($h_p_d));
+    public function formularioActualizar(HorarioPrevioDocente $h_p_d, DocenteMateria $dm ){
+        return view('horarioPrevioDocente.actualizarHorarioPrevioDocente',compact('h_p_d','dm'));
     }
 
-    public function actualizar(HorarioPrevioDocenteRequest $request, HorarioPrevioDocente $h_p_d)
+    public function actualizar(HorarioPrevioDocenteRequest $request, HorarioPrevioDocente $h_p_d, DocenteMateria $dm)
     {
-        $dni_docente=$request->input("dni_docente");
         $dia=$request->input("dia");
         $hora=$request->input("hora");
 
-        $response = $this->HorarioPrevioDocenteService->actualizarHorarioPrevioDocente($dni_docente,$dia,$hora,$h_p_d);
+        $response = $this->HorarioPrevioDocenteService->actualizarHorarioPrevioDocente($dia,$hora,$h_p_d);
         
         if (isset($response['success'])) {
-            return redirect()->route('horarioPrevioDocente.index')->with('success', ['message' => $response['success']]);
+            return redirect()->route('mostrarActualizarDocenteMateria',['dm'=>$dm->id_dm])->with('success', ['message' => $response['success']]);
         } else {
-            return redirect()->route('horarioPrevioDocente.index')->withErrors(['error' => $response['error']]);
+            return redirect()->route('mostrarActualizarHPD',['h_p_d'=>$h_p_d->id_h_p_d, 'dm'=>$dm->id_dm])->withErrors(['error' => $response['error']]);
         }
 
     }

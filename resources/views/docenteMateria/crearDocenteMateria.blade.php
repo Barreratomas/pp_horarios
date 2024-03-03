@@ -11,7 +11,6 @@
             <form action="{{ route('storeDocenteMateria',$docente->dni) }}" method="post">
                 @csrf
 
-                {{-- <input type="hidden" name="dni_docente" value="{{ session('success.dni') ?? session('dni_docente') ?? session('error.dni_docente')}}"> --}}
 
                 <label for="id_materia">Seleccione una materia</label>
                 <select name="id_materia">
@@ -63,11 +62,7 @@
 
 
 
-    {{-- @if(session('success'))
-        <p>El DNI es: {{ session('success.dni_docente') }}</p>
-    @elseif(session('error'))
-        <p>El DNI es: {{ session('error.dni_docente') }}</p>
-    @endif --}}
+    
         
     <div class="container" style="width: 500px;"> <!-- Cambiado a container-fluid -->
 

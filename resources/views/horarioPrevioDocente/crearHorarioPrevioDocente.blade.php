@@ -36,20 +36,20 @@
     </div>
 </div>
 
-    {{-- @if(session('success'))
-        <p>El DNI es: {{ session('success.dni') }}</p>
-    @elseif(session('error'))
-        <p>El DNI es: {{ session('error.dni_docente') }}</p>
-    @endif --}}
+  
+    <div class="container" style="width: 500px;">
+            
         @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        
+    </div>
     <script>
         document.querySelectorAll('input[name="trabajaInstitucion"]').forEach(function(radio) {
             radio.addEventListener('change', function() {

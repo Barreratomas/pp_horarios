@@ -58,25 +58,22 @@ class HorarioPrevioDocenteService implements HorarioPrevioDocenteRepository
         }
     }
 
-    public function actualizarHorarioPrevioDocente($id_h_p_d,$dni_docente,$dia,$hora)
+    public function actualizarHorarioPrevioDocente($dia,$hora,$h_p_d)
     {
-        $horarioPrevioDocente = HorarioPrevioDocente::find($id_h_p_d);
-        if (!$horarioPrevioDocente) {
+        if (!$h_p_d) {
             return ['error' => 'hubo un error al buscar Docente '];
         }
 
         try {
-            if (!is_null($dni_docente)) {
-                $horarioPrevioDocente->nombre = $dni_docente;
-            }
+            
             if (!is_null($dia)) {
-                $horarioPrevioDocente->apellido = $dia;
+                $h_p_d->apellido = $dia;
             }
             if (!is_null($hora)) {
-                $horarioPrevioDocente->email = $hora;
+                $h_p_d->email = $hora;
             }
             
-            $horarioPrevioDocente->save();
+            $h_p_d->save();
             return ['success' => 'Horario Previo del Docente actualizado correctamente'];
             
         } catch (Exception $e) {
@@ -84,14 +81,14 @@ class HorarioPrevioDocenteService implements HorarioPrevioDocenteRepository
         }
     }
 
-    public function eliminarHorarioPrevioDocentePorId($id_h_p_d)
+    public function eliminarHorarioPrevioDocentePorId($h_p_d)
     {
-        $horarioPrevioDocente = HorarioPrevioDocente::find($id_h_p_d);
-        if (!$horarioPrevioDocente) {
+       
+        if (!$h_p_d) {
             return ['error' => 'hubo un error al buscar Docente'];
         }
         try {
-            $horarioPrevioDocente->delete();
+            $h_p_d->delete();
             return ['success' => 'Horario Previo del Docente eliminado correctamente'];
         } catch (Exception $e) {
             return ['error' => 'Hubo un error al eliminar el Horario Previo del Docente'];

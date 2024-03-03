@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DocenteMateriaRequest;
+use App\Mappers\DocenteMapper;
 use App\Models\Aula;
 use App\Models\Comision;
 use App\Models\Docente;
@@ -63,21 +64,25 @@ class DocenteMateriaController extends Controller
      
     }
 
+    public function formularioActualizar(DocenteMateria $dm){
+        $materias = Materia::all();
+        $aulas = Aula::all(); 
+        $comisiones = Comision::all(); 
+        return view('docenteMateria.actualizarDocenteMateria', compact('dm','materias','aulas','comisiones'));
+    }
 
-    public function actualizar(Request $request)
+    public function actualizar(DocenteMateriaRequest $request, DocenteMateria $dm)
     {   
-        $id = $request->input('id');
-        $dni_docente = $request->input('dni_docente');
         $id_materia = $request->input('id_materia');
         $id_aula = $request->input('id_aula');
         $id_comision = $request->input('id_comision');
 
 
-        $response = $this->docenteMateriaService->actualizarDocenteMateria($id, $dni_docente,$id_materia,$id_aula,$id_comision);
+        $response = $this->docenteMateriaService->actualizarDocenteMateria($dm,$id_materia,$id_aula,$id_comision);
         if (isset($response['success'])) {
-            return redirect()->route('docenteMateria.index')->with('success', $response['success']);
+            return redirect()->route('storeDisponibilidad')->with('success', $response['success']);
         } else {
-            return redirect()->route('docenteMateria.index')->withErrors('error', $response['error']);
+            return redirect()->route('mostrarActualizarDocenteMateria',['dm'=>$dm->id_dm])->withErrors('error', $response['error']);
         }
     }
 

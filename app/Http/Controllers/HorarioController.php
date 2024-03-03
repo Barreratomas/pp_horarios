@@ -25,10 +25,7 @@ class HorarioController extends Controller
        // mostrarFormulario
     public function mostrarFormularioPartial()
     {
-        // if (Session::get('userType') !== 'bedelia') {
-        //     // Redirigir a la página de inicio si el tipo de usuario no es "bedelia"
-        //     return redirect()->route('home');
-        // }
+        
         $comisiones = Comision::all();
         $carreras = Carrera::all();
         
@@ -68,7 +65,7 @@ class HorarioController extends Controller
     }
 
     //    guardar
-    public function store(Request $request)
+    public function store()
     {   
         
 
@@ -113,7 +110,7 @@ class HorarioController extends Controller
         }
         if ($response && isset($response['success'])) {
             // Si se guardó correctamente, redirigir con un mensaje de éxito
-            return redirect()->route('mostrarFormularioHorario')->with('success', ['message' => $response['success']]);
+            return redirect()->route('indexAsignacion')->with('success', ['message' => $response['success']]);
         } else {
             // Si hubo un error al guardar, redirigir con un mensaje de error
             return redirect()->route('home')->withErrors(['error' => $response['error']]);
