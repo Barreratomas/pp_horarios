@@ -95,10 +95,7 @@ class HorarioController extends Controller
             return redirect()->route('home');
         }
         // Obtener todos los horarios de la base de datos
-        $horarios =  Horario::orderBy('comision_id')
-        ->orderBy('created_at', 'desc')
-        ->get()
-        ->groupBy('comision_id');
+        $horarios =  Horario::all();
     
         // Retornar la vista con todos los horarios
         return view('horario.indexBedelia', compact('horarios'));

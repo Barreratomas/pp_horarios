@@ -8,9 +8,12 @@
             <th>V/P</th>
             <th>Aula</th>
             <th>Materia</th>
-            <th>comsiion</th>
+            @if (Session::get('userType') !== 'estudiante')
 
-           
+            <th>comision</th>
+
+            @endif
+
         </tr>
     </thead>
     <tbody>
@@ -36,8 +39,8 @@
                 <td>{{ $horario->v_p == 'p' ? 'Presencial' : 'Virtual' }}</td>
                 <td>{{ $horario->disponibilidad->docenteMateria->aula->nombre ? $horario->disponibilidad->docenteMateria->aula->nombre : 'N/A' }}</td>
                 <td>{{  $horario->disponibilidad->docenteMateria->materia->nombre ? $horario->disponibilidad->docenteMateria->materia->nombre  : 'N/A' }}</td>
-                @if (Session::get('userType') === 'bedelia')
-                <td>{{  $horario->disponibilidad->docenteMateria->comision->anio ? $horario->disponibilidad->docenteMateria->comision->anio  : 'N/A' }} {{  $horario->disponibilidad->docenteMateria->comision->division ? $horario->disponibilidad->docenteMateria->comision->division  : 'N/A'}} </td>
+                @if (Session::get('userType') !== 'estudiante')
+                <td>{{  $horario->disponibilidad->docenteMateria->comision->anio ? $horario->disponibilidad->docenteMateria->comision->anio  : 'N/A' }}°{{  $horario->disponibilidad->docenteMateria->comision->division ? $horario->disponibilidad->docenteMateria->comision->division  : 'N/A'}} </td>
 
                 @endif
                 
