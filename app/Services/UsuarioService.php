@@ -37,6 +37,7 @@ class UsuarioService implements UsuarioRepository
             
             $idCarrera = $params['id_carrera'];
             $comision = Comision::where('id_carrera', $idCarrera)
+            ->where('anio',$params['anio'])
             ->where('capacidad', '>', 0) // Solo comisiones con capacidad disponible
             ->orderBy('capacidad', 'desc') // Ordenar por capacidad descendente para usar primero las más grandes
             ->first();
@@ -66,16 +67,21 @@ class UsuarioService implements UsuarioRepository
 
         }
 
-        
-        try {
-  
-            $usuario->save();
-            
-            
+        if ($usuario->save()) {
             return ['success' => 'Usuario guardado correctamente'];
-        } catch (Exception $e) {
+        }else{
             return ['error' => 'Hubo un error al guardar el usuario'];
+
         }
+        // try {
+  
+        //     $usuario->save();
+            
+            
+        //     return ['success' => 'Usuario guardado correctamente'];
+        // } catch (Exception $e) {
+        //     return ['error' => 'Hubo un error al guardar el usuario'];
+        // }
     }
 
     public function actualizarUsuario($params, $usuario )

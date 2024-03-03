@@ -49,6 +49,7 @@ class UsuarioController extends Controller
             'tipo' =>  $request->input('tipo'),
             'email' =>  $request->input('email'),
             'id_carrera' =>  $request->input('id_carrera'),
+            'anio' => $request->input('anio')
 
 
         ];

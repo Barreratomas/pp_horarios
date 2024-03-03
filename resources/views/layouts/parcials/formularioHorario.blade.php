@@ -6,8 +6,10 @@
     
 @section('content')
 <div class="container py-3">
-    <div class="row">
-        <div class="col-12 d-flex align-items-center justify-content-center">
+    <div class="row align-items-center justify-content-center">
+        <div class="col-6 text-center"> 
+
+    
             <form action="{{ route('mostrarHorario') }}" method="post">
                 @csrf
                 <label for="comision">Selecciona una comisión:</label>
@@ -29,13 +31,15 @@
                 @error('carrera')
                     <p style="color:red">{{$message}}</p>
                 @enderror
+                <br>               <br>
 
-                <button type="submit">Mostrar Horario</button>
+
+                <button type="submit" class="btn btn-primary me-2">Mostrar Horario</button>
             </form>
-    </div>
+   
+        </div>
     </div>
 </div>
-
 
 
 @endsection

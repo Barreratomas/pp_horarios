@@ -14,7 +14,7 @@ class HorarioPrevioDocenteSeeder extends Seeder
     public function run(): void
     {
         {
-            HorarioPrevioDocente::factory()->count(2)->create();
+            HorarioPrevioDocente::factory()->count(10)->create();
         }
     }
 }

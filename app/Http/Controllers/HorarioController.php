@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\HorarioDocenteRequest;
 use App\Http\Requests\HorarioRequest;
 use App\Models\Carrera;
 use App\Models\Comision;
@@ -25,13 +26,17 @@ class HorarioController extends Controller
        // mostrarFormulario
     public function mostrarFormularioPartial()
     {
-        
+        if (Session::get('userType') !== 'estudiante') {
+            // Redirigir a la página de inicio si el tipo de usuario no es "estudiante"
+            return redirect()->route('home');
+        }
         $comisiones = Comision::all();
         $carreras = Carrera::all();
         
 
         return view('layouts.parcials.formularioHorario', compact('comisiones','carreras'))->render();
     }
+   
 
     // mostrarHorario
     public function mostrarHorario(HorarioRequest $request): View
@@ -44,10 +49,7 @@ class HorarioController extends Controller
               ->whereHas('carrera', function ($subQuery) use ($id_carrera) {
                   $subQuery->where('id_carrera', $id_carrera);
               });
-    })->orderBy(DB::raw("CASE WHEN dia = 'lunes' THEN 1 WHEN dia = 'martes' THEN 2 WHEN dia = 'miércoles' THEN 3 WHEN dia = 'jueves' THEN 4 WHEN dia = 'viernes' THEN 5 ELSE 6 END"))
-    ->orderBy('modulo_inicio') // Ordenar por módulo de inicio
-    ->orderBy('created_at', 'desc')
-    ->get();
+    })->orderBy('created_at', 'desc')->get();
 
     // importo comisiones y carreras
     $formularioHorarioPartial = $this->mostrarFormularioPartial();
@@ -60,6 +62,50 @@ class HorarioController extends Controller
 
 
 
+    public function mostrarFormularioDocentePartial(){
+        if (Session::get('userType') !== 'docente') {
+            // Redirigir a la página de inicio si el tipo de usuario no es "docente"
+            return redirect()->route('home');
+        }
+        return view ('layouts.parcials.formularioHorarioDocente')->render();
+    }
+
+    public function mostrarHorarioDocente(HorarioDocenteRequest $request){
+        $dni_docente=$request->input('dni');
+
+
+        // Obtener todos los horarios asociados al docente con el DNI especificado
+        $horarios = Horario::whereHas('disponibilidad.docenteMateria.docente', function ($query) use ($dni_docente) {
+            $query->where('dni_docente', $dni_docente);
+        })->orderBy('created_at', 'desc')->get();
+    
+        // Importar comisiones y carreras si es necesario
+        $formularioHorarioDocentePartial = $this->mostrarFormularioDocentePartial();
+    
+        // Retornar la vista con los horarios del docente
+        return view('horario.indexDocente', compact('horarios', 'formularioHorarioDocentePartial'));
+    }
+
+
+
+    public function mostrarHorarioBedelia()
+    {
+        if (Session::get('userType') !== 'bedelia') {
+            // Redirigir a la página de inicio si el tipo de usuario no es "bedelia"
+            return redirect()->route('home');
+        }
+        // Obtener todos los horarios de la base de datos
+        $horarios =  Horario::orderBy('comision_id')
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->groupBy('comision_id');
+    
+        // Retornar la vista con todos los horarios
+        return view('horario.indexBedelia', compact('horarios'));
+    }
+
+
+
     public function crear(){
         return view('horario.crearHorario');
     }
@@ -67,7 +113,7 @@ class HorarioController extends Controller
     //    guardar
     public function store()
     {   
-        
+        $paramsCopia=[]; 
 
         // Obtener el último registro de disponibilidad
         $ultimoRegistro = Disponibilidad::orderBy('id_disponibilidad', 'desc')->first();
@@ -102,7 +148,16 @@ class HorarioController extends Controller
                 'comision' => $registro->docenteMateria->id_comision,
                 'carrera'=>$registro->docenteMateria->comision->id_carrera
             ];
-            // dd($params);        
+            // dd($params);      
+            // Hacemos una copia de $params
+            $paramsCopia = $params;
+
+            // Eliminamos v_p del array de parámetros copiado
+            unset($paramsCopia['v_p']);  
+            if($registroEncontrado = Horario::where($paramsCopia)->first()){
+                $registroEncontrado->delete();
+
+            }
 
             $response = $this->horarioService->guardarHorario($params);
 
@@ -110,7 +165,8 @@ class HorarioController extends Controller
         }
         if ($response && isset($response['success'])) {
             // Si se guardó correctamente, redirigir con un mensaje de éxito
-            return redirect()->route('indexAsignacion')->with('success', ['message' => $response['success']]);
+
+            return redirect()->route('indexDocente')->with('success', $response['success']);
         } else {
             // Si hubo un error al guardar, redirigir con un mensaje de error
             return redirect()->route('home')->withErrors(['error' => $response['error']]);

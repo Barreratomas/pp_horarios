@@ -18,31 +18,47 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('home')}}">home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('mostrarFormularioHorario')}}">horarios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('indexAula')}}">aulas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('indexMateria')}}">materias</a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('indexCarrera')}}">carreras</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('indexUsuario')}}">usuarios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('indexComision')}}">comisiones</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('indexDocente')}}">docentes</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{route('indexAsignacion')}}">asignar docentes</a>
-                    </li>
+                        {{-- estudiante --}}
+                    @if (Session::get('userType') === 'estudiante')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('mostrarFormularioHorario') }}">Horarios</a>
+                        </li>
+                    @endif
+
+                        {{-- docente --}}
+                    @if (Session::get('userType') === 'docente')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('formularioHorarioDocente') }}">Horarios</a>
+                        </li>
+                    @endif
+                        {{-- bedelia --}}
+                    @if (Session::get('userType') === 'bedelia')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('mostrarHorarioBedelia') }}">Horarios</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('indexAula')}}">aulas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('indexMateria')}}">materias</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('indexCarrera')}}">carreras</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('indexComision')}}">comisiones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('indexUsuario')}}">usuarios</a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('indexDocente')}}">docentes</a>
+                        </li>
+                        
+                    @endif
                     <li class="nav-item logout">
                         <a class="nav-link" href="{{ route('logout') }}">
                             <button type="button" class="btn btn-danger">Logout</button>

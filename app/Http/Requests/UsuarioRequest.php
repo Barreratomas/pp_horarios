@@ -27,8 +27,6 @@ class UsuarioRequest extends FormRequest
     {
         $esCreacion = $this->url() == 'http://127.0.0.1:8000/usuario/crear-usuario';
         
-        $id_primer_comision = Comision::orderBy('id_comision')->first()->id_comision;
-        $id_ultimo_comision = Comision::orderBy('id_comision', 'desc')->first()->id_comision;
         
         $id_primer_carrera=Carrera::orderBy('id_carrera')->first()->id_carrera;
         $id_ultimo_carrera=Carrera::orderBy('id_carrera','desc')->first()->id_carrera;
@@ -39,8 +37,8 @@ class UsuarioRequest extends FormRequest
         $tipoRules = $esCreacion ? ['required', 'in:estudiante,bedelia'] : ['nullable', 'in:estudiante,bedelia'];
         $emailRules=$esCreacion ? ['required', 'email'] : ['nullable', 'email'];
         $idCarreraRules = $esCreacion ? ['required', 'integer', Rule::exists('carreras', 'id_carrera'),  'min:'.$id_primer_carrera,'max:'.$id_ultimo_carrera] : ['nullable', 'integer', Rule::exists('carreras', 'id_carrera'),  'min:'.$id_primer_carrera,'max:'.$id_ultimo_carrera];
-        $idComisionRules = $esCreacion ? [ ] : ['nullable', 'integer', Rule::exists('comisiones', 'id_comision'), 'min:' . $id_primer_comision,'max:' . $id_ultimo_comision
-        ];
+        $anioRules = $esCreacion ? ['required', 'integer', 'min:1', 'max:9'] : [];
+
         
 
         return [
@@ -50,7 +48,7 @@ class UsuarioRequest extends FormRequest
             'tipo' => $tipoRules,
             'email' => $emailRules,
             'id_carrera' => $idCarreraRules,
-            'id_comision' => $idComisionRules,
+            'anio' => $anioRules,
             
         ];
     }

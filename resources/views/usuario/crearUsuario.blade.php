@@ -6,9 +6,7 @@
     <style>
         .form-check-input{
             border: 1px solid rgba(0, 0, 0, 0.218);
-
         }
-
     </style>
     <div class="container py-3">
         <div class="row align-items-center justify-content-center">
@@ -28,14 +26,13 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
 
-
-                        <label for="apellido">Ingrese el apellido</label><br> <!-- Corregido el texto del label -->
+                        <label for="apellido">Ingrese el apellido</label><br>
                         <input type="text" name="apellido"><br><br>
                         @error('apellido')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
 
-                        <label for="tipo">Seleccione el tipo de usuario</label><br> <!-- Corregido el texto del label -->
+                        <label for="tipo">Seleccione el tipo de usuario</label><br>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="tipo" id="estudiante" value="estudiante" checked>
                             <label class="form-check-label" for="estudiante">Estudiante</label>
@@ -55,17 +52,26 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                         
-                        <label for="id_carrera" id="label-carrera">Selecciona una carrera:</label>
-                        <select name="id_carrera" id="select-carrera">
-                            @foreach ($carreras as $carrera)
-                                <option value="{{ $carrera->id_carrera }}">{{ $carrera->nombre }}</option>
-                            @endforeach
-                        </select>
-                        @error('id_carrera')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
+                        <div id="carrera-container">
+                            <label for="id_carrera" id="label-carrera">Selecciona una carrera:</label>
+                            <select name="id_carrera" id="select-carrera">
+                                @foreach ($carreras as $carrera)
+                                    <option value="{{ $carrera->id_carrera }}">{{ $carrera->nombre }}</option>
+                                @endforeach
+                            </select>
+                            @error('id_carrera')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                            <br><br>
+                        </div>
 
-                        
+                        <div id="anio-container">
+                            <label for="anio">Ingrese el año</label><br> 
+                            <input type="number" name="anio"><br><br>
+                            @error('anio')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
                         <br><br>
                         
@@ -92,37 +98,29 @@
         
     </div>
 
-@endsection
-{{-- @section('scripts')
-
     <script>
-        // Función para mostrar u ocultar los campos de selección de carrera y comisión
-        function toggleCampos() {
-            var tipoUsuario = document.querySelector('input[name="tipo"]:checked').value;
-            var labelCarrera = document.getElementById('label-carrera');
-            var selectCarrera = document.getElementById('select-carrera');
-            var labelComision = document.getElementById('label-comision');
-            var selectComision = document.getElementById('select-comision');
+        document.addEventListener('DOMContentLoaded', function () {
+            // Obtener el campo de selección de tipo de usuario
+            const tipoUsuario = document.querySelectorAll('input[name="tipo"]');
+            // Obtener el contenedor del campo de selección de carrera
+            const carreraContainer = document.getElementById('carrera-container');
+            // Obtener el contenedor del campo de entrada de año
+            const anioContainer = document.getElementById('anio-container');
 
-            if (tipoUsuario == 'estudiante') {
-                labelCarrera.style.display = 'inline';
-                selectCarrera.style.display = 'inline';
-                labelComision.style.display = 'inline';
-                selectComision.style.display = 'inline';
-            } else {
-                labelCarrera.style.display = 'none';
-                selectCarrera.style.display = 'none';
-                labelComision.style.display = 'none';
-                selectComision.style.display = 'none';
-            }
-        }
-
-        // Ejecutar la función al cargar la página
-        window.onload = toggleCampos;
-
-        // Volver a ejecutar la función cada vez que se cambie el tipo de usuario
-        document.querySelectorAll('input[name="tipo"]').forEach(function(radio) {
-            radio.addEventListener('change', toggleCampos);
+            // Agregar un controlador de eventos 'change' a cada opción del campo de selección de tipo de usuario
+            tipoUsuario.forEach(function (radio) {
+                radio.addEventListener('change', function () {
+                    // Si se selecciona "Bedelia", ocultar el campo de selección de carrera y el campo de entrada de año; de lo contrario, mostrarlos
+                    if (this.value == 'bedelia') {
+                        carreraContainer.style.display = 'none';
+                        anioContainer.style.display = 'none';
+                    } else {
+                        carreraContainer.style.display = 'block';
+                        anioContainer.style.display = 'block';
+                    }
+                });
+            });
         });
     </script>
-@endsection --}}
+
+@endsection

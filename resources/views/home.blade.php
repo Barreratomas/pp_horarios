@@ -27,13 +27,7 @@
 
 
 
-    <!-- Mostrar el tipo de usuario -->
-    <div class="user-type">
-        
-        @if(session('userType'))
-            <p style="color:red;">Tipo de usuario: {{ session('userType') }}</p>
-        @endif
-    </div>
+    
 </div>
 
 

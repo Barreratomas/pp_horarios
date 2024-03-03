@@ -13,6 +13,6 @@ class AulaSeeder extends Seeder
      */
     public function run(): void
     {
-        Aula::factory()->count(2)->create();
+        Aula::factory()->count(10)->create();
     }
 }

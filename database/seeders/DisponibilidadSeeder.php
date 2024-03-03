@@ -13,7 +13,7 @@ class DisponibilidadSeeder extends Seeder
      */
     public function run(): void
     {
-        Disponibilidad::factory()->count(2)->create();
+        Disponibilidad::factory()->count(10)->create();
 
     }
 }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('apellido');
             $table->string('tipo');
             $table->string('email');
+            $table->unsignedBigInteger('anio');
             $table->unsignedBigInteger('id_carrera')->nullable(); // Definir como nullable
             $table->foreign('id_carrera')->references('id_carrera')->on('carreras')->onDelete('cascade');
             $table->unsignedBigInteger('id_comision')->nullable(); // Definir como nullable

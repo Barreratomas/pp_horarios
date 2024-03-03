@@ -64,21 +64,28 @@ class HorarioPrevioDocenteService implements HorarioPrevioDocenteRepository
             return ['error' => 'hubo un error al buscar Docente '];
         }
 
-        try {
+        
             
             if (!is_null($dia)) {
-                $h_p_d->apellido = $dia;
+                $h_p_d->dia = $dia;
             }
             if (!is_null($hora)) {
-                $h_p_d->email = $hora;
+                $h_p_d->hora = $hora;
             }
-            
-            $h_p_d->save();
+
+            if ($h_p_d->save()) {
             return ['success' => 'Horario Previo del Docente actualizado correctamente'];
+            }else{
+                            return ['error' => 'Hubo un error al actualizar el Horario Previo del Docente'];
+
+            }
+        //     try {
+        //     $h_p_d->save();
+        //     return ['success' => 'Horario Previo del Docente actualizado correctamente'];
             
-        } catch (Exception $e) {
-            return ['error' => 'Hubo un error al actualizar el Horario Previo del Docente'];
-        }
+        // } catch (Exception $e) {
+        //     return ['error' => 'Hubo un error al actualizar el Horario Previo del Docente'];
+        // }
     }
 
     public function eliminarHorarioPrevioDocentePorId($h_p_d)

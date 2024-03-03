@@ -14,6 +14,6 @@ class ComisionSeeder extends Seeder
     
     public function run(): void
     {
-        Comision::factory()->count(2)->create();
+        Comision::factory()->count(10)->create();
     }
 }

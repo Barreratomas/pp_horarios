@@ -13,6 +13,7 @@ class AulaController extends Controller
 
     public function __construct(AulaService $aulaService){
         $this->aulaService = $aulaService;
+       
     }
 
    
