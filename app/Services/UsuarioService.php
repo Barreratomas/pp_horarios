@@ -64,7 +64,7 @@ class UsuarioService implements UsuarioRepository
             }
             $usuario->id_carrera=null;
             $usuario->id_comision=null;
-            $usuario->anio=1;
+            $usuario->anio=null;
 
         }
 
@@ -125,7 +125,7 @@ class UsuarioService implements UsuarioRepository
             }
             $usuario->id_carrera=null;
             $usuario->id_comision=null;
-            $usuario->anio=1;
+            $usuario->anio=null;
 
         }
 
