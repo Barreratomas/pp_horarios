@@ -28,28 +28,25 @@ class UsuarioRequest extends FormRequest
         $esCreacion = $this->url() == 'http://127.0.0.1:8000/usuario/crear-usuario';
         
         
-        $id_primer_carrera=Carrera::orderBy('id_carrera')->first()->id_carrera;
-        $id_ultimo_carrera=Carrera::orderBy('id_carrera','desc')->first()->id_carrera;
-        
-        $dniRules = $esCreacion ? ['required', 'integer', 'min:1', Rule::unique('usuarios', 'dni')] : [];
-        $nombreRules=$esCreacion ? ['required', 'string'] : ['nullable','string'];
-        $apellidoRules=$esCreacion ? ['required', 'string'] : ['nullable','string'];
-        $tipoRules = $esCreacion ? ['required', 'in:estudiante,bedelia'] : ['nullable', 'in:estudiante,bedelia'];
-        $emailRules=$esCreacion ? ['required', 'email'] : ['nullable', 'email'];
-        $idCarreraRules = $esCreacion ? ['required', 'integer', Rule::exists('carreras', 'id_carrera'),  'min:'.$id_primer_carrera,'max:'.$id_ultimo_carrera] : ['nullable', 'integer', Rule::exists('carreras', 'id_carrera'),  'min:'.$id_primer_carrera,'max:'.$id_ultimo_carrera];
-        $anioRules = $esCreacion ? ['required', 'integer', 'min:1', 'max:9'] : [];
-
-        
-
-        return [
-            'dni' => $dniRules,
-            'nombre' => $nombreRules,
-            'apellido' => $apellidoRules,
-            'tipo' => $tipoRules,
-            'email' => $emailRules,
-            'id_carrera' => $idCarreraRules,
-            'anio' => $anioRules,
-            
+        $rules = [
+            'dni' => $esCreacion ? ['required', 'integer', 'min:1', Rule::unique('usuarios', 'dni')] : [],
+            'nombre' => $esCreacion ? ['required', 'string'] : ['nullable', 'string'],
+            'apellido' => $esCreacion ? ['required', 'string'] : ['nullable', 'string'],
+            'tipo' => $esCreacion ? ['required', 'in:estudiante,bedelia'] : ['nullable', 'in:estudiante,bedelia'],
+            'email' => $esCreacion ? ['required', 'email'] : ['nullable', 'email'],
         ];
+        
+
+        if ($this->input('tipo') == 'estudiante') {
+            $id_primer_carrera = Carrera::orderBy('id_carrera')->first()->id_carrera;
+            $id_ultimo_carrera = Carrera::orderBy('id_carrera', 'desc')->first()->id_carrera;
+            $rules['id_carrera'] = $esCreacion ? ['required', 'integer', Rule::exists('carreras', 'id_carrera'), 'min:' . $id_primer_carrera, 'max:' . $id_ultimo_carrera] : ['nullable', 'integer', Rule::exists('carreras', 'id_carrera'), 'min:' . $id_primer_carrera, 'max:' . $id_ultimo_carrera];
+            $rules['anio'] = $esCreacion ? ['required', 'integer', 'min:1', 'max:9'] : ['nullable', 'integer', 'min:1', 'max:9'];
+        } else {
+            $rules['id_carrera'] = ['nullable'];
+            $rules['anio'] = ['nullable'];
+        }
+    
+        return $rules;
     }
 }

@@ -91,20 +91,21 @@ Route::middleware('acceso')->group(function () {
     // docente materia
     Route::get('/docente-materia/crear-docente-materia/{docente}',[DocenteMateriaController::class,'crear'])->name('mostrarFormularioDocenteMateria');
     Route::post('/docente-materia/crear-docente-materia/{docente}',[DocenteMateriaController::class,'store'])->name('storeDocenteMateria');
-    Route::get('/docente-materia/actualizar-docente-materia/{dm}',[DocenteMateriaController::class,'formularioActualizar'])->name('mostrarActualizarDocenteMateria');
-    Route::put('/docente-materia/actualizar-docente-materia/{dm}',[DocenteMateriaController::class,'actualizar'])->name('actualizarDocenteMateria');
+    Route::get('/docente-materia/actualizar-docente-materia/{h_p_d}/{dm}',[DocenteMateriaController::class,'formularioActualizar'])->name('mostrarActualizarDocenteMateria');
+    Route::put('/docente-materia/actualizar-docente-materia/{h_p_d}/{dm}',[DocenteMateriaController::class,'actualizar'])->name('actualizarDocenteMateria');
 
 
 
     // asignacion
-    // Route::get('/home/asignacion',[AsignacionController::class,'index'])->name('indexAsignacion');
-    // Route::delete('/home/asignacion/eliminar-asignacion/{h_p_d}/{dm}',[AsignacionController::class,'eliminar'])->name('eliminarAsignacion');
+    Route::get('/home/asignacion',[AsignacionController::class,'index'])->name('indexAsignacion');
+    Route::delete('/home/asignacion/eliminar-asignacion/{h_p_d}/{dm}',[AsignacionController::class,'eliminar'])->name('eliminarAsignacion');
 
 
     // disponibilidads
     Route::get('/disponibilidad',[DisponibilidadController::class,'store'])->name('storeDisponibilidad');
     Route::get('/disponibilidad/disponibilidad-index',[DisponibilidadController::class,'redireccionar'])->name('redireccionarDisponibilidad');
-    Route::get('/disponibilidad/disponibilidad-index-index',[DisponibilidadController::class,'redireccionarError'])->name('redireccionarDisponibilidadError');
+    Route::get('/disponibilidad/actualizar-disponibilidad/{h_p_d}/{dm}',[DisponibilidadController::class,'actualizar'])->name('actualizarDisponibilidad');
+    Route::get('/disponibilidad/disponibilidad-index-error',[DisponibilidadController::class,'redireccionarError'])->name('redireccionarDisponibilidadError');
     
 });
 // horario

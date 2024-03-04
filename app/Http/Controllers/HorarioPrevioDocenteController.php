@@ -80,7 +80,7 @@ class HorarioPrevioDocenteController extends Controller
         $response = $this->HorarioPrevioDocenteService->actualizarHorarioPrevioDocente($dia,$hora,$h_p_d);
         
         if (isset($response['success'])) {
-            return redirect()->route('mostrarActualizarDocenteMateria',['dm'=>$dm->id_dm])->with('success', ['message' => $response['success']]);
+            return redirect()->route('mostrarActualizarDocenteMateria',['h_p_d'=>$h_p_d->id_h_p_d,'dm'=>$dm->id_dm])->with('success', ['message' => $response['success']]);
         } else {
             return redirect()->route('mostrarActualizarHPD',['h_p_d'=>$h_p_d->id_h_p_d, 'dm'=>$dm->id_dm])->withErrors(['error' => $response['error']]);
         }

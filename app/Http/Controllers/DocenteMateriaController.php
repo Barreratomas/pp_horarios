@@ -8,6 +8,7 @@ use App\Models\Aula;
 use App\Models\Comision;
 use App\Models\Docente;
 use App\Models\DocenteMateria;
+use App\Models\HorarioPrevioDocente;
 use App\Models\Materia;
 use App\Services\DocenteMateriaService;
 use Illuminate\Http\Request;
@@ -64,14 +65,14 @@ class DocenteMateriaController extends Controller
      
     }
 
-    public function formularioActualizar(DocenteMateria $dm){
+    public function formularioActualizar(HorarioPrevioDocente $h_p_d, DocenteMateria $dm  ){
         $materias = Materia::all();
         $aulas = Aula::all(); 
         $comisiones = Comision::all(); 
-        return view('docenteMateria.actualizarDocenteMateria', compact('dm','materias','aulas','comisiones'));
+        return view('docenteMateria.actualizarDocenteMateria', compact('h_p_d','dm','materias','aulas','comisiones'));
     }
 
-    public function actualizar(DocenteMateriaRequest $request, DocenteMateria $dm)
+    public function actualizar(DocenteMateriaRequest $request, HorarioPrevioDocente $h_p_d , DocenteMateria $dm)
     {   
         $id_materia = $request->input('id_materia');
         $id_aula = $request->input('id_aula');
@@ -80,9 +81,9 @@ class DocenteMateriaController extends Controller
 
         $response = $this->docenteMateriaService->actualizarDocenteMateria($dm,$id_materia,$id_aula,$id_comision);
         if (isset($response['success'])) {
-            return redirect()->route('storeDisponibilidad')->with('success', $response['success']);
+            return redirect()->route('actualizarDisponibilidad',['h_p_d'=>$h_p_d->id_h_p_d,'dm'=>$dm->id_dm])->with('success', $response['success']);
         } else {
-            return redirect()->route('mostrarActualizarDocenteMateria',['dm'=>$dm->id_dm])->withErrors('error', $response['error']);
+            return redirect()->route('mostrarActualizarDocenteMateria',['h_p_d'=>$h_p_d->id_h_p_d,'dm'=>$dm->id_dm])->withErrors('error', $response['error']);
         }
     }
 

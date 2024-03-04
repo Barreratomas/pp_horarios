@@ -17,11 +17,3 @@
 </body>
 </html>
 
-{{-- @component('mail::message')
-# Asignado a un horario
-
-Usted fue asignado a un horario. Por favor, ingrese a la página para verlo.
-
-Gracias,<br>
-{{ config('app.name') }}
-@endcomponent --}}

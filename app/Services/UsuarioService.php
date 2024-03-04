@@ -64,6 +64,7 @@ class UsuarioService implements UsuarioRepository
             }
             $usuario->id_carrera=null;
             $usuario->id_comision=null;
+            $usuario->anio=1;
 
         }
 
@@ -73,15 +74,7 @@ class UsuarioService implements UsuarioRepository
             return ['error' => 'Hubo un error al guardar el usuario'];
 
         }
-        // try {
-  
-        //     $usuario->save();
-            
-            
-        //     return ['success' => 'Usuario guardado correctamente'];
-        // } catch (Exception $e) {
-        //     return ['error' => 'Hubo un error al guardar el usuario'];
-        // }
+        
     }
 
     public function actualizarUsuario($params, $usuario )
@@ -132,6 +125,8 @@ class UsuarioService implements UsuarioRepository
             }
             $usuario->id_carrera=null;
             $usuario->id_comision=null;
+            $usuario->anio=1;
+
         }
 
          
@@ -140,12 +135,6 @@ class UsuarioService implements UsuarioRepository
 
         try {
 
-           
-            
-
-
-           
-            
             $usuario->save();
 
            

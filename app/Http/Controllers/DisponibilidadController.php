@@ -6,6 +6,7 @@ use App\Models\Aula;
 use App\Models\Comision;
 use App\Models\Disponibilidad;
 use App\Models\DocenteMateria;
+use App\Models\Horario;
 use App\Models\HorarioPrevioDocente;
 use App\Models\Materia;
 use App\Services\DisponibilidadService;
@@ -71,33 +72,33 @@ class DisponibilidadController extends Controller
             return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => 'Distribución vacía']);
         }
             
-            foreach ($distribucion as $data) {
-                $dia=$data['dia'];
-                $modulo_inicio=$data['modulo_inicio'];
-                $modulo_fin=$data['modulo_fin'];
-                
-                $params=[
-                    'id_dm'=>$id_dm,
-                    'id_h_p_d'=>$id_h_p_d,
-                    'dia'=>$dia,
-                    'modulo_inicio'=>$modulo_inicio,
-                    'modulo_fin'=>$modulo_fin,
-        
-                ];
+        foreach ($distribucion as $data) {
+            $dia=$data['dia'];
+            $modulo_inicio=$data['modulo_inicio'];
+            $modulo_fin=$data['modulo_fin'];
+            
+            $params=[
+                'id_dm'=>$id_dm,
+                'id_h_p_d'=>$id_h_p_d,
+                'dia'=>$dia,
+                'modulo_inicio'=>$modulo_inicio,
+                'modulo_fin'=>$modulo_fin,
+    
+            ];
 
-                // dd($params);        
-                $response = $this->disponibilidadService->guardarDisponibilidad($params);
-                
+            // dd($params);        
+            $response = $this->disponibilidadService->guardarDisponibilidad($params);
+            
 
-               
-            }
-            if($response && isset($response['success'])) {
+            
+        }
+        if($response && isset($response['success'])) {
 
-                return redirect()->route('storeHorario')->with('success', $response['success']);
-            }else{
-                return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => $response['error']]);
+            return redirect()->route('storeHorario')->with('success', $response['success']);
+        }else{
+            return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => $response['error']]);
 
-            }
+        }
                
     }
 
@@ -109,19 +110,68 @@ class DisponibilidadController extends Controller
 
 
     
-    public function actualizar(Request $request)
+    public function actualizar( HorarioPrevioDocente $h_p_d,DocenteMateria $dm)
     {   
-        $id=$request->input("id");
+        $id_dm = $dm->id_dm;
+        // Buscar registros en la tabla disponibilidades que tengan el mismo id_dm
+        $disponibilidad_vieja = Disponibilidad::where('id_dm', $id_dm)->get();
+        // Verificar si se encontraron registros
+        if ($disponibilidad_vieja->isNotEmpty()) {
+            foreach ($disponibilidad_vieja as $registro) {
+                $registro->delete();
+            }
+        }
 
-        $params=[
-            'id_dm'=>$request->input("id_dm"),
-            'id_dm'=>$request->input("id_h_p_d"),
-            'dia'=>$request->input("dia"),
-            'modulo_inicio'=>$request->input("modulo_inicio"),
-            'modulo_fin'=>$request->input("modulo_fin")
+        $modulos_semanales = Materia::where('id_materia', $dm->id_materia)->value('modulos_semanales');
+        $id_aula = Aula::where("id_aula",$dm->id_aula)->value('id_aula');
+        $id_comision = Comision::where("id_comision",$dm->id_comision)->value('id_comision');
+        $id_h_p_d = $h_p_d->id_h_p_d;
+        $diaInstituto = $h_p_d->dia;
+        $moduloPrevio=$this->disponibilidadService->horaPrevia($id_h_p_d);
+        
 
-        ];
-        $response = $this->disponibilidadService->actualizarDisponibilidad($params, $id);
+        $distribucion=$this->disponibilidadService->modulosRepartidos($modulos_semanales,$moduloPrevio,$id_dm,$id_comision,$id_aula,$diaInstituto);
+        if (empty($distribucion)) {
+            return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => 'Distribución vacía']);
+        }
+            
+        foreach ($distribucion as $data) {
+            $dia=$data['dia'];
+            $modulo_inicio=$data['modulo_inicio'];
+            $modulo_fin=$data['modulo_fin'];
+            
+            $params=[
+                'id_dm'=>$id_dm,
+                'id_h_p_d'=>$id_h_p_d,
+                'dia'=>$dia,
+                'modulo_inicio'=>$modulo_inicio,
+                'modulo_fin'=>$modulo_fin,
+    
+            ];
+
+            // dd($params);        
+            $response = $this->disponibilidadService->actualizarDisponibilidad($params);
+            
+
+            
+        }
+        if($response && isset($response['success'])) {
+
+            return redirect()->route('storeHorario')->with('success', $response['success']);
+        }else{
+            return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => $response['error']]);
+
+        }
+        
+
+
+        
+
+
+       
+
+        
+        $response = $this->disponibilidadService->actualizarDisponibilidad($params);
         if (isset($response['success'])) {
             return redirect()->route('disponibilidades.index')->with('success', $response['success']);
         }else{

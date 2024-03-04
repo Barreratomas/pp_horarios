@@ -10,7 +10,7 @@ interface DisponibilidadRepository
     public function horaPrevia($id_h_p_d);
     public function modulosRepartidos($modulos_semanales,$moduloPrevio,$id_dm,$id_comision,$id_aula,$diaInstituto);
     public function guardarDisponibilidad($params);
-    public function actualizarDisponibilidad($id,$params);
+    public function actualizarDisponibilidad($params);
     public function  eliminarDisponibilidadPorId($id);
 
 

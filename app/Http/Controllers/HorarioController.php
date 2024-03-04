@@ -163,7 +163,7 @@ class HorarioController extends Controller
         if ($response && isset($response['success'])) {
             // Si se guardó correctamente, redirigir con un mensaje de éxito
 
-            return redirect()->route('indexDocente')->with('success', $response['success']);
+            return redirect()->route('indexAsignacion')->with('success', $response['success']);
         } else {
             // Si hubo un error al guardar, redirigir con un mensaje de error
             return redirect()->route('home')->withErrors(['error' => $response['error']]);

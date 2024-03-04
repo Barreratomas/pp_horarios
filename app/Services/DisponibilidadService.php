@@ -304,11 +304,11 @@ class DisponibilidadService implements DisponibilidadRepository
         foreach ($params as $key => $value) {
             $disponibilidad->{$key} = $value;
         }
-        Mail::to($disponibilidad->docenteMateria->docente->email)->send(new AssignedToSchedule($disponibilidad->docenteMateria->docente->nombre));
 
-        $disponibilidad->save();
-        if ($disponibilidad->id_disponibilidad) {
+        if ($disponibilidad->save()) 
+        {
             
+            Mail::to($disponibilidad->docenteMateria->docente->email)->send(new AssignedToSchedule($disponibilidad->docenteMateria->docente->nombre));
 
             return ['success' => 'Disponibilidad guardada correctamente'];
         } else {
@@ -317,25 +317,20 @@ class DisponibilidadService implements DisponibilidadRepository
     }
 
     
-    public function actualizarDisponibilidad($id,$params)
+    public function actualizarDisponibilidad($params)
     {
-        try {
-            $disponibilidad = Disponibilidad::find($id);
-            if (!$disponibilidad) {
-                return ['error' => 'hubo un error al buscar disponibilidad'];
+        
+        $disponibilidad = new Disponibilidad();
+        foreach ($params as $key => $value) {
+            $disponibilidad->{$key} = $value;
+        }
+        
 
-            }
-
-            foreach ($params as $key => $value) {
-                if (!is_null($value)) {
-                    $disponibilidad->{$key} = $value;
-                }
-            }
-            $disponibilidad->save();
+        if ($disponibilidad->save()) 
+        {
             return ['success' => 'Disponibilidad actualizada correctamente'];
-        } catch (Exception $e) {
-            return ['error' => 'Hubo un error al actualizar la disponibilidad'];
-
+        } else {
+            return ['error' => 'Hubo un error al guardar la disponibilidad'];
         }
     }
 

@@ -57,7 +57,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('indexDocente')}}">docentes</a>
                         </li>
-                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('indexAsignacion')}}">asignacion docente</a>
+                        </li>
                     @endif
                     <li class="nav-item logout">
                         <a class="nav-link" href="{{ route('logout') }}">

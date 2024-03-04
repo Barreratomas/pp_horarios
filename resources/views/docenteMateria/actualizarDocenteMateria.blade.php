@@ -6,7 +6,7 @@
     <div class="container py-3">
         <div class="row align-items-center justify-content-center">
             <div class="col-6 text-center"> 
-                <form action="{{ route('actualizarDocenteMateria',['dm'=>$dm->id_dm]) }}" method="post">
+                <form action="{{ route('actualizarDocenteMateria',['h_p_d'=>$h_p_d->id_h_p_d,'dm'=>$dm->id_dm]) }}" method="post">
                     @method('put')
                     @csrf
                     

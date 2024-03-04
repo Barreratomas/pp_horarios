@@ -47,7 +47,7 @@ class DocenteController extends Controller
         if (isset($response['success'])) {
             
 
-            return redirect()->route('mostrarFormularioHPD', ['docente' => $dni])->with('success', ['message' => $response['success']]);
+            return redirect()->route('indexDocente')->with('success', $response['success']);
         } else {
             return redirect()->route('mostrarFormularioDocente')->withErrors(['error' => $response['error']]);
         }

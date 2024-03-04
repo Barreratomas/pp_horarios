@@ -26,7 +26,7 @@ class MateriaRequest extends FormRequest
 
 
         $nombreRules = $esCreacion ? ['required','string','max:255',Rule::unique('materias')] : ['nullable','string','max:255',Rule::unique('materias')];
-        $modulos_semanalesRules=$esCreacion ? ['required','integer','min:1','max:6'] : ['nullabe','integer','min:1','max:6'];
+        $modulos_semanalesRules=$esCreacion ? ['required','integer','min:1','max:6'] : ['nullable','integer','min:1','max:6'];
 
 
         return [

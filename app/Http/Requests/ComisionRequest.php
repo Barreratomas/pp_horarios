@@ -29,8 +29,8 @@ class ComisionRequest extends FormRequest
         $id_primer_carrera=Carrera::orderBy('id_carrera')->first()->id_carrera;
         $id_ultimo_carrera=Carrera::orderBy('id_carrera','desc')->first()->id_carrera;
         
-        $anioRules=$esCreacion ? ['required','integer','min:1'] : ['nullable','integer','min:1'];
-        $divisionRules=$esCreacion ? ['required','integer','min:1',] : ['nullable','integer','min:1'];
+        $anioRules=$esCreacion ? ['required','integer','min:1','max:9'] : ['nullable','integer','min:1','max:9'];
+        $divisionRules=$esCreacion ? ['required','integer','min:1',] : ['nullable','integer','min:1',];
         $capacidadRules=$esCreacion ? ['required','integer','min:0'] : ['nullable','integer','min:0'];
 
         return [
