@@ -38,7 +38,7 @@ class DocenteMateriaRequest extends FormRequest
 
         $idCarreraRules = $esCreacion ? ['required', 'integer', Rule::exists('carreras', 'id_carrera'),'min:'.$id_primer_carrera,'max:'.$id_ultimo_carrera] : ['nullable', 'integer', Rule::exists('carreras', 'id_carrera'),'min:'.$id_primer_carrera,'max:'.$id_ultimo_carrera];
         $idComisionRules = $esCreacion ? ['required', 'integer', Rule::exists('comisiones', 'id_comision'), 'min:' . $id_primer_comision,'max:' . $id_ultimo_comision ] : ['nullable', 'integer', Rule::exists('comisiones', 'id_comision'), 'min:' . $id_primer_comision,'max:' . $id_ultimo_comision ];
-        $idAulasRules = $esCreacion ? ['required', 'integer', Rule::exists('aulas', 'id_aula'), 'min:' . $id_primer_aula,'max:' . $id_ultimo_aula ] : ['nullable', 'integer', Rule::exists('comisiones', 'id_comision'), 'min:' . $id_primer_aula,'max:' . $id_ultimo_aula];
+        $idAulasRules = $esCreacion ? ['required', 'integer',  ] : ['nullable', 'integer', ];
 
         return [
             'id_materia' =>$idCarreraRules,

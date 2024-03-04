@@ -23,6 +23,8 @@
     @foreach ($docentes as $docente)
     <div style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px; width:30vw;">
         <p>Nombre: {{ $docente->nombre }} {{ $docente->apellido }}</p>
+        <p>DNI: {{$docente->dni}}</p>
+        <p>Email {{$docente->email}}</p>
         <div class="botones">
 
             <a href="{{route('actualizarDocente', $docente->dni)}}"style="display: inline-block; margin-right: 10px;">

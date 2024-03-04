@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Mail\AssignedToSchedule;
 use App\Repositories\DisponibilidadRepository;
 use App\Mappers\DisponibilidadMapper;
 use App\Models\Aula;
@@ -16,6 +17,7 @@ use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class DisponibilidadService implements DisponibilidadRepository
 {
@@ -302,9 +304,12 @@ class DisponibilidadService implements DisponibilidadRepository
         foreach ($params as $key => $value) {
             $disponibilidad->{$key} = $value;
         }
-        
+        Mail::to($disponibilidad->docenteMateria->docente->email)->send(new AssignedToSchedule($disponibilidad->docenteMateria->docente->nombre));
+
         $disponibilidad->save();
         if ($disponibilidad->id_disponibilidad) {
+            
+
             return ['success' => 'Disponibilidad guardada correctamente'];
         } else {
             return ['error' => 'Hubo un error al guardar la disponibilidad'];

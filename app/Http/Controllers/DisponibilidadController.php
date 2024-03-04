@@ -13,6 +13,7 @@ use DateInterval;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class DisponibilidadController extends Controller
 {
@@ -74,7 +75,7 @@ class DisponibilidadController extends Controller
                 $dia=$data['dia'];
                 $modulo_inicio=$data['modulo_inicio'];
                 $modulo_fin=$data['modulo_fin'];
-
+                
                 $params=[
                     'id_dm'=>$id_dm,
                     'id_h_p_d'=>$id_h_p_d,
@@ -91,7 +92,7 @@ class DisponibilidadController extends Controller
                
             }
             if($response && isset($response['success'])) {
-                
+
                 return redirect()->route('storeHorario')->with('success', $response['success']);
             }else{
                 return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => $response['error']]);
