@@ -22,11 +22,11 @@ class HorarioFactory extends Factory
     {
         $disponibilidad = Disponibilidad::inRandomOrder()->first();
 
-        $id_aula = $disponibilidad->docenteMateria->id_aula;
+        $id_aula = $disponibilidad->docenteMateria->aula->nombre;
 
-        $id_comision = $disponibilidad->docenteMateria->id_comision;
+        $comision = $disponibilidad->docenteMateria->comision;
         
-        $id_materia= $disponibilidad->docenteMateria->materia->id_materia;
+        $id_materia= $disponibilidad->docenteMateria->materia->nombre;
 
         $id_carrera = $disponibilidad->docenteMateria->comision->carrera->id_carrera;
 
@@ -38,7 +38,8 @@ class HorarioFactory extends Factory
             'id_disponibilidad' => $disponibilidad->id_disponibilidad,
             'materia'=>$id_materia,
             'aula' =>$id_aula,
-            'comision' => $id_comision,
+            'anio' => $comision->anio,
+            'division' => $comision->division,
             'carrera' => $id_carrera,
 
         ];

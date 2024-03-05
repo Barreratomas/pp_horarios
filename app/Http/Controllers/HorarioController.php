@@ -77,13 +77,18 @@ class HorarioController extends Controller
         // Obtener todos los horarios asociados al docente con el DNI especificado
         $horarios = Horario::whereHas('disponibilidad.docenteMateria.docente', function ($query) use ($dni_docente) {
             $query->where('dni_docente', $dni_docente);
-        })->orderBy('created_at', 'desc')->get();
+        })->orderBy('anio')->orderBy('division')->get();
+
+        // Agrupar los horarios por año y división
+        $horariosAgrupados = $horarios->groupBy(['anio', 'division']);
     
+
+
         // Importar comisiones y carreras si es necesario
         $formularioHorarioDocentePartial = $this->mostrarFormularioDocentePartial();
     
         // Retornar la vista con los horarios del docente
-        return view('horario.indexDocente', compact('horarios', 'formularioHorarioDocentePartial'));
+        return view('horario.indexDocente', compact('horariosAgrupados', 'formularioHorarioDocentePartial'));
     }
 
 
@@ -94,11 +99,14 @@ class HorarioController extends Controller
             // Redirigir a la página de inicio si el tipo de usuario no es "bedelia"
             return redirect()->route('home');
         }
-        // Obtener todos los horarios de la base de datos
-        $horarios =  Horario::all();
-    
-        // Retornar la vista con todos los horarios
-        return view('horario.indexBedelia', compact('horarios'));
+          // Obtener todos los horarios de la base de datos, ordenados por año
+        $horarios = Horario::orderBy('anio')->get();
+
+            // Agrupar los horarios por año y division
+        $horariosAgrupados = $horarios->groupBy(['anio', 'division']);
+
+            // Retornar la vista con los horarios agrupados
+    return view('horario.indexBedelia', compact('horariosAgrupados'));
     }
 
 
@@ -142,7 +150,8 @@ class HorarioController extends Controller
                 'id_disponibilidad' => $registro->id_disponibilidad,
                 'materia' => $registro->docenteMateria->materia->id_materia,
                 'aula' => $registro->docenteMateria->id_aula,
-                'comision' => $registro->docenteMateria->id_comision,
+                'anio' => $registro->docenteMateria->comision->anio,
+                'division' => $registro->docenteMateria->comision->division,
                 'carrera'=>$registro->docenteMateria->comision->id_carrera
             ];
             // dd($params);      

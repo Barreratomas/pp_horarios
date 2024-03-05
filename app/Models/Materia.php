@@ -33,7 +33,7 @@ class Materia extends Model
 
 
     //  Una materia puede ser enseñada por muchos docentes
-    public function DocenteMateria():HasMany{
+    public function docenteMateria():HasMany{
         return $this->hasMany(DocenteMateria::class,'id_materia','id_materia');
 
     }

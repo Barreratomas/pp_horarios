@@ -21,7 +21,8 @@ return new class extends Migration
             $table->foreign('id_disponibilidad')->references('id_disponibilidad')->on('disponibilidades')->onDelete('cascade');
             $table->string('materia');
             $table->string('aula');
-            $table->string('comision');
+            $table->string('anio');
+            $table->string('division');
             $table->string('carrera');
             $table->timestamps();
         });
