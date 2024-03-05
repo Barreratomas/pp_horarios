@@ -11,7 +11,7 @@
     <!-- Aquí está el menú colapsable -->
     <div class="collapse" id="sidebar">
         <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar vh-100 " style="width: 250px;" id="miDiv">
-            <div class="position-sticky">
+            <div class="position-sticky cont-nav">
                 <ul class="nav flex-column">
                     
                     {{-- AGREGAR CONDICIONALES A LAS RUTAS QUE SOLO PUEDE ENTRAR BEDELIA --}}
@@ -61,19 +61,29 @@
                             <a class="nav-link" href="{{route('indexAsignacion')}}">asignacion docente</a>
                         </li>
                     @endif
-                    <li class="nav-item logout">
+                    {{-- <li class="nav-item logout">
                         <a class="nav-link" href="{{ route('logout') }}">
                             <button type="button" class="btn btn-danger">Logout</button>
                         </a>
-                    </li>
-                    <li class="userType">
+                    </li> --}}
+                    {{-- <li class="userType">
                         @if(session('userType'))
                         <p style="color:red;">Tipo de usuario: {{ session('userType') }}</p>
                         @endif
-                    </li>
+                    </li> --}}
                     
                     
                 </ul>
+                <div class="logout">
+                    <a class="nav-link" href="{{ route('logout') }}">
+                        <button type="button" class="btn btn-danger">Logout</button>
+                    </a>
+                </div>
+                <div class="userType">
+                    @if(session('userType'))
+                    <p style="color:red;">Tipo de usuario: {{ session('userType') }}</p>
+                    @endif
+                </div>
             </div>
         </nav>
     </div>
