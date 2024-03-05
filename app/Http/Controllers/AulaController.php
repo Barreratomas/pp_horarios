@@ -41,10 +41,9 @@ class AulaController extends Controller
     public function guardarAula(AulaRequest $request){
 
         $nombre = $request->input('nombre');
-        $capacidad = $request->input('capacidad');
         $tipo_aula = $request->input('tipo_aula');
 
-        $response=$this->aulaService->guardarAula($nombre,$capacidad,$tipo_aula);
+        $response=$this->aulaService->guardarAula($nombre,$tipo_aula);
         if (isset($response['success'])) {
             return redirect()->route('indexAula')->with('success', $response['success']);
         } else {
@@ -60,9 +59,8 @@ class AulaController extends Controller
     public function actualizarAula(AulaRequest $request, Aula $aula){
         
         $nombre = $request->input('nombre');
-        $capacidad = $request->input('capacidad');        
         $tipo_aula = $request->input('tipo_aula');
-        $response=$this->aulaService->actualizarAula($nombre,$capacidad,$tipo_aula,$aula);
+        $response=$this->aulaService->actualizarAula($nombre,$tipo_aula,$aula);
         if (isset($response['success'])) {
             return redirect()->route('indexAula')->with('success', $response['success']);
         } else {

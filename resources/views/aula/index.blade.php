@@ -27,7 +27,6 @@
     <div style="border: 1px solid #ccc; border-radius: 5px; padding: 10px; margin-bottom: 10px; width:30vw;">
         <p>Nombre:      {{ $aula->nombre }}   </p>
         <p>Tipo_aula:   {{ $aula->tipo_aula }}</p>
-        <p>Capacidad:   {{ $aula->capacidad }}</p>
         <div class="botones">
 
             <a href="{{route('mostrarActualizarAula', $aula->id_aula)}}"style="display: inline-block; margin-right: 10px;">

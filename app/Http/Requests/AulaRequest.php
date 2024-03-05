@@ -31,14 +31,12 @@ class AulaRequest extends FormRequest
 
 
         $nombreRules = $esCreacion ? ['required','string','max:255',Rule::unique('aulas')] : ['nullable','string','max:255',Rule::unique('aulas')];
-        $capacidadRules = $esCreacion ? ['required' , 'integer' ,'min:0'] :[ 'nullable ', 'integer ', 'min:0'];
         $tipoAulaRules = $esCreacion ? ['required ',' string' ]:[ 'nullable ',' string'];
 
 
         return [
             'nombre' => $nombreRules,
 
-            'capacidad' => $capacidadRules,
 
             'tipo_aula' => $tipoAulaRules,
 

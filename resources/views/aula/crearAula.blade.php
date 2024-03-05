@@ -16,11 +16,7 @@
                 <div class="text-danger">{{ $message }}</div>
                 @enderror
                 
-                <label for="capacidad">Ingrese la capacidad</label><br>
-                <input type="number" name="capacidad" min="0"><br><br>
-                @error('capacidad')
-                <div class="text-danger">{{ $message }}</div>
-                @enderror
+                
                 
                 <label for="tipo_aula">Ingrese el tipo de aula</label><br> <!-- Corregido el texto del label -->
                 <input type="text" name="tipo_aula"><br><br>

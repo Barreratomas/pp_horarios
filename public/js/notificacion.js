@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
             message.parentElement.classList.add('hide-messages');
             setTimeout(function() {
                 message.remove();
-            }, 500); // Tiempo de espera antes de eliminar el mensaje (debe coincidir con el tiempo de transición en CSS)
+            }, 3500); // Tiempo de espera antes de eliminar el mensaje (debe coincidir con el tiempo de transición en CSS)
         });
 
         var successMessages = document.querySelectorAll('.alert-success');
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
             message.parentElement.classList.add('hide-messages');
             setTimeout(function() {
                 message.remove();
-            }, 500); // Tiempo de espera antes de eliminar el mensaje (debe coincidir con el tiempo de transición en CSS)
+            }, 3500); // Tiempo de espera antes de eliminar el mensaje (debe coincidir con el tiempo de transición en CSS)
         });
-    }, 1000);
+    }, 3500);
 });

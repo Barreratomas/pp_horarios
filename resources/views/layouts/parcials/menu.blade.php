@@ -19,22 +19,34 @@
                         <a class="nav-link" href="{{route('home')}}">home</a>
                     </li>
                         {{-- estudiante --}}
-                    @if (Session::get('userType') === 'estudiante')
+                    @if (Session::get('userType') == 'estudiante')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('mostrarFormularioHorario') }}">Horarios</a>
+                            <a class="nav-link" href="{{ route('mostrarFormularioHorario') }}">horarios</a>
                         </li>
                     @endif
 
                         {{-- docente --}}
-                    @if (Session::get('userType') === 'docente')
+                    @if (Session::get('userType') == 'docente')
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('formularioHorarioDocente') }}">Horarios</a>
+                            <a class="nav-link" href="{{ route('formularioHorarioDocente') }}">horarios</a>
                         </li>
                     @endif
                         {{-- bedelia --}}
-                    @if (Session::get('userType') === 'bedelia')
+                    @if (Session::get('userType') == 'bedelia' || Session::get('userType') == 'admin')
+                        {{-- admin --}}
+                        @if (Session::get('userType') == 'admin')
+                            {{--estudiante  --}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('mostrarFormularioHorario') }}">horarios estudiante</a>
+                            </li>
+                            {{-- docente --}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('formularioHorarioDocente') }}">horarios docentes</a>
+                            </li>
+                        @endif
+                        
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('mostrarHorarioBedelia') }}">Horarios</a>
+                            <a class="nav-link" href="{{ route('mostrarHorarioBedelia') }}">horarios bedelia</a>
                         </li>
                         
                         <li class="nav-item">
@@ -61,16 +73,7 @@
                             <a class="nav-link" href="{{route('indexAsignacion')}}">asignacion docente</a>
                         </li>
                     @endif
-                    {{-- <li class="nav-item logout">
-                        <a class="nav-link" href="{{ route('logout') }}">
-                            <button type="button" class="btn btn-danger">Logout</button>
-                        </a>
-                    </li> --}}
-                    {{-- <li class="userType">
-                        @if(session('userType'))
-                        <p style="color:red;">Tipo de usuario: {{ session('userType') }}</p>
-                        @endif
-                    </li> --}}
+                   
                     
                     
                 </ul>

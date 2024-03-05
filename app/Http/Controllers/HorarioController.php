@@ -26,10 +26,11 @@ class HorarioController extends Controller
        // mostrarFormulario
     public function mostrarFormularioPartial()
     {
-        if (Session::get('userType') !== 'estudiante') {
+        if (Session::get('userType') !== 'estudiante' && Session::get('userType') !== 'admin') {
             // Redirigir a la página de inicio si el tipo de usuario no es "estudiante"
             return redirect()->route('home');
         }
+
         $comisiones = Comision::all();
         $carreras = Carrera::all();
         
@@ -49,7 +50,7 @@ class HorarioController extends Controller
               ->whereHas('carrera', function ($subQuery) use ($id_carrera) {
                   $subQuery->where('id_carrera', $id_carrera);
               });
-    })->orderBy('created_at', 'desc')->get();
+    })->orderBy('dia')->orderBy('modulo_inicio')->get();
 
     // importo comisiones y carreras
     $formularioHorarioPartial = $this->mostrarFormularioPartial();
@@ -63,7 +64,7 @@ class HorarioController extends Controller
 
 
     public function mostrarFormularioDocentePartial(){
-        if (Session::get('userType') !== 'docente') {
+        if (Session::get('userType') !== 'docente' && Session::get('userType') !== 'admin') {
             // Redirigir a la página de inicio si el tipo de usuario no es "docente"
             return redirect()->route('home');
         }
@@ -77,7 +78,7 @@ class HorarioController extends Controller
         // Obtener todos los horarios asociados al docente con el DNI especificado
         $horarios = Horario::whereHas('disponibilidad.docenteMateria.docente', function ($query) use ($dni_docente) {
             $query->where('dni_docente', $dni_docente);
-        })->orderBy('anio')->orderBy('division')->get();
+        })->orderBy('anio')->orderBy('division')->orderBy('dia')->orderBy('modulo_inicio')->get();
 
         // Agrupar los horarios por año y división
         $horariosAgrupados = $horarios->groupBy(['anio', 'division']);
@@ -95,12 +96,12 @@ class HorarioController extends Controller
 
     public function mostrarHorarioBedelia()
     {
-        if (Session::get('userType') !== 'bedelia') {
+        if (Session::get('userType') !== 'bedelia' && Session::get('userType') !== 'admin') {
             // Redirigir a la página de inicio si el tipo de usuario no es "bedelia"
             return redirect()->route('home');
         }
           // Obtener todos los horarios de la base de datos, ordenados por año
-        $horarios = Horario::orderBy('anio')->get();
+        $horarios = Horario::orderBy('anio')->orderBy('dia')->orderBy('modulo_inicio')->get();
 
             // Agrupar los horarios por año y division
         $horariosAgrupados = $horarios->groupBy(['anio', 'division']);
@@ -148,8 +149,8 @@ class HorarioController extends Controller
                 'modulo_fin' => $registro->modulo_fin,
                 'v_p' => $v_p, // Asignar el valor aleatorio
                 'id_disponibilidad' => $registro->id_disponibilidad,
-                'materia' => $registro->docenteMateria->materia->id_materia,
-                'aula' => $registro->docenteMateria->id_aula,
+                'materia' => $registro->docenteMateria->materia->nombre,
+                'aula' => $registro->docenteMateria->aula->nombre,
                 'anio' => $registro->docenteMateria->comision->anio,
                 'division' => $registro->docenteMateria->comision->division,
                 'carrera'=>$registro->docenteMateria->comision->id_carrera

@@ -1,4 +1,4 @@
-@if (Session::get('userType') == 'bedelia')
+@if (Session::get('userType') == 'bedelia' || Session::get('userType') == 'admin' && request()->route()->named('mostrarHorarioBedelia'))
 @foreach ($horariosAgrupados as $anio => $divisionesPorAnio)
 <h2>Año: {{ $anio }}</h2>
 <table border="1">
@@ -11,6 +11,8 @@
             <th>Aula</th>
             <th>Materia</th>
             <th>comision</th>
+            <th>docente</th>
+
             <!-- Agrega más encabezados según tus necesidades -->
         </tr>
     </thead>
@@ -41,6 +43,8 @@
                 <td>{{ $horario->aula ? $horario->aula : 'N/A' }}</td>
                 <td>{{  $horario->materia? $horario->materia  : 'N/A' }}</td>
                 <td>{{  $horario->anio ? $horario->anio  : 'N/A' }}°{{  $horario->division ? $horario->division  : 'N/A'}} </td>
+                <td>{{  $horario->disponibilidad->docenteMateria->docente->nombre ? $horario->disponibilidad->docenteMateria->docente->nombre   : 'N/A' }} {{  $horario->disponibilidad->docenteMateria->docente->apellido ? $horario->disponibilidad->docenteMateria->docente->apellido : 'N/A'}} </td>
+
 
               
                 </tr>
@@ -50,7 +54,8 @@
 </table>
 @endforeach
 @endif
-@if (Session::get('userType') == 'estudiante')
+
+@if (Session::get('userType') == 'estudiante' || Session::get('userType') == 'admin' && request()->route()->named('mostrarHorario'))
 <table border="1">
     <thead>
         <tr>
@@ -60,6 +65,8 @@
             <th>V/P</th>
             <th>Aula</th>
             <th>Materia</th>
+            <th>Docente</th>
+
            
 
         </tr>
@@ -87,7 +94,8 @@
                 <td>{{ $horario->v_p == 'p' ? 'Presencial' : 'Virtual' }}</td>
                 <td>{{ $horario->aula ? $horario->aula : 'N/A' }}</td>
                 <td>{{  $horario->materia? $horario->materia  : 'N/A' }}</td>
-                
+                <td>{{  $horario->disponibilidad->docenteMateria->docente->nombre ? $horario->disponibilidad->docenteMateria->docente->nombre   : 'N/A' }} {{  $horario->disponibilidad->docenteMateria->docente->apellido ? $horario->disponibilidad->docenteMateria->docente->apellido : 'N/A'}} </td>
+
                 
             </tr>
         @endforeach
@@ -95,7 +103,7 @@
 </table>
 @endif
 
-@if (Session::get('userType') == 'docente')
+@if (Session::get('userType') == 'docente' || Session::get('userType') == 'admin' && request()->route()->named('mostrarHorarioDocente'))
 @foreach ($horariosAgrupados as $anio => $divisionesPorAnio)
 <h2>Año: {{ $anio }}</h2>
 <table border="1">

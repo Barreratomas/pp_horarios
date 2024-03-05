@@ -15,7 +15,7 @@ class Acceso
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->session()->has('userType') || $request->session()->get('userType') !== 'bedelia') {
+        if (!$request->session()->has('userType') || $request->session()->get('userType') != 'bedelia' && $request->session()->get('userType') != 'admin') {
             abort(403, 'No tienes permiso para acceder a esta página.');
         }
         return $next($request);

@@ -32,7 +32,7 @@ class UsuarioRequest extends FormRequest
             'dni' => $esCreacion ? ['required', 'integer', 'min:1', Rule::unique('usuarios', 'dni')] : [],
             'nombre' => $esCreacion ? ['required', 'string'] : ['nullable', 'string'],
             'apellido' => $esCreacion ? ['required', 'string'] : ['nullable', 'string'],
-            'tipo' => $esCreacion ? ['required', 'in:estudiante,bedelia'] : ['nullable', 'in:estudiante,bedelia'],
+            'tipo' => $esCreacion ? ['required', 'in:estudiante,bedelia,admin'] : ['nullable', 'in:estudiante,bedelia.admin'],
             'email' => $esCreacion ? ['required', 'email'] : ['nullable', 'email'],
         ];
         

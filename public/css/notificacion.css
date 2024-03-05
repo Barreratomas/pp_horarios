@@ -6,7 +6,7 @@
     right: 20px;
     z-index: 9999;
     opacity: 1;
-    transition: opacity 0.5s ease; /* Añadir transición para suavizar la opacidad */
+    transition: opacity 3.5s ease; /* Añadir transición para suavizar la opacidad */
 }
 
 /* Ajustar la opacidad de los mensajes cuando se están eliminando */

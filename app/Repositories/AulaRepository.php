@@ -6,8 +6,8 @@ interface AulaRepository
 {
     public function obtenerTodasAulas();
     public function obtenerAula($id);
-    public function guardarAula($nombre,$tipo_aula,$capacidad);
-    public function actualizarAula($nombre,$tipo_aula,$capacidad,$aula);
+    public function guardarAula($nombre,$tipo_aula);
+    public function actualizarAula($nombre,$tipo_aula,$aula);
     public function eliminarAula($aula);
 
         // Swagger

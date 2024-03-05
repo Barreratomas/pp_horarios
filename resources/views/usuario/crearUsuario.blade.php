@@ -41,7 +41,13 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="tipo" id="bedelia" value="bedelia">
                             <label class="form-check-label" for="bedelia">Bedelia</label>
-                        </div><br><br>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tipo" id="admin" value="admin">
+                            <label class="form-check-label" for="admin">Admin</label>
+                        </div>
+                        <br><br>
                         @error('tipo')
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
@@ -111,7 +117,7 @@
             tipoUsuario.forEach(function (radio) {
                 radio.addEventListener('change', function () {
                     // Si se selecciona "Bedelia", ocultar el campo de selección de carrera y el campo de entrada de año; de lo contrario, mostrarlos
-                    if (this.value == 'bedelia') {
+                    if (this.value != 'estudiante') {
                         carreraContainer.style.display = 'none';
                         anioContainer.style.display = 'none';
                     } else {

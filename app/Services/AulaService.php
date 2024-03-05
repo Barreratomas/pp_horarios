@@ -38,13 +38,12 @@ class AulaService implements AulaRepository
         
     }
 
-    public function guardarAula($nombre,$capacidad,$tipo_aula)
+    public function guardarAula($nombre,$tipo_aula)
     {
         try {
             $aula = new Aula();
             $aula->nombre=$nombre;
             $aula->tipo_aula=$tipo_aula;
-            $aula->capacidad=$capacidad;
 
             $aula->save();
             return ['success' => 'Aula guardada correctamente'];
@@ -53,7 +52,7 @@ class AulaService implements AulaRepository
         }
     }
 
-    public function actualizarAula($nombre,$capacidad,$tipo_aula,$aula)
+    public function actualizarAula($nombre,$tipo_aula,$aula)
     {
         if (!$aula) {
             return ['error' => 'hubo un error al buscar el aula '];
@@ -65,9 +64,7 @@ class AulaService implements AulaRepository
             if (!is_null($nombre)) {
                 $aula->nombre = $nombre;
             }
-            if (!is_null($capacidad)) {
-                $aula->capacidad = $capacidad;
-            }
+           
             if (!is_null($tipo_aula)) {
                 $aula->tipo_aula = $tipo_aula;
             }
