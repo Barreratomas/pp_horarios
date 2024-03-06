@@ -69,7 +69,9 @@ class DisponibilidadController extends Controller
         
         $distribucion=$this->disponibilidadService->modulosRepartidos($modulos_semanales,$moduloPrevio,$id_dm,$id_comision,$id_aula,$diaInstituto);
         if (empty($distribucion)) {
-            return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => 'Distribución vacía']);
+            $DocenteMateria->delete();
+            $h_p_d->delete();
+            return redirect()->route('indexAsignacion');
         }
             
         foreach ($distribucion as $data) {
@@ -96,7 +98,9 @@ class DisponibilidadController extends Controller
 
             return redirect()->route('storeHorario')->with('success', $response['success']);
         }else{
-            return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => $response['error']]);
+            $DocenteMateria->delete();
+            $h_p_d->delete();
+            return redirect()->route('indexAsignacion')->withErrors(['error' => $response['error']]);
 
         }
                
@@ -132,7 +136,9 @@ class DisponibilidadController extends Controller
 
         $distribucion=$this->disponibilidadService->modulosRepartidos($modulos_semanales,$moduloPrevio,$id_dm,$id_comision,$id_aula,$diaInstituto);
         if (empty($distribucion)) {
-            return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => 'Distribución vacía']);
+            $dm->delete();
+            $h_p_d->delete();
+            return redirect()->route('indexAsignacion');
         }
             
         foreach ($distribucion as $data) {
@@ -159,7 +165,9 @@ class DisponibilidadController extends Controller
 
             return redirect()->route('storeHorario')->with('success', $response['success']);
         }else{
-            return redirect()->route('redireccionarDisponibilidadError')->withErrors(['error' => $response['error']]);
+            $dm->delete();
+            $h_p_d->delete();
+            return redirect()->route('indexAsignacion')->withErrors(['error' => $response['error']]);
 
         }
         

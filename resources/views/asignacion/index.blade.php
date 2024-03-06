@@ -67,6 +67,18 @@
 
 
 <div id="messages-container" class="container">
+    @if ($message = session('error'))
+    <div class="alert alert-danger">
+        {{ $message }}
+    </div>
+    @php
+        session()->forget('error'); 
+
+    @endphp
+
+    @endif
+
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>

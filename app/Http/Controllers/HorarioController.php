@@ -50,7 +50,12 @@ class HorarioController extends Controller
               ->whereHas('carrera', function ($subQuery) use ($id_carrera) {
                   $subQuery->where('id_carrera', $id_carrera);
               });
-    })->orderBy('dia')->orderBy('modulo_inicio')->get();
+    })->orderByRaw("CASE WHEN dia = 'lunes' THEN 1 
+    WHEN dia = 'martes' THEN 2 
+    WHEN dia = 'miercoles' THEN 3 
+    WHEN dia = 'jueves' THEN 4 
+    WHEN dia = 'viernes' THEN 5 
+    ELSE 6 END")->orderBy('modulo_inicio')->get();
 
     // importo comisiones y carreras
     $formularioHorarioPartial = $this->mostrarFormularioPartial();
@@ -78,7 +83,12 @@ class HorarioController extends Controller
         // Obtener todos los horarios asociados al docente con el DNI especificado
         $horarios = Horario::whereHas('disponibilidad.docenteMateria.docente', function ($query) use ($dni_docente) {
             $query->where('dni_docente', $dni_docente);
-        })->orderBy('anio')->orderBy('division')->orderBy('dia')->orderBy('modulo_inicio')->get();
+        })->orderBy('anio')->orderBy('division')->orderByRaw("CASE WHEN dia = 'lunes' THEN 1 
+        WHEN dia = 'martes' THEN 2 
+        WHEN dia = 'miercoles' THEN 3 
+        WHEN dia = 'jueves' THEN 4 
+        WHEN dia = 'viernes' THEN 5 
+        ELSE 6 END")->orderBy('modulo_inicio')->get();
 
         // Agrupar los horarios por año y división
         $horariosAgrupados = $horarios->groupBy(['anio', 'division']);
@@ -101,7 +111,12 @@ class HorarioController extends Controller
             return redirect()->route('home');
         }
           // Obtener todos los horarios de la base de datos, ordenados por año
-        $horarios = Horario::orderBy('anio')->orderBy('dia')->orderBy('modulo_inicio')->get();
+        $horarios = Horario::orderBy('anio')->orderByRaw("CASE WHEN dia = 'lunes' THEN 1 
+        WHEN dia = 'martes' THEN 2 
+        WHEN dia = 'miercoles' THEN 3 
+        WHEN dia = 'jueves' THEN 4 
+        WHEN dia = 'viernes' THEN 5 
+        ELSE 6 END")->orderBy('modulo_inicio')->get();
 
             // Agrupar los horarios por año y division
         $horariosAgrupados = $horarios->groupBy(['anio', 'division']);

@@ -37,7 +37,7 @@ class Aula extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre', 'capacidad', 'tipo_aula'];
+    protected $fillable = ['nombre', 'tipo_aula'];
     protected $table = 'aulas';
     protected $primaryKey = 'id_aula';
 

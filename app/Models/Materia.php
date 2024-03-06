@@ -27,7 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Materia extends Model
 {
     use HasFactory;
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre','modulos_semanales'];
     protected $table = 'materias';
     protected $primaryKey = 'id_materia';
 

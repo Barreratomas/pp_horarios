@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class DocenteMateria extends Model
 {
     use HasFactory;
-    protected $fillable = ['dni_docente','id_materia',];
+    protected $fillable = ['dni_docente','id_materia','id_comision','id_aula'];
     protected $table = 'docentes_materias';
     protected $primaryKey = 'id_dm';
 

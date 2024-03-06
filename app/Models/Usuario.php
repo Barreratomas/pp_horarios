@@ -48,7 +48,7 @@ class Usuario extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nombre','apellido','tipo','email','id_comision','id_carrera'];
+    protected $fillable = ['nombre','apellido','tipo','email','anio','id_carrera','id_comision'];
     protected $table = 'usuarios';
     protected $primaryKey = 'dni';
 
