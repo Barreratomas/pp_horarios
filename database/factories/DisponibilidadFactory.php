@@ -20,24 +20,12 @@ class DisponibilidadFactory extends Factory
      */
     public function definition(): array
     {
-        $mpdulosPermitidos = [
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-          ];
-          
+        $horariosInicioPermitidos = ['19:20', '20:00', '20:40', '21:30', '22:10', '22:50'];
+        $indiceInicio = array_rand($horariosInicioPermitidos);
+        $horaInicio = $horariosInicioPermitidos[$indiceInicio];
 
-          $indices = array_rand($mpdulosPermitidos, 2);
-
-          $indiceInicio = $indices[0];
-          $indiceFin = $indices[1];
-          
-          $moduloInicio = $mpdulosPermitidos[$indiceInicio];
-          $moduloFin = $mpdulosPermitidos[$indiceFin];
+        // Calcular el horario de fin
+        $horaFin = date('H:i', strtotime("$horaInicio + 40 minutes"));
 
           $horarioPrevioDocente = HorarioPrevioDocente::inRandomOrder()->first();
 
@@ -45,8 +33,8 @@ class DisponibilidadFactory extends Factory
             'id_dm' => DocenteMateria::inRandomOrder()->first()->id_dm,
             'id_h_p_d' => $horarioPrevioDocente->id_h_p_d,
             'dia' => $horarioPrevioDocente->dia,
-            'modulo_inicio' => $moduloInicio,
-            'modulo_fin' => $moduloFin,
+            'modulo_inicio' => $horaInicio,
+            'modulo_fin' => $horaFin,
         ];
     }
 }
