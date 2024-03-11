@@ -113,6 +113,7 @@ class HorarioController extends Controller
 
         // Obtener todos los horarios de la base de datos
         $horarios =  Horario::all();
+        $horarios = Horario::orderBy('modulo_inicio')->get();
 
         // Retornar la vista con todos los horarios
         return view('horario.indexBedelia', compact('horarios'));

@@ -20,7 +20,7 @@
                 6 => '23:30'
             ];
 
-            $mod = 0;
+            
 
             $dias = [
                 1 => 'lunes',
@@ -30,7 +30,7 @@
                 5 => 'viernes'
             ];
 
-            $n = 1;
+          
         @endphp
 
         <tr>
@@ -43,17 +43,29 @@
     </thead>
     <tbody>
 
-        @foreach ($dias as $n => $dia)
+        @foreach ($dias as  $dia)
             <tr>
                 <th>{{$dia}}</th>
                 @foreach ($horarios as $horario)
                     @if($horario->dia == $dia)
-                        @if($mod == $fin) @endif
+                        @foreach ($inicio as $modulo =>$hora)
+                        @if($horario->modulo_inicio <= $modulo && $modulo < $horario->modulo_fin ) 
                         <td>
+                            {{ $modulo }}
+
                             <div>{{$horario->disponibilidad->docenteMateria->materia->nombre}}</div>
                             <div>{{$horario->disponibilidad->docenteMateria->docente->nombre}}</div>
+                            <div>{{$horario->modulo_inicio}}</div>
+                            <div>{{$horario->modulo_fin}}</div>
+
                             <div>{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
+
                         </td>
+                           
+                        @endif
+                        @endforeach
+                       
+                        
                     @endif
                 @endforeach
             </tr>
