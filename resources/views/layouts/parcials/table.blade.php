@@ -18,7 +18,7 @@
     </thead>
     <tbody>
         @php
-        
+
         $horasPermitidas = [
             1 => '19:20',
             2 => '20:00',
@@ -46,7 +46,7 @@
                     <td>{{  $horario->disponibilidad->docenteMateria->docente->nombre ? $horario->disponibilidad->docenteMateria->docente->nombre   : 'N/A' }} {{  $horario->disponibilidad->docenteMateria->docente->apellido ? $horario->disponibilidad->docenteMateria->docente->apellido : 'N/A'}} </td>
 
 
-              
+
                 </tr>
             @endforeach
         @endforeach
@@ -66,14 +66,15 @@
             <th>Aula</th>
             <th>Materia</th>
             <th>Docente</th>
+            <th>asdas</th>
 
-           
+
 
         </tr>
     </thead>
     <tbody>
         @php
-        
+
         $horasPermitidas = [
             1 => '19:20',
             2 => '20:00',
@@ -96,7 +97,7 @@
                 <td>{{  $horario->materia? $horario->materia  : 'N/A' }}</td>
                 <td>{{  $horario->disponibilidad->docenteMateria->docente->nombre ? $horario->disponibilidad->docenteMateria->docente->nombre   : 'N/A' }} {{  $horario->disponibilidad->docenteMateria->docente->apellido ? $horario->disponibilidad->docenteMateria->docente->apellido : 'N/A'}} </td>
 
-                
+
             </tr>
         @endforeach
     </tbody>
@@ -121,7 +122,7 @@
     </thead>
     <tbody>
         @php
-        
+
         $horasPermitidas = [
             1 => '19:20',
             2 => '20:00',
@@ -147,7 +148,7 @@
                 <td>{{  $horario->materia? $horario->materia  : 'N/A' }}</td>
                 <td>{{  $horario->anio ? $horario->anio  : 'N/A' }}°{{  $horario->division ? $horario->division  : 'N/A'}} </td>
 
-              
+
                 </tr>
             @endforeach
         @endforeach
