@@ -36,14 +36,14 @@
             @foreach ($horariosPorDivision as $horario)
                 <tr>
                      {{-- si no existen los registros muestro na --}}
-                <td>{{ $horario->dia ? $horario->dia : 'N/A' }}</td>
-                <td>{{ isset($horario->modulo_inicio) && isset($horasPermitidas[$horario->modulo_inicio]) ? $horasPermitidas[$horario->modulo_inicio] : 'N/A' }}</td>
-                <td>{{ isset($horario->modulo_fin) && isset($horasPermitidas[$horario->modulo_fin]) ? $horasPermitidas[$horario->modulo_fin] : 'N/A' }}</td>
-                <td>{{ $horario->v_p == 'p' ? 'Presencial' : 'Virtual' }}</td>
-                <td>{{ $horario->aula ? $horario->aula : 'N/A' }}</td>
-                <td>{{  $horario->materia? $horario->materia  : 'N/A' }}</td>
-                <td>{{  $horario->anio ? $horario->anio  : 'N/A' }}°{{  $horario->division ? $horario->division  : 'N/A'}} </td>
-                <td>{{  $horario->disponibilidad->docenteMateria->docente->nombre ? $horario->disponibilidad->docenteMateria->docente->nombre   : 'N/A' }} {{  $horario->disponibilidad->docenteMateria->docente->apellido ? $horario->disponibilidad->docenteMateria->docente->apellido : 'N/A'}} </td>
+                    <td>{{ $horario->dia ? $horario->dia : 'N/A' }}</td>
+                    <td>{{ isset($horario->modulo_inicio) && isset($horasPermitidas[$horario->modulo_inicio]) ? $horasPermitidas[$horario->modulo_inicio] : 'N/A' }}</td>
+                    <td>{{ isset($horario->modulo_fin) && isset($horasPermitidas[$horario->modulo_fin]) ? $horasPermitidas[$horario->modulo_fin] : 'N/A' }}</td>
+                    <td>{{ $horario->v_p == 'p' ? 'Presencial' : 'Virtual' }}</td>
+                    <td>{{ $horario->aula ? $horario->aula : 'N/A' }}</td>
+                    <td>{{  $horario->materia? $horario->materia  : 'N/A' }}</td>
+                    <td>{{  $horario->anio ? $horario->anio  : 'N/A' }}°{{  $horario->division ? $horario->division  : 'N/A'}} </td>
+                    <td>{{  $horario->disponibilidad->docenteMateria->docente->nombre ? $horario->disponibilidad->docenteMateria->docente->nombre   : 'N/A' }} {{  $horario->disponibilidad->docenteMateria->docente->apellido ? $horario->disponibilidad->docenteMateria->docente->apellido : 'N/A'}} </td>
 
 
               

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DocenteMateriaRequest;
 use App\Mappers\DocenteMapper;
 use App\Models\Aula;
+use App\Models\Carrera;
 use App\Models\Comision;
 use App\Models\Docente;
 use App\Models\DocenteMateria;
@@ -40,6 +41,7 @@ class DocenteMateriaController extends Controller
         $materias = Materia::all();
         $aulas = Aula::all(); // Obtener todas las aulas
         $comisiones = Comision::all(); // Obtener todas las comisiones
+        
         return view('docenteMateria.crearDocenteMateria', compact('materias', 'aulas', 'comisiones','docente'));
     }
     
@@ -69,6 +71,7 @@ class DocenteMateriaController extends Controller
         $materias = Materia::all();
         $aulas = Aula::all(); 
         $comisiones = Comision::all(); 
+
         return view('docenteMateria.actualizarDocenteMateria', compact('h_p_d','dm','materias','aulas','comisiones'));
     }
 
