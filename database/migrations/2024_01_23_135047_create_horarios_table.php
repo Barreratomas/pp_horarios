@@ -23,7 +23,9 @@ return new class extends Migration
             $table->string('aula');
             $table->string('anio');
             $table->string('division');
-            $table->string('carrera');
+            $table->unsignedBigInteger('id_carrera');
+            $table->foreign('id_carrera')->references('id_carrera')->on('carreras')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

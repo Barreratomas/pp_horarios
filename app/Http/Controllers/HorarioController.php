@@ -105,25 +105,32 @@ class HorarioController extends Controller
 
 
     public function mostrarHorarioBedelia()
-    {
-        if (Session::get('userType') !== 'bedelia' && Session::get('userType') !== 'admin') {
-            // Redirigir a la página de inicio si el tipo de usuario no es "bedelia"
-            return redirect()->route('home');
-        }
-          // Obtener todos los horarios de la base de datos, ordenados por año
-        $horarios = Horario::orderBy('anio')->orderByRaw("CASE WHEN dia = 'lunes' THEN 1 
-        WHEN dia = 'martes' THEN 2 
-        WHEN dia = 'miercoles' THEN 3 
-        WHEN dia = 'jueves' THEN 4 
-        WHEN dia = 'viernes' THEN 5 
-        ELSE 6 END")->orderBy('modulo_inicio')->get();
-
-            // Agrupar los horarios por año y division
-        $horariosAgrupados = $horarios->groupBy(['anio', 'division']);
-
-            // Retornar la vista con los horarios agrupados
-    return view('horario.indexBedelia', compact('horariosAgrupados'));
+{
+    if (Session::get('userType') !== 'bedelia' && Session::get('userType') !== 'admin') {
+        // Redirigir a la página de inicio si el tipo de usuario no es "bedelia"
+        return redirect()->route('home');
     }
+      
+    // Obtener todos los horarios de la base de datos, unidos con las carreras
+    $horarios = Horario::join('carreras', 'horarios.id_carrera', '=', 'carreras.id_carrera')
+        ->orderBy('carreras.nombre')
+        ->orderBy('anio')
+        ->orderByRaw("CASE WHEN dia = 'lunes' THEN 1
+                        WHEN dia = 'martes' THEN 2
+                        WHEN dia = 'miercoles' THEN 3
+                        WHEN dia = 'jueves' THEN 4
+                        WHEN dia = 'viernes' THEN 5
+                        ELSE 6 END")
+        ->orderBy('modulo_inicio')
+        ->get();
+
+    // Agrupar los horarios solo por carrera
+    $horariosAgrupados = $horarios->groupBy('id_carrera');
+
+    // Retornar la vista con los horarios agrupados
+    return view('horario.indexBedelia', compact('horariosAgrupados'));
+}
+
 
 
 
