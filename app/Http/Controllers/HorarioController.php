@@ -41,15 +41,11 @@ class HorarioController extends Controller
 
     // mostrarHorario
     public function mostrarHorario(HorarioRequest $request): View
-    {        
+{        
     $id_comision = $request->input('comision');
-    $id_carrera = $request->input('carrera');
 
-    $horarios = Horario::whereHas('disponibilidad.docenteMateria.comision', function ($query) use ($id_comision, $id_carrera) {
-        $query->where('id_comision', $id_comision)
-              ->whereHas('carrera', function ($subQuery) use ($id_carrera) {
-                  $subQuery->where('id_carrera', $id_carrera);
-              });
+    $horarios = Horario::whereHas('disponibilidad.docenteMateria.comision', function ($query) use ($id_comision) {
+        $query->where('id_comision', $id_comision);
     })->orderByRaw("CASE WHEN dia = 'lunes' THEN 1 
     WHEN dia = 'martes' THEN 2 
     WHEN dia = 'miercoles' THEN 3 
@@ -57,13 +53,12 @@ class HorarioController extends Controller
     WHEN dia = 'viernes' THEN 5 
     ELSE 6 END")->orderBy('modulo_inicio')->get();
 
-    // importo comisiones y carreras
+    // Importar comisiones
     $formularioHorarioPartial = $this->mostrarFormularioPartial();
-
 
     // Retornar la vista con la comisión y los horarios
     return view('horario.index', compact('horarios', 'id_comision', 'formularioHorarioPartial'));
-    }
+}
 
 
 

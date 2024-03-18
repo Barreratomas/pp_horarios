@@ -15,14 +15,14 @@
                 <label for="comision">Selecciona una comisión:</label>
                 <select name="comision">
                     @foreach ($comisiones->sortBy(['anio', 'division']) as $comision)
-                        <option value="{{ $comision->id_comision }}">{{ $comision->anio }}°{{ $comision->division }}</option>
+                        <option value="{{ $comision->id_comision }}">{{ $comision->anio }}°{{ $comision->division }}|{{$comision->carrera->nombre}}</option>
                     @endforeach
                 </select>
                 @error('comision')
                     <p style="color:red">{{$message}}</p>
                 @enderror
 
-                <label for="carrera">Selecciona una carrera:</label>
+                {{-- <label for="carrera">Selecciona una carrera:</label>
                 <select name="carrera">
                     @foreach ($carreras as $carrera)
                         <option value="{{ $carrera->id_carrera }}">{{ $carrera->nombre }}</option>
@@ -31,7 +31,7 @@
                 @error('carrera')
                     <p style="color:red">{{$message}}</p>
                 @enderror
-                <br>               <br>
+                <br><br> --}}
 
 
                 <button type="submit" class="btn btn-primary me-2">Mostrar Horario</button>

@@ -66,10 +66,10 @@
                                                         <td class="border px-4 py-2">
                                                              <div >{{$horario->disponibilidad->docenteMateria->materia->nombre}}</div>
                                                             <div>{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
+                                                            <div>{{$horario->disponibilidad->docenteMateria->docente->nombre}} {{$horario->disponibilidad->docenteMateria->docente->apellido}}</div>
                                                             <div>{{ $horario->v_p == 'p' ? 'Presencial' : 'Virtual' }}</div> 
                                                             <div>{{$horario->disponibilidad->docenteMateria->comision->carrera->nombre}}</div>
-                                                            <div>{{$horario->modulo_inicio}}</div>
-                                                            <div>{{$horario->modulo_fin}}</div>
+                                                           
 
     
     
@@ -172,10 +172,10 @@
                                         <td class="border px-4 py-2">
                                              <div >{{$horario->disponibilidad->docenteMateria->materia->nombre}}</div>
                                             <div>{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
+                                            <div>{{$horario->disponibilidad->docenteMateria->docente->nombre}} {{$horario->disponibilidad->docenteMateria->docente->apellido}}</div>
+
                                             <div>{{ $horario->v_p == 'p' ? 'Presencial' : 'Virtual' }}</div> 
-                                            <div>{{$horario->disponibilidad->docenteMateria->comision->carrera->nombre}}</div>
-                                            <div>{{$horario->modulo_inicio}}</div>
-                                            <div>{{$horario->modulo_fin}}</div>
+                                        
 
 
 
@@ -282,8 +282,7 @@
                                                             <div>{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
                                                             <div>{{ $horario->v_p == 'p' ? 'Presencial' : 'Virtual' }}</div> 
                                                             <div>{{$horario->disponibilidad->docenteMateria->comision->carrera->nombre}}</div>
-                                                            <div>{{$horario->modulo_inicio}}</div>
-                                                            <div>{{$horario->modulo_fin}}</div>
+                                                            
 
     
     
