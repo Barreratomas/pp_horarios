@@ -2,7 +2,7 @@
 .button-container {
     position: fixed;
     margin-top: 10px;
-    z-index: 1000; 
+    z-index: 1000;
 }
 
 
@@ -12,6 +12,7 @@
     height: 100%;
     overflow-y: hidden;
     transition: width 0.3s;
+    z-index: 2;
 }
 
 
