@@ -1206,6 +1206,33 @@
     }
 }
 
+
+
 .thhh{
     background-color: #007bff;
+    font-size: 1rem;
+    color: #fff;
+    width: 11.4rem;
+}
+
+tbody{
+    background-color: black;
+    margin: 0;
+    padding: 0;
+}
+
+tbody{
+    max-width: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.46);
+}
+
+.dias{
+    padding: 2.7rem 3rem 2.7rem 3rem;
+    background-color: rgba(249, 241, 239, 0.21);
+    color: #6c040b;
+    font-family: Poppins;
+}
+.elementos{
+    background-color: #2d3748;
 }

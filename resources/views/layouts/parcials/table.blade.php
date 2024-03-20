@@ -61,24 +61,22 @@
                 @endfor
             </tr>
         </thead>
-        <tbody class="martes">
+        <tbody >
 
         @foreach ($dias as  $dia)
-            <tr >
-                <th>{{$dia}}</th>
+            <tr class="xd">
+                <th class="dias">{{$dia}}</th>
                 @foreach ($horarios as $horario)
                     @if($horario->dia == $dia)
                         @foreach ($inicio as $modulo =>$hora)
                             @if($horario->modulo_inicio <= $modulo && $modulo < $horario->modulo_fin )
                                 <td class="thhh">
-                                    {{ $modulo }}
+                                    <div class="elementos">Modulo: {{ $modulo }}</div>
 
-                                    <div>{{$horario->disponibilidad->docenteMateria->materia->nombre}}</div>
-                                    <div>{{$horario->disponibilidad->docenteMateria->docente->nombre}}</div>
-                                    <div>{{$horario->modulo_inicio}}</div>
-                                    <div>{{$horario->modulo_fin}}</div>
-
-                                    <div>{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
+                                    <div class="elementos">{{$horario->disponibilidad->docenteMateria->materia->nombre}}</div>
+                                    <div class="elementos">{{$horario->disponibilidad->docenteMateria->docente->nombre}}</div>
+                                    <div class="elementos">{{$horario->modulo_inicio}} - {{$horario->modulo_fin}}</div>
+                                    <div class="elementos">{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
 
                                 </td>
 
