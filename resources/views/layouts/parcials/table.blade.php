@@ -52,6 +52,17 @@
                     4 => 'jueves',
                     5 => 'viernes'
                 ];
+
+                $colores = [
+                    1 => 'rgba(250, 22, 22, 0.38)',
+                    2 => 'rgba(22, 72, 250, 0.28)',
+                    3 => 'rgba(54, 250, 22, 0.28)',
+                    4 => 'rgba(22, 250, 236, 0.28)',
+                    5 => 'rgba(246, 250, 22, 0.28)',
+                    6 => 'rgba(250, 22, 200, 0.28)',
+                    7 => 'rgba(122, 22, 250, 0.28)',
+                    8 => 'rgba(250, 131, 22, 0.28)'
+                ];
             @endphp
 
             <tr>
@@ -65,18 +76,18 @@
 
         @foreach ($dias as  $dia)
             <tr class="xd">
-                <th class="dias">{{$dia}}</th>
+                <th class="dias" @if($dia == 'viernes') style="border-radius: 0 0 0 20px" @endif>{{$dia}}</th>
                 @foreach ($horarios as $horario)
                     @if($horario->dia == $dia)
                         @foreach ($inicio as $modulo =>$hora)
                             @if($horario->modulo_inicio <= $modulo && $modulo < $horario->modulo_fin )
-                                <td class="thhh">
+                                <td class="thhh" style="background-color: {{$colores[rand(1, 8)]}}">
                                     <div class="elementos">Modulo: {{ $modulo }}</div>
 
                                     <div class="elementos">{{$horario->disponibilidad->docenteMateria->materia->nombre}}</div>
-                                    <div class="elementos">{{$horario->disponibilidad->docenteMateria->docente->nombre}}</div>
+                                    <div class="elementos" id="docente">{{$horario->disponibilidad->docenteMateria->docente->nombre}}</div>
                                     <div class="elementos">{{$horario->modulo_inicio}} - {{$horario->modulo_fin}}</div>
-                                    <div class="elementos">{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
+                                    <div class="elementos" id="aula">{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
 
                                 </td>
 
