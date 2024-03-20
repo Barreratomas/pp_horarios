@@ -41,29 +41,24 @@ class HorarioController extends Controller
 
     // mostrarHorario
     public function mostrarHorario(HorarioRequest $request): View
-    {
+{        
     $id_comision = $request->input('comision');
-    $id_carrera = $request->input('carrera');
 
-    $horarios = Horario::whereHas('disponibilidad.docenteMateria.comision', function ($query) use ($id_comision, $id_carrera) {
-        $query->where('id_comision', $id_comision)
-              ->whereHas('carrera', function ($subQuery) use ($id_carrera) {
-                  $subQuery->where('id_carrera', $id_carrera);
-              });
-    })->orderByRaw("CASE WHEN dia = 'lunes' THEN 1
-    WHEN dia = 'martes' THEN 2
-    WHEN dia = 'miercoles' THEN 3
-    WHEN dia = 'jueves' THEN 4
-    WHEN dia = 'viernes' THEN 5
+    $horarios = Horario::whereHas('disponibilidad.docenteMateria.comision', function ($query) use ($id_comision) {
+        $query->where('id_comision', $id_comision);
+    })->orderByRaw("CASE WHEN dia = 'lunes' THEN 1 
+    WHEN dia = 'martes' THEN 2 
+    WHEN dia = 'miercoles' THEN 3 
+    WHEN dia = 'jueves' THEN 4 
+    WHEN dia = 'viernes' THEN 5 
     ELSE 6 END")->orderBy('modulo_inicio')->get();
 
-    // importo comisiones y carreras
+    // Importar comisiones
     $formularioHorarioPartial = $this->mostrarFormularioPartial();
-
 
     // Retornar la vista con la comisión y los horarios
     return view('horario.index', compact('horarios', 'id_comision', 'formularioHorarioPartial'));
-    }
+}
 
 
 
@@ -110,29 +105,23 @@ class HorarioController extends Controller
             // Redirigir a la página de inicio si el tipo de usuario no es "bedelia"
             return redirect()->route('home');
         }
-
-        // Obtener todos los horarios de la base de datos
-        $horarios =  Horario::all();
-        $horarios = Horario::orderBy('modulo_inicio')->get();
-
-        // Retornar la vista con todos los horarios
-        return view('horario.indexBedelia', compact('horarios'));
-
-          // Obtener todos los horarios de la base de datos, ordenados por año
-        /*
-        $horarios = Horario::orderBy('anio')->orderByRaw("CASE WHEN dia = 'lunes' THEN 1
-        WHEN dia = 'martes' THEN 2
-        WHEN dia = 'miercoles' THEN 3
-        WHEN dia = 'jueves' THEN 4
-        WHEN dia = 'viernes' THEN 5
-        ELSE 6 END")->orderBy('modulo_inicio')->get();
-
-            // Agrupar los horarios por año y division
-        $horariosAgrupados = $horarios->groupBy(['anio', 'division']);
-
-            // Retornar la vista con los horarios agrupados
-    return view('horario.indexBedelia', compact('horariosAgrupados'));
-        */
+          
+        // Obtener todos los horarios de la base de datos, unidos con las carreras
+        $horarios = Horario::join('carreras', 'horarios.id_carrera', '=', 'carreras.id_carrera')
+            ->orderBy('carreras.nombre')
+            ->orderBy('anio')
+            ->orderByRaw("CASE WHEN dia = 'lunes' THEN 1
+                            WHEN dia = 'martes' THEN 2
+                            WHEN dia = 'miercoles' THEN 3
+                            WHEN dia = 'jueves' THEN 4
+                            WHEN dia = 'viernes' THEN 5
+                            ELSE 6 END")
+            ->orderBy('modulo_inicio')
+            ->get();
+        // Agrupar los horarios solo por carrera
+        $horariosAgrupados = $horarios->groupBy('id_carrera');
+        // Retornar la vista con los horarios agrupados
+        return view('horario.indexBedelia', compact('horariosAgrupados'));
     }
 
 

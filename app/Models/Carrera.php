@@ -38,4 +38,7 @@ class Carrera extends Model
     public function usuario():HasMany{
         return $this->hasMany(usuario::class, 'id_carrera', 'id_carrera');
     }
+    public function horarios():HasMany{
+        return $this->hasMany(Horario::class, 'id_carrera', 'id_carrera');
+    }
 }

@@ -58,7 +58,7 @@ class Horario extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['dia','modulo_inicio','modulo_fin','v_p','id_disponibilidad','materia','aula','anio','division','carrera'];
+    protected $fillable = ['dia','modulo_inicio','modulo_fin','v_p','id_disponibilidad','materia','aula','anio','division','id_carrera'];
     protected $table = 'horarios';
     protected $primaryKey = 'id_horario';
 
@@ -67,6 +67,8 @@ class Horario extends Model
         return $this->belongsTo(Disponibilidad::class, 'id_disponibilidad','id_disponibilidad');
     }
 
-
+    public function carrera():BelongsTo{
+        return $this->belongsTo(Carrera::class, 'id_carrera','id_carrera');
+    }
 
 }

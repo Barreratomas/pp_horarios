@@ -27,8 +27,7 @@ class HorarioRequest extends FormRequest
         $id_primer_comision = Comision::orderBy('id_comision')->first()->id_comision;
         $id_ultimo_comision = Comision::orderBy('id_comision', 'desc')->first()->id_comision;
         
-        $id_primer_carrera=Carrera::orderBy('id_carrera')->first()->id_carrera;
-        $id_ultimo_carrera=Carrera::orderBy('id_carrera','desc')->first()->id_carrera;
+       
 
         return [
             'comision' => [
@@ -40,14 +39,7 @@ class HorarioRequest extends FormRequest
                 
                 
             ],
-            'carrera'=>[
-                'required',
-                'integer',
-                Rule::exists('carreras', 'id_carrera'), // Utiliza la regla exists para validar que el valor proporcionado para 'carrera' existe en la columna 'id_carrera' de la tabla 'carreras'
-                'min:'.$id_primer_carrera,
-                'max:'.$id_ultimo_carrera
-
-            ],
+          
         ];
     }
 }
