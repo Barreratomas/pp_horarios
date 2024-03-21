@@ -26,8 +26,7 @@
                     <label for="id_comision">Seleccione una comision</label>
                     <select name="id_comision">
                         @foreach ($comisiones as $comision)
-                            <option value="{{ $comision->id_comision }}">{{ $comision->anio }}°{{$comision->division}}</option>
-                        @endforeach
+                        <option value="{{ $comision->id_comision }}">{{ $comision->anio }}°{{$comision->division}} | {{$comision->carrera->nombre}}</option>                        @endforeach
                     </select>
                     @error('id_comision')
                         <div class="text-danger">{{ $message }}</div>

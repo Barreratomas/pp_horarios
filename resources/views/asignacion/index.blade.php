@@ -36,7 +36,8 @@
                         <p>Materia: {{ $dm->materia->nombre }}</p>
                         <p>nombre del aula: {{ $dm->aula->nombre }}</p>
                         <p>Comision: {{ $dm->comision->anio }}°{{ $dm->comision->division }}</p>
-                        
+                        <p>Carrera: {{$dm->comision->carrera->nombre}}</p>
+
                         <a href="{{ route('mostrarActualizarHPD', ['h_p_d' => $h_p_d->id_h_p_d, 'dm' => $dm->id_dm]) }}" style="display: inline-block; margin-right: 10px;">
                             <button type="submit" class="btn btn-secondary m-2">Actualizar asignación</button>
                         </a>

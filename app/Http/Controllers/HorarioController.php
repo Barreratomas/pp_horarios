@@ -73,26 +73,21 @@ class HorarioController extends Controller
 
     public function mostrarHorarioDocente(HorarioDocenteRequest $request){
         $dni_docente=$request->input('dni');
-
-
         // Obtener todos los horarios asociados al docente con el DNI especificado
         $horarios = Horario::whereHas('disponibilidad.docenteMateria.docente', function ($query) use ($dni_docente) {
             $query->where('dni_docente', $dni_docente);
-        })->orderBy('anio')->orderBy('division')->orderByRaw("CASE WHEN dia = 'lunes' THEN 1
-        WHEN dia = 'martes' THEN 2
-        WHEN dia = 'miercoles' THEN 3
-        WHEN dia = 'jueves' THEN 4
-        WHEN dia = 'viernes' THEN 5
+        })->orderBy('anio')->orderBy('division')->orderByRaw("CASE WHEN dia = 'lunes' THEN 1 
+        WHEN dia = 'martes' THEN 2 
+        WHEN dia = 'miercoles' THEN 3 
+        WHEN dia = 'jueves' THEN 4 
+        WHEN dia = 'viernes' THEN 5 
         ELSE 6 END")->orderBy('modulo_inicio')->get();
-
         // Agrupar los horarios por año y división
         $horariosAgrupados = $horarios->groupBy(['anio', 'division']);
-
-
-
+    
         // Importar comisiones y carreras si es necesario
         $formularioHorarioDocentePartial = $this->mostrarFormularioDocentePartial();
-
+    
         // Retornar la vista con los horarios del docente
         return view('horario.indexDocente', compact('horariosAgrupados', 'formularioHorarioDocentePartial'));
     }
@@ -167,7 +162,7 @@ class HorarioController extends Controller
                 'aula' => $registro->docenteMateria->aula->nombre,
                 'anio' => $registro->docenteMateria->comision->anio,
                 'division' => $registro->docenteMateria->comision->division,
-                'carrera'=>$registro->docenteMateria->comision->id_carrera
+                'id_carrera'=>$registro->docenteMateria->comision->id_carrera
             ];
             // dd($params);
             // Hacemos una copia de $params
