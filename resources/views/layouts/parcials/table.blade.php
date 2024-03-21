@@ -96,7 +96,7 @@
                                                     @endphp                                            
                                                     <td class="thhh" style="background-color: {{$colores[rand(1, 8)]}}">
                                                         <div class="elementos">{{$horario->disponibilidad->docenteMateria->materia->nombre}}</div>
-                                                        <div class="elementos" id="docente">{{$horario->disponibilidad->docenteMateria->docente->nombre}}</div>
+                                                        <div class="elementos" id="docente">{{$horario->disponibilidad->docenteMateria->docente->nombre}} {{$horario->disponibilidad->docenteMateria->docente->apellido}}</div>
                                                         <div class="elementos" id="aula">{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
                                                         <div class="elementos">{{$horario->carrera->nombre}}</div>
 
@@ -179,19 +179,31 @@
         @foreach ($dias as  $dia)
             <tr class="xd">
                 <th class="dias" @if($dia == 'viernes') style="border-radius: 0 0 0 20px" @endif>{{$dia}}</th>
+                @php
+                    $moduloAnterior=0
+                @endphp
                 @foreach ($horarios as $horario)
                     @if($horario->dia == $dia)
                         @foreach ($inicio as $modulo =>$hora)
-                            @if($horario->modulo_inicio <= $modulo && $modulo < $horario->modulo_fin )
+                            @if( $modulo >= $horario->modulo_inicio && $modulo < $horario->modulo_fin )
+                                @php
+                                $moduloAnterior++;
+                                @endphp                                            
                                 <td class="thhh" style="background-color: {{$colores[rand(1, 8)]}}">
-                                    <div class="elementos">Modulo: {{ $modulo }}</div>
-
                                     <div class="elementos">{{$horario->disponibilidad->docenteMateria->materia->nombre}}</div>
-                                    <div class="elementos" id="docente">{{$horario->disponibilidad->docenteMateria->docente->nombre}}</div>
-                                    <div class="elementos">{{$horario->modulo_inicio}} - {{$horario->modulo_fin}}</div>
+                                    <div class="elementos" id="docente">{{$horario->disponibilidad->docenteMateria->docente->nombre}} {{$horario->disponibilidad->docenteMateria->docente->apellido}}</div>
                                     <div class="elementos" id="aula">{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
 
                                 </td>
+
+                            @elseif($modulo>=$horario->modulo_fin)
+                                    
+                                @continue
+
+                            @elseif($moduloAnterior+$modulo<$horario->modulo_inicio)
+                                    
+                                        
+                                <td class="thhh" style="background-color: {{$colores[rand(1, 8)]}}"></td>
 
                             @endif
                         @endforeach
@@ -278,7 +290,6 @@
                                             @endphp                                            
                                             <td class="thhh" style="background-color: {{$colores[rand(1, 8)]}}">
                                                 <div class="elementos">{{$horario->disponibilidad->docenteMateria->materia->nombre}}</div>
-                                                <div class="elementos" id="docente">{{$horario->disponibilidad->docenteMateria->docente->nombre}}</div>
                                                 <div class="elementos" id="aula">{{$horario->disponibilidad->docenteMateria->aula->nombre}}</div>
                                                 <div class="elementos">{{$horario->carrera->nombre}}</div>
 
