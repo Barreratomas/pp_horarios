@@ -8,12 +8,13 @@ body {
 }
 
 .login-form {
+    position:absolute;
     width: 350px;
     padding: 20px;
     background-color: #fff;
 
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.1);
 }
 
 .login-form h2 {
@@ -55,3 +56,35 @@ body {
 .login-form .forgot-password a:hover {
     text-decoration: underline;
 }
+.left{
+    width: 50%;
+    height: 100vh;
+    background-color: #ECBC76;
+    
+}
+
+.left img{
+    height: 300px;
+    margin-left: 370px;
+    margin-top: 80px;
+    border-bottom: 2px solid black; /* Borde inferior de 1 píxel de grosor y color negro */
+
+    
+}
+.right{
+    width: 50%;
+    height: 100vh;
+    background-color: #fff;
+   
+}
+.right img{
+    margin-left: 130px;
+    margin-top: 250px;
+}
+.opcion_arriba{
+    margin-left: 20px;
+}
+.opcion_abajo{
+    margin-left: 40px;
+}
+
