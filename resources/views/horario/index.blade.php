@@ -7,7 +7,7 @@
 
 @section('content')
 
-{!! $formularioHorarioPartial !!} 
+{!! $formularioHorarioPartial !!}
 <div class="container">
     <div class="row">
 

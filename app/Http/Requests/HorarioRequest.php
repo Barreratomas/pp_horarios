@@ -27,7 +27,8 @@ class HorarioRequest extends FormRequest
         $id_primer_comision = Comision::orderBy('id_comision')->first()->id_comision;
         $id_ultimo_comision = Comision::orderBy('id_comision', 'desc')->first()->id_comision;
         
-        
+       
+
         return [
             'comision' => [
                 'required',

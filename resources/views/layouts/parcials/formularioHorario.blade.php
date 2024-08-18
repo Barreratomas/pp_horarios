@@ -12,26 +12,22 @@
     
             <form action="{{ route('mostrarHorario') }}" method="post">
                 @csrf
-                <label for="comision">Selecciona una comisión:</label>
-                <select name="comision">
-                    @foreach ($comisiones->sortBy(['anio', 'division']) as $comision)
-                        <option value="{{ $comision->id_comision }}">{{ $comision->anio }}°{{ $comision->division }}|{{$comision->carrera->nombre}}</option>
-                    @endforeach
-                </select>
-                @error('comision')
-                    <p style="color:red">{{$message}}</p>
-                @enderror
+                <div class="mb-3"> <label for="comision" style="font-family: sans-serif">Selecciona una comisión:</label>
+                    
+                  <select class="form-select" name="comision" aria-label="Comisión">
+                      @foreach ($comisiones->sortBy(['anio', 'division']) as $comision)
+                        <option value="{{ $comision->id_comision }}">
+                          {{ $comision->anio }}°{{ $comision->division }} | {{ $comision->carrera->nombre }}
+                        </option>
+                      @endforeach
+                    </select>
+                    @error('comision')
+                      <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                  </div>
+               
 
-                {{-- <label for="carrera">Selecciona una carrera:</label>
-                <select name="carrera">
-                    @foreach ($carreras as $carrera)
-                        <option value="{{ $carrera->id_carrera }}">{{ $carrera->nombre }}</option>
-                    @endforeach
-                </select>
-                @error('carrera')
-                    <p style="color:red">{{$message}}</p>
-                @enderror
-                <br><br> --}}
+               
 
 
                 <button type="submit" class="btn btn-primary me-2">Mostrar Horario</button>

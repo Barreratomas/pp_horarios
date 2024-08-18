@@ -33,11 +33,11 @@ class HorarioController extends Controller
 
         $comisiones = Comision::all();
         $carreras = Carrera::all();
-        
+
 
         return view('layouts.parcials.formularioHorario', compact('comisiones','carreras'))->render();
     }
-   
+
 
     // mostrarHorario
     public function mostrarHorario(HorarioRequest $request): View
@@ -73,8 +73,6 @@ class HorarioController extends Controller
 
     public function mostrarHorarioDocente(HorarioDocenteRequest $request){
         $dni_docente=$request->input('dni');
-
-
         // Obtener todos los horarios asociados al docente con el DNI especificado
         $horarios = Horario::whereHas('disponibilidad.docenteMateria.docente', function ($query) use ($dni_docente) {
             $query->where('dni_docente', $dni_docente);
@@ -84,12 +82,9 @@ class HorarioController extends Controller
         WHEN dia = 'jueves' THEN 4 
         WHEN dia = 'viernes' THEN 5 
         ELSE 6 END")->orderBy('modulo_inicio')->get();
-
         // Agrupar los horarios por año y división
         $horariosAgrupados = $horarios->groupBy(['anio', 'division']);
     
-
-
         // Importar comisiones y carreras si es necesario
         $formularioHorarioDocentePartial = $this->mostrarFormularioDocentePartial();
     
@@ -100,31 +95,29 @@ class HorarioController extends Controller
 
 
     public function mostrarHorarioBedelia()
-{
-    if (Session::get('userType') !== 'bedelia' && Session::get('userType') !== 'admin') {
-        // Redirigir a la página de inicio si el tipo de usuario no es "bedelia"
-        return redirect()->route('home');
+    {
+        if (Session::get('userType') !== 'bedelia' && Session::get('userType') !== 'admin') {
+            // Redirigir a la página de inicio si el tipo de usuario no es "bedelia"
+            return redirect()->route('home');
+        }
+          
+        // Obtener todos los horarios de la base de datos, unidos con las carreras
+        $horarios = Horario::join('carreras', 'horarios.id_carrera', '=', 'carreras.id_carrera')
+            ->orderBy('carreras.nombre')
+            ->orderBy('anio')
+            ->orderByRaw("CASE WHEN dia = 'lunes' THEN 1
+                            WHEN dia = 'martes' THEN 2
+                            WHEN dia = 'miercoles' THEN 3
+                            WHEN dia = 'jueves' THEN 4
+                            WHEN dia = 'viernes' THEN 5
+                            ELSE 6 END")
+            ->orderBy('modulo_inicio')
+            ->get();
+        // Agrupar los horarios solo por carrera
+        $horariosAgrupados = $horarios->groupBy('id_carrera');
+        // Retornar la vista con los horarios agrupados
+        return view('horario.indexBedelia', compact('horariosAgrupados'));
     }
-      
-    // Obtener todos los horarios de la base de datos, unidos con las carreras
-    $horarios = Horario::join('carreras', 'horarios.id_carrera', '=', 'carreras.id_carrera')
-        ->orderBy('carreras.nombre')
-        ->orderBy('anio')
-        ->orderByRaw("CASE WHEN dia = 'lunes' THEN 1
-                        WHEN dia = 'martes' THEN 2
-                        WHEN dia = 'miercoles' THEN 3
-                        WHEN dia = 'jueves' THEN 4
-                        WHEN dia = 'viernes' THEN 5
-                        ELSE 6 END")
-        ->orderBy('modulo_inicio')
-        ->get();
-
-    // Agrupar los horarios solo por carrera
-    $horariosAgrupados = $horarios->groupBy('id_carrera');
-
-    // Retornar la vista con los horarios agrupados
-    return view('horario.indexBedelia', compact('horariosAgrupados'));
-}
 
 
 
@@ -135,8 +128,8 @@ class HorarioController extends Controller
 
     //    guardar
     public function store()
-    {   
-        $paramsCopia=[]; 
+    {
+        $paramsCopia=[];
 
         // Obtener el último registro de disponibilidad
         $ultimoRegistro = Disponibilidad::orderBy('id_disponibilidad', 'desc')->first();
@@ -149,13 +142,13 @@ class HorarioController extends Controller
         ->take(1) // Tomar solo un registro
         ->first(); // Obtener el primer registro de la consulta
 
-        
+
         if ($penultimoRegistro !== null && $penultimoRegistro->docenteMateria !== null && $ultimoRegistro->docenteMateria->id_comision == $penultimoRegistro->docenteMateria->id_comision) {
             $registros[] = $penultimoRegistro;
         }
-        
-       
-        
+
+
+
 
         foreach ($registros as $registro) {
             $v_p = (random_int(0, 1) == 0) ? 'v' : 'p';
@@ -170,14 +163,14 @@ class HorarioController extends Controller
                 'aula' => $registro->docenteMateria->aula->nombre,
                 'anio' => $registro->docenteMateria->comision->anio,
                 'division' => $registro->docenteMateria->comision->division,
-                'carrera'=>$registro->docenteMateria->comision->id_carrera
+                'id_carrera'=>$registro->docenteMateria->comision->id_carrera
             ];
-            // dd($params);      
+            // dd($params);
             // Hacemos una copia de $params
             $paramsCopia = $params;
 
             // Eliminamos v_p del array de parámetros copiado
-            unset($paramsCopia['v_p']);  
+            unset($paramsCopia['v_p']);
             if($registroEncontrado = Horario::where($paramsCopia)->first()){
                 $registroEncontrado->delete();
 
@@ -185,7 +178,7 @@ class HorarioController extends Controller
 
             $response = $this->horarioService->guardarHorario($params);
 
-            
+
         }
         if ($response && isset($response['success'])) {
             // Si se guardó correctamente, redirigir con un mensaje de éxito
@@ -195,13 +188,13 @@ class HorarioController extends Controller
             // Si hubo un error al guardar, redirigir con un mensaje de error
             return redirect()->route('home')->withErrors(['error' => $response['error']]);
         }
-        
+
     }
 
 
     // actualizar
     public function actualizar(HorarioRequest $request)
-    {   
+    {
         $id=$request->input('id');
         $params = [
             'dia' =>  $request->input('dia'),
@@ -217,9 +210,9 @@ class HorarioController extends Controller
         if (isset($response['success'])) {
             // Si se actualizo correctamente, redirigir con un mensaje de éxito
             return redirect()->route('horario.index')->with('success', $response['success']);
-           
+
         }else{
-    
+
             // Si hubo un error al actualizar, redirigir con un mensaje de error
             return redirect()->route('horario.index')->withErrors(['error' => $response['error']]);
         }
@@ -235,16 +228,16 @@ class HorarioController extends Controller
         if (isset($response['success'])) {
             // Si se actualizo correctamente, redirigir con un mensaje de éxito
             return redirect()->route('horario.index')->with('success', $response['success']);
-           
+
         }else{
-    
+
             // Si hubo un error al eliminar , redirigir con un mensaje de error
             return redirect()->route('horario.index')->withErrors(['error' => $response['error']]);
         }
     }
-    
 
- 
+
+
  //-----------------------------------------------------------------------------------------------------
     // Swagger
 
@@ -409,9 +402,9 @@ class HorarioController extends Controller
     }
 
 
-    
 
 
-    
+
+
 
 }

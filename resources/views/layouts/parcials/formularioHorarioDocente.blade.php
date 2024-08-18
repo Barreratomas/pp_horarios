@@ -11,11 +11,13 @@
             <form action="{{ route('mostrarHorarioDocente') }}" method="post">
                 @csrf
                 
-                <label for="dni">Ingrese el dni</label><br>
-                <input type="number" name="dni"><br><br>
-                @error('dni')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+                <div class="mb-3">
+                    <label for="dni"  style="font-family: sans-serif">Ingrese el DNI del docente:</label>
+                    <input type="number" class="form-control" name="dni" id="dni">
+                    @error('dni')
+                      <div class="text-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
                 
                
                 

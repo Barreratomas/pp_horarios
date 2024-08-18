@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('division');
             $table->unsignedBigInteger('id_carrera');
             $table->foreign('id_carrera')->references('id_carrera')->on('carreras')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

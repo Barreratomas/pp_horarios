@@ -41,8 +41,9 @@ class DocenteMateriaController extends Controller
         $materias = Materia::all();
         $aulas = Aula::all(); // Obtener todas las aulas
         $comisiones = Comision::all(); // Obtener todas las comisiones
+        $carreras = Carrera::all(); // Obtener todas las car
         
-        return view('docenteMateria.crearDocenteMateria', compact('materias', 'aulas', 'comisiones','docente'));
+        return view('docenteMateria.crearDocenteMateria', compact('materias', 'aulas', 'comisiones','docente',"carreras"));
     }
     
 
@@ -71,8 +72,8 @@ class DocenteMateriaController extends Controller
         $materias = Materia::all();
         $aulas = Aula::all(); 
         $comisiones = Comision::all(); 
-
-        return view('docenteMateria.actualizarDocenteMateria', compact('h_p_d','dm','materias','aulas','comisiones'));
+        $carreras = Carrera::all();
+        return view('docenteMateria.actualizarDocenteMateria', compact('h_p_d','dm','materias','aulas','comisiones','carreras'));
     }
 
     public function actualizar(DocenteMateriaRequest $request, HorarioPrevioDocente $h_p_d , DocenteMateria $dm)

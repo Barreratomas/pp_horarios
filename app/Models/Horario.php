@@ -70,6 +70,8 @@ class Horario extends Model
         return $this->belongsTo(Carrera::class, 'id_carrera','id_carrera');
     }
 
-
+    public function carrera():BelongsTo{
+        return $this->belongsTo(Carrera::class, 'id_carrera','id_carrera');
+    }
 
 }

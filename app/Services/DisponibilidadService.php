@@ -247,18 +247,18 @@ class DisponibilidadService implements DisponibilidadRepository
 
         // verificar si ya existe disponibilidad con el mismo dia, comision y en horarios superpuestos
         $existeSuperposicionComision = Disponibilidad::where('dia', $dia)
-        ->whereExists(function ($query) use ($id_comision) {
+        ->whereExists(function ($query) use ($id_comision,$modulo_inicio, $modulo_fin) {
             // verificar si ya existe id_dm y id_comision
             $query->selectRaw(1)
                 ->from('docentes_materias')
                 ->whereColumn('disponibilidades.id_dm', 'docentes_materias.id_dm')
-                ->where('docentes_materias.id_comision', $id_comision);
-        })
-        // verificar si se superponen los horarios
-        ->where(function ($query) use ($modulo_inicio, $modulo_fin) {
-            $query->whereBetween('disponibilidades.modulo_inicio', [$modulo_inicio, $modulo_fin])
-          ->orWhereBetween(DB::raw('disponibilidades.modulo_fin -1'), [$modulo_inicio, $modulo_fin]);
+                ->where('docentes_materias.id_comision', $id_comision)
+                ->where(function ($query) use ($modulo_inicio, $modulo_fin) {
+                    $query->whereBetween('disponibilidades.modulo_inicio', [$modulo_inicio, $modulo_fin])
+                  ->orWhereBetween(DB::raw('disponibilidades.modulo_fin -1'), [$modulo_inicio, $modulo_fin]);
+                });
         })->exists();
+        // verificar si se superponen los horarios
 
         // verificar si ya existe aula con horarios superpuestos el mismo dia
         $existeSuperposicionAula = Disponibilidad::where('dia', $dia)
